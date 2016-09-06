@@ -1,0 +1,18 @@
+---Day01 Tina
+
+1. ToDo Initial Project Setup with MVVM Layers
+2. Reasearch how to add dynamic Binding to buttons in MVVM
+3. Need to Reasearch on how to setup a solution with multiple projects
+ 
+
+
+--Day01 Olga
+
+1.To Do: Login Screen view -UI Design(Research and implement appropriate layout). 
+2. Need Assistance Teacher- Is it a good idea to not have Close window Button on the Login Screen
+2.To Do: Database table Products and Entity Class
+3. Add Button
+
+
+
+
