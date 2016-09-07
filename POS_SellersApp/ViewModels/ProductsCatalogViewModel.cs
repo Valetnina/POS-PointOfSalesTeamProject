@@ -12,21 +12,27 @@ namespace POS_SellersApp.ViewModels
   public  class ProductsCatalogViewModel:ViewModel
     {
         public ObservableCollection<Product> catalogCollection { get; set; }
-        public ActionCommand<Product> PopulateWithProducts { get; private set; }
+        public ActionCommand<Object> PopulateWithProducts { get; private set; }
 
         public ProductsCatalogViewModel()
         {
             catalogCollection = new ObservableCollection<Product>();
             catalogCollection.Add(new Product { Name = "beer"});
             catalogCollection.Add(new Product { Name = "IceCream" });
-            PopulateWithProducts = new ActionCommand<Product>(OnPopulateWithProducts);
+            PopulateWithProducts = new ActionCommand<Object>(OnPopulateWithProducts);
 
         }
 
-
-        private void OnPopulateWithProducts(Product category)
+        private void OnPopulateWithProducts(object obj)
         {
-
+            throw new NotImplementedException();
         }
+
+        private void OnPopulateWithProducts()
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

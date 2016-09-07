@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace POS_DataLibrary
 {
-    class User : INotifyPropertyChanged
+    public class User
     {
         public string UserName {  get; set;}
         public string Password { get; set; }

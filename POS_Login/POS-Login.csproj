@@ -98,6 +98,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\POS_DataLibrary\POS_DataLibrary.csproj">
+      <Project>{c0873047-8453-4fe7-9bc1-6629c9e3d9f8}</Project>
+      <Name>POS_DataLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS_ViewsLibrary\POS_ViewsLibrary.csproj">
+      <Project>{359f19f0-2a62-468e-9e74-674b0da83999}</Project>
+      <Name>POS_ViewsLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

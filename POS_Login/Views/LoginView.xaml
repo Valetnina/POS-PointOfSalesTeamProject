@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="LoginView" Height="300" Width="300">
     <Grid>
-        
+        <TextBox Text="{Binding FirstName, Mode = OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox  Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,93,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <Button Content="Login" Command="{Binding Login}" CommandParameter="login" HorizontalAlignment="Left" Margin="130,154,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="{Binding CurrentTime}"></Label>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="113,22,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>

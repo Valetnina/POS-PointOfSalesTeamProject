@@ -6,7 +6,54 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace POS_ViewsLibrary
-{
+{/*
+    public class ActionCommand : ICommand
+    {
+        Action _TargetExecuteMethod; 
+      Func<bool> _TargetCanExecuteMethod;
+		
+      public ActionCommand(Action executeMethod) {
+         _TargetExecuteMethod = executeMethod; 
+      }
+		
+      public ActionCommand(Action executeMethod, Func<bool> canExecuteMethod){ 
+         _TargetExecuteMethod = executeMethod;
+         _TargetCanExecuteMethod = canExecuteMethod; 
+      }
+		
+      public void RaiseCanExecuteChanged() { 
+         CanExecuteChanged(this, EventArgs.Empty); 
+      }
+		
+      bool ICommand.CanExecute(object parameter) { 
+		
+         if (_TargetCanExecuteMethod != null) { 
+            return _TargetCanExecuteMethod(); 
+         } 
+			
+         if (_TargetExecuteMethod != null) { 
+            return true; 
+         } 
+			
+         return false; 
+      }
+		
+     // Beware - should use weak references if command instance lifetime 
+      //   is longer than lifetime of UI objects that get hooked up to command 
+			
+      // Prism commands solve this in their implementation public event 
+      EventHandler CanExecuteChanged = delegate { };
+		
+      void ICommand.Execute(object parameter) { 
+         if (_TargetExecuteMethod != null) {
+            _TargetExecuteMethod(); 
+         } 
+      }
+
+
+    
+    }*/
+
     public class ActionCommand<T> : ICommand
     {
         Action<T> _TargetExecuteMethod;
@@ -47,10 +94,10 @@ namespace POS_ViewsLibrary
             return false;
         }
 
-        // Beware - should use weak references if command instance lifetime is
-        //longer than lifetime of UI objects that get hooked up to command
+        //  Beware - should use weak references if command instance lifetime is
+        // longer than lifetime of UI objects that get hooked up to command
 
-      // Prism commands solve this in their implementation 
+        //Prism commands solve this in their implementation 
 
         public event EventHandler CanExecuteChanged = delegate { };
 
@@ -63,7 +110,8 @@ namespace POS_ViewsLibrary
         }
 
         #endregion
-
+    }
+}
         // Second version
         //private readonly Action<Object> action;
         //private readonly Predicate<Object> predicate;
@@ -107,5 +155,8 @@ namespace POS_ViewsLibrary
         //    Execute(null);
         //}
         //#endregion
-    }
-}
+
+
+      
+    //}
+

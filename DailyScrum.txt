@@ -23,7 +23,7 @@
 
 
 --Day02 Olga
-1.Done: Started design of login View, prepared the items for products table
+1.Done: Started design of login View, prepared the items for products table, Add Binding to DateTime Label in status Bar for loginView
 2.TODO: Design SellersAppMainWindow
 
 
