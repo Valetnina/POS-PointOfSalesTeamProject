@@ -15,4 +15,18 @@
 
 
 
+--Day02 Tina
+1.Done: Initial Project Setup with MVVM Layers. 
+2 ToDo: After Teacher Advice We have to make changes to our ERD, and make the Login Project a library and not a project
+3 ToDo: Login Screen Bindings
+
+
+
+--Day02 Olga
+1.Done: Started design of login View, prepared the items for products table
+2.TODO: Design SellersAppMainWindow
+
+
+
+
 

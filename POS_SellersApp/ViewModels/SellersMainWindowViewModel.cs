@@ -1,5 +1,4 @@
-﻿using EnterpriseMVVM.Windows;
-using POS_ViewsLibrary;
+﻿using POS_ViewsLibrary;
 
 namespace POS_SellersApp.ViewModels
 {

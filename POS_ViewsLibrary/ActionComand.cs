@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace EnterpriseMVVM.Windows
+namespace POS_ViewsLibrary
 {
     public class ActionCommand<T> : ICommand
     {

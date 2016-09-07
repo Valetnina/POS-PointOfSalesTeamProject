@@ -1,5 +1,4 @@
-﻿using EnterpriseMVVM.Windows;
-using POS_ViewsLibrary;
+﻿using POS_ViewsLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +16,8 @@ namespace POS_SellersApp.ViewModels
 
         public ProductsCatalogViewModel()
         {
-            catalogCollection.Add(new Product {Name = "beer"});
+            catalogCollection = new ObservableCollection<Product>();
+            catalogCollection.Add(new Product { Name = "beer"});
             catalogCollection.Add(new Product { Name = "IceCream" });
             PopulateWithProducts = new ActionCommand<Product>(OnPopulateWithProducts);
 

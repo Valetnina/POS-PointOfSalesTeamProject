@@ -7,8 +7,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-
-        <TextBlock Text = "Here will be the Products Catalog"/>
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockStyle">
+                <Setter Property="FontFamily" Value="Comic Sans MS"/>
+                <Setter Property="FontSize" Value="25"/>
+            </Style>
+            <Style TargetType="{x:Type Button}" x:Key="ButtonStyle">
+                <Setter Property="Foreground" Value="Aqua"/>
+            </Style>
+        </Grid.Resources>
+        <TextBlock Style="{StaticResource TextBlockStyle}" Text = "Here will be the Products Catalog"/>
+        <WrapPanel Orientation="Vertical" Margin="119,21,10,211">
         <ItemsControl ItemsSource="{Binding catalogCollection}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -16,5 +25,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+           
+        </WrapPanel>
     </Grid>
 </UserControl>

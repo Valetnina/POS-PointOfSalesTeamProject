@@ -8,5 +8,6 @@ namespace POS_DataLibrary
 {
     public class Database
     {
+
     }
 }
