@@ -1,5 +1,5 @@
 ﻿using POS_DataLibrary;
-using POS_ManagersApp.ViewModels;
+using POS_ManagersApp;
 using POS_ManagersApp.Views;
 using POS_SellersApp;
 using POS_SellersApp.Views;
@@ -94,7 +94,7 @@ namespace POS_PointOfSales.ViewModels
             }
         }
 
-
+        /*
         public class SleepTrackerViewModel : INotifyPropertyChanged
         {
             private string _currentTime, _currentDate;
@@ -154,6 +154,6 @@ namespace POS_PointOfSales.ViewModels
                 if (handler != null)
                     handler(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
+        }*/
     }
 }

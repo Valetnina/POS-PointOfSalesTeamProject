@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:POS_PointOfSales.Views"
         xmlns:ff="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
          mc:Ignorable="d"
-        Title="LoginView" Height="300" Width="300"
+        Title="LoginView" Height="700" Width="900" WindowStyle="None" Background="#58b2d9"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -23,6 +23,13 @@
             <Setter Property="Margin" Value="0,0,10,0"/>
         </Style>
         <Style TargetType="TextBox">
+            <Setter Property="MaxWidth" Value="250"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+        <Style TargetType="PasswordBox">
             <Setter Property="MaxWidth" Value="250"/>
             <Setter Property="MinWidth" Value="70"/>
             <Setter Property="Width" Value="250"/>
@@ -66,8 +73,8 @@
                     <TextBlock  Text="Password :" Margin="{StaticResource Height}"/>
                 </StackPanel>
                 <StackPanel  Orientation="Vertical" Width="373" HorizontalAlignment="Center" Margin="0,0,0,-27">
-                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBox Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors = True}" Margin="{StaticResource Height}"/>
+                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <Button Content="Log In" Command="{Binding Login}" xmlns:cmd="#unknown">
                         <Button.Effect>
                             <DropShadowEffect BlurRadius="5" ShadowDepth="3" />
