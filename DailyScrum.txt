@@ -27,6 +27,17 @@
 2.TODO: Design SellersAppMainWindow
 
 
+--Day03 Tina
+1.Done: Logic for  Login View. Validation and PaswordBox implementation
+2.ToDo: Create table Products and ProductsCategories and populate with data. ToDo: Logic for SellersAppMainWindow.
+Create Model for Products, Products Categories, Orders and OrderDetails and populate them with data.
+
+
+
+
+Day03 Olga
+1. Done: Design for Login View, dataBibdig for datetime label
+2. ToDo: Create design for SellersAppMainWindow.Xaml
 
 
 
