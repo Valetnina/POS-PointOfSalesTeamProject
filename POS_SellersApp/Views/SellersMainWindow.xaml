@@ -66,9 +66,6 @@
         <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Width="460" Background="#0085bd"></StackPanel>
         <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
         </StackPanel>
-
-
-
     </DockPanel>
 
 </Window>
