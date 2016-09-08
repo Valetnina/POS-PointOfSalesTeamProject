@@ -108,7 +108,9 @@
       <Name>POS_ViewsLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Logo_Big.png" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="Views\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
