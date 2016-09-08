@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:POS_PointOfSales.Views"
         xmlns:ff="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
          mc:Ignorable="d"
-        Title="LoginView" Height="700" Width="900" WindowStyle="None" Background="#58b2d9"
+        Height="700" Width="900" WindowStyle="None" Background="#58b2d9"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
@@ -62,7 +62,7 @@
             </StatusBarItem>
         </StatusBar>
         <StackPanel Width="700" Height="600" HorizontalAlignment="Center" Orientation="Vertical">
-            <Image Height="300" Source="/Paperless.Common;component/Resources/Checkbook.png"/>
+            <Image Height="300" Source="/Logo_Big.png"/>
             <StackPanel Orientation="Horizontal" Height="205" Margin="100,30,0,0" Width="362" VerticalAlignment="Top" HorizontalAlignment="Left">
                 <StackPanel.Resources>
                     <Thickness x:Key="Height" Top="20" />
@@ -72,8 +72,8 @@
                     <TextBlock  Text="Password :" Margin="{StaticResource Height}"/>
                 </StackPanel>
                 <StackPanel  Orientation="Vertical" Width="373" HorizontalAlignment="Center" Margin="0,0,0,-27">
-                    <TextBox Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors = True}" Margin="{StaticResource Height}"/>
-                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors = True}" />
+                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource Height}"/>
                     <Button Content="Log In" Command="{Binding Login}" xmlns:cmd="#unknown">
                         <Button.Effect>
                             <DropShadowEffect BlurRadius="5" ShadowDepth="3" />
