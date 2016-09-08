@@ -103,10 +103,6 @@
       <Project>{c0873047-8453-4fe7-9bc1-6629c9e3d9f8}</Project>
       <Name>POS_DataLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\POS_Login\POS-Login.csproj">
-      <Project>{603beec0-fc88-4893-8121-c8e5d67220eb}</Project>
-      <Name>POS-Login</Name>
-    </ProjectReference>
     <ProjectReference Include="..\POS_ViewsLibrary\POS_ViewsLibrary.csproj">
       <Project>{359f19f0-2a62-468e-9e74-674b0da83999}</Project>
       <Name>POS_ViewsLibrary</Name>

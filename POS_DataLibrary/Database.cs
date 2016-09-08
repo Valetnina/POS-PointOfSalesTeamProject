@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,25 +17,23 @@ namespace POS_DataLibrary
             conn = new SqlConnection(CONN_STRING);
             conn.Open();
         }
-
-        public List<User> getUserByUserName(string userName)
+        public User getUserByUserName(string userName, string password)
         {
-            List<User> users = new List<User>();
-            SqlCommand cmd = new SqlCommand("SELECT * FROM USER WHERE UserName = @UserName", conn);
-            cmd.Parameters.AddWithValue("@UserName", userName);
+            
+            SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[USER] WHERE UserName = @UserName and Password=@Password", conn);
+            cmd.Parameters.AddWithValue("@UserName",userName);
+            cmd.Parameters.AddWithValue("@Password", password);
+
 
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 if (reader.HasRows)
                 {
-                    while (reader.Read())
-                    {
-                        string password = reader.GetString(reader.GetOrdinal("Password"));
-                        users.Add(new User{ UserName = userName, Password = password });
-                    }
+                    
+                    return new User { UserName = userName, Password= password };
                 }
             }
-            return users;
+            return null;
         }
 
     }

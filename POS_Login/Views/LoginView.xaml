@@ -4,13 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POS_PointOfSales.Views"
-        mc:Ignorable="d"
-        Title="LoginView" Height="300" Width="300">
+        xmlns:ff="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
+         mc:Ignorable="d"
+        Title="LoginView" Height="300" Width="300"
+        WindowStartupLocation="CenterScreen"
+>
+
     <Grid>
-        <TextBox Text="{Binding FirstName, Mode = OneWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox  Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,93,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-        <Button Content="Login" Command="{Binding Login}" CommandParameter="login" HorizontalAlignment="Left" Margin="130,154,0,0" VerticalAlignment="Top" Width="75"/>
-        <Label Content="{Binding CurrentTime}"></Label>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="113,22,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <TextBox Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors = True}" HorizontalAlignment="Left" Height="23" Margin="91,53,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="23" Margin="91,93,0,0"  VerticalAlignment="Top" Width="120"/>
+        <Button Content="Login" Command="{Binding Login}" xmlns:cmd="#unknown" HorizontalAlignment="Left" Margin="130,154,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </Window>

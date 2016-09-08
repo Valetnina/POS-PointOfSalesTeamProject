@@ -2,12 +2,12 @@
 
 namespace POS_SellersApp.ViewModels
 {
-    class SellersMainWindowViewModel : ViewModel
+   public class SellersMainWindowViewModel : ViewModel
     {
 
         public SellersMainWindowViewModel()
         {
-            SwitchViews = new ActionCommand<string>(OnSwitchViews);
+            SwitchViews = new ActionCommand(p=> OnSwitchViews("pay"));
 
         }
 
@@ -23,7 +23,7 @@ namespace POS_SellersApp.ViewModels
             set { SetProperty(ref currentView, value); }
         }
 
-        public ActionCommand<string> SwitchViews { get; private set; }
+        public ActionCommand SwitchViews { get; private set; }
 
         private void OnSwitchViews(string destination)
         {

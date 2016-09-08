@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace POS_ManagersApp.ViewModels
 {
-    class ManagersMainWindowViewModel
+public class ManagersMainWindowViewModel
     {
     }
 }

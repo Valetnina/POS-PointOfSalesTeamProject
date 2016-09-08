@@ -1,4 +1,8 @@
 ﻿using POS_DataLibrary;
+using POS_ManagersApp.ViewModels;
+using POS_ManagersApp.Views;
+using POS_SellersApp;
+using POS_SellersApp.Views;
 using POS_ViewsLibrary;
 using System;
 using System.Collections.Generic;
@@ -6,6 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace POS_PointOfSales.ViewModels
 {
@@ -13,16 +21,18 @@ namespace POS_PointOfSales.ViewModels
     {
         private Database db;
         private DateTime CurrentTime { get; set; }
-        public ActionCommand<string> Login { get; set; }
+        public ActionCommand Login { get; set; }
         public LoginViewModel()
         {
             //TODO handle Exceptions
             db = new Database();
-            Login = new ActionCommand<string>(OnLogin);
+            Login = new ActionCommand(p=>OnLogin(UserName, Password),
+                p=>CanLogin);
         }
 
         private string userName;
-
+        [Required]
+        [StringLength(50, MinimumLength = 4)]
         public string UserName
         {
             get { return userName; }
@@ -34,6 +44,8 @@ namespace POS_PointOfSales.ViewModels
         }
         private string password;
 
+        [Required]
+        [StringLength(50, MinimumLength = 4)]
         public string Password
         {
             get { return password; }
@@ -46,36 +58,41 @@ namespace POS_PointOfSales.ViewModels
         public string FirstName
         {
             get { return firstName; }
-            set { firstName = value;
-            SetProperty(ref firstName, value);
-            }
-        }
-        private void OnLogin(string parameter)
-        {
-            List<User> usersList = db.getUserByUserName(UserName);
-            foreach (User user in usersList)
+            set
             {
-                if (Password == user.Password)
-                {
-                    MessageBox.Show("Authenticated succesfully user " + UserName);
-
-                }
-                else
-                {
-                    MessageBox.Show("Could not authenticate user " + UserName);
-                }
+                firstName = value;
+                SetProperty(ref firstName, value);
             }
         }
-/*
-        private bool CanLogin()
+
+        public bool CanLogin
         {
-            return (string.IsNullOrWhiteSpace(UserName) && string.IsNullOrWhiteSpace(Password));
+            get
+            {
+                return !String.IsNullOrWhiteSpace(UserName) &&
+                        !String.IsNullOrWhiteSpace(Password);
+            }
         }
-      
-        */
+        private void OnLogin(string userN, string pass)
+        {
+            if (userN != null)
+            {
+                var user = db.getUserByUserName(userN, pass);
+                if (user != null)
+                {
+                            SellersMainWindow win = new SellersMainWindow();
+                            win.Show();
+                        }
+                    else
+                    {
+                        MessageBox.Show("Could not authenticate user " + UserName);
+                    }
+            } else
+            {
+                MessageBox.Show("You didn't provide an username");
 
-
-
+            }
+        }
         
     }
 }

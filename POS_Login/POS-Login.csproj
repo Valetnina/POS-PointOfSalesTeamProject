@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,9 +67,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,20 +91,40 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\LoginView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\POS_DataLibrary\POS_DataLibrary.csproj">
       <Project>{c0873047-8453-4fe7-9bc1-6629c9e3d9f8}</Project>
       <Name>POS_DataLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS_ManagersApp\POS_ManagersApp.csproj">
+      <Project>{9d209c3f-51da-4b0c-8243-2f9200b65a68}</Project>
+      <Name>POS_ManagersApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS_SellersApp\POS_SellersApp.csproj">
+      <Project>{273358d8-d807-4314-9bfb-f495ed4f9859}</Project>
+      <Name>POS_SellersApp</Name>
     </ProjectReference>
     <ProjectReference Include="..\POS_ViewsLibrary\POS_ViewsLibrary.csproj">
       <Project>{359f19f0-2a62-468e-9e74-674b0da83999}</Project>
       <Name>POS_ViewsLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="Views\LoginView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
