@@ -27,6 +27,9 @@
             <Setter Property="Width" Value="250"/>
             <Setter Property="Height" Value="35"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style TargetType="PasswordBox">
             <Setter Property="MaxWidth" Value="250"/>
@@ -34,6 +37,10 @@
             <Setter Property="Width" Value="250"/>
             <Setter Property="Height" Value="35"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style TargetType="Button">
             <Setter Property="FontFamily" Value="Constantia"/>
@@ -56,7 +63,7 @@
         </Style>
     </UserControl.Resources>
     <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="30" HorizontalAlignment="Left" Width="892">
+        <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="30" Width="892" HorizontalAlignment="Stretch" MaxWidth="1200">
             <StatusBarItem HorizontalAlignment="Right" Margin="0,0,10,0">
                 <TextBlock Text="{Binding CurrentTime}"/>
             </StatusBarItem>
@@ -64,8 +71,9 @@
         <StackPanel Width="700" Height="600" HorizontalAlignment="Center" Orientation="Vertical">
             <Image Height="300" Source="Logo_Big.png"/>
             <StackPanel Orientation="Horizontal" Height="205" Margin="100,30,0,0" Width="362" VerticalAlignment="Top" HorizontalAlignment="Left">
+
                 <StackPanel.Resources>
-                    <Thickness x:Key="Height" Top="20" />
+                    <Thickness x:Key="Height" Top="25" />
                 </StackPanel.Resources>
                 <StackPanel  Orientation="Vertical" Margin="0,0,-40,5" Width="115">
                     <TextBlock  Text="Login :"/>
