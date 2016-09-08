@@ -1,0 +1,17 @@
+<Window.Resources>
+        <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
+            <views:PaymentView/>
+        </DataTemplate>
+
+        <DataTemplate DataType = "{x:Type viewModels:ProductsCatalogViewModel}">
+            <views:ProductsCatalogView/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <StackPanel>
+        <ContentControl Content = "{Binding CurrentView}" Height="133"/>
+       <Button Margin="10,87,397,156"  Command = "{Binding SwitchViews}"
+            CommandParameter = "pay" Content="Pay" />
+        <Button Margin="106,20,296,0"  Command = "{Binding SwitchViews}"
+       	CommandParameter = "catalog" Content="Back To catalog"/>
+    </StackPanel>
