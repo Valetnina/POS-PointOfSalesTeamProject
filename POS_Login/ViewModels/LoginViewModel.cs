@@ -1,8 +1,4 @@
 ﻿using POS_DataLibrary;
-using POS_ManagersApp;
-using POS_ManagersApp.Views;
-using POS_SellersApp;
-using POS_SellersApp.Views;
 using POS_ViewsLibrary;
 using System;
 using System.Collections.Generic;
@@ -17,9 +13,30 @@ using System.ComponentModel.DataAnnotations;
 
 namespace POS_PointOfSales.ViewModels
 {
-    class LoginViewModel:ViewModel
+   public class LoginViewModel:ViewModel
     {
         private Database db;
+
+        private bool isAuthenticated;
+
+        public bool IsAuthenticated
+        {
+            get { return isAuthenticated; }
+            set { isAuthenticated = value;
+            SetProperty(ref isAuthenticated, value);
+            }
+        }
+      
+        private User user;
+
+        public User User
+        {
+            get { return user; }
+            set { user = value;
+            SetProperty(ref user, value);
+            }
+        }
+
         private DateTime CurrentTime { get; set; }
         public ActionCommand Login { get; set; }
         public LoginViewModel()
@@ -80,8 +97,8 @@ namespace POS_PointOfSales.ViewModels
                 var user = db.getUserByUserName(userN, pass);
                 if (user != null)
                 {
-                            SellersMainWindow win = new SellersMainWindow();
-                            win.Show();
+                    IsAuthenticated = true;
+                    User = user;
                         }
                     else
                     {

@@ -10,21 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using POS_SellersApp.ViewModels;
 
-namespace POS_SellersApp.Views
+namespace POS_SellersApp
 {
     /// <summary>
-    /// Interaction logic for PaymentView.xaml
+    /// Interaction logic for SellersStartypView.xaml
     /// </summary>
-    public partial class PaymentView : UserControl
+    public partial class SellersStartupView : Window
     {
-        public PaymentView()
+        public SellersStartupView()
         {
             InitializeComponent();
-            DataContext = new PaimentViewModel();
+            DataContext = new SellersStartupViewModel();
         }
     }
 }

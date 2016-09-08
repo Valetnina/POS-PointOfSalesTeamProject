@@ -1,4 +1,4 @@
-﻿<Window x:Class="POS_SellersApp.SellersMainWindow"
+﻿<UserControl x:Class="POS_SellersApp.Views.SellersMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,9 +7,9 @@
            xmlns:views = "clr-namespace:POS_SellersApp.Views" 
            xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
         mc:Ignorable="d"
-        Title="MainWindow" Height="609.51" Width="525">
-   
-    <Window.Resources>
+    Height="609.51" Width="525">
+
+    <UserControl.Resources>
         <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
             <views:PaymentView/>
         </DataTemplate>
@@ -17,13 +17,13 @@
         <DataTemplate DataType = "{x:Type viewModels:ProductsCatalogViewModel}">
             <views:ProductsCatalogView/>
         </DataTemplate>
-    </Window.Resources>
+    </UserControl.Resources>
 
     <StackPanel>
         <ContentControl Content = "{Binding CurrentView}" Height="133"/>
-       <Button Margin="10,87,397,156"  Command = "{Binding SwitchViews}"
+        <Button Margin="10,87,397,156"  Command = "{Binding SwitchViews}"
             CommandParameter = "pay" Content="Pay" />
         <Button Margin="106,20,296,0"  Command = "{Binding SwitchViews}"
        	CommandParameter = "catalog" Content="Back To catalog"/>
     </StackPanel>
-</Window>
+</UserControl>

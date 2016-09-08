@@ -95,27 +95,19 @@
       <Project>{c0873047-8453-4fe7-9bc1-6629c9e3d9f8}</Project>
       <Name>POS_DataLibrary</Name>
     </ProjectReference>
-    <ProjectReference Include="..\POS_ManagersApp\POS_ManagersApp.csproj">
-      <Project>{9d209c3f-51da-4b0c-8243-2f9200b65a68}</Project>
-      <Name>POS_ManagersApp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\POS_SellersApp\POS_SellersApp.csproj">
-      <Project>{273358d8-d807-4314-9bfb-f495ed4f9859}</Project>
-      <Name>POS_SellersApp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\POS_ViewsLibrary\POS_ViewsLibrary.csproj">
       <Project>{359f19f0-2a62-468e-9e74-674b0da83999}</Project>
       <Name>POS_ViewsLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Logo_Big.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Include="Views\LoginView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Logo_Big.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

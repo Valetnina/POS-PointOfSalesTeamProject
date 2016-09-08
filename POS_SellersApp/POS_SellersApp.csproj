@@ -57,6 +57,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\SellersMainWindow.xaml.cs">
+      <DependentUpon>SellersMainWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="SellersStartupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PaymentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -65,13 +72,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SellersMainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SellersStartupViewModel.cs" />
+    <Compile Include="SellersStartupView.xaml.cs">
+      <DependentUpon>SellersStartupView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\PaimentViewModel.cs" />
     <Compile Include="ViewModels\ProductsCatalogViewModel.cs" />
@@ -79,14 +86,13 @@
     <Compile Include="Views\PaymentView.xaml.cs">
       <DependentUpon>PaymentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PaymentViewModel.cs" />
     <Compile Include="Views\ProductsCatalogView.xaml.cs">
       <DependentUpon>ProductsCatalogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SellersMainWindow.xaml.cs">
-      <DependentUpon>SellersMainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="Views\SellersMainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -119,6 +125,10 @@
     <ProjectReference Include="..\POS_DataLibrary\POS_DataLibrary.csproj">
       <Project>{c0873047-8453-4fe7-9bc1-6629c9e3d9f8}</Project>
       <Name>POS_DataLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS_Login\POS-Login.csproj">
+      <Project>{603beec0-fc88-4893-8121-c8e5d67220eb}</Project>
+      <Name>POS-Login</Name>
     </ProjectReference>
     <ProjectReference Include="..\POS_ViewsLibrary\POS_ViewsLibrary.csproj">
       <Project>{359f19f0-2a62-468e-9e74-674b0da83999}</Project>

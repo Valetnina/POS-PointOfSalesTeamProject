@@ -11,21 +11,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace POS_SellersApp
+namespace POS_SellersApp.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for SellersMainWindow.xaml
     /// </summary>
-    public partial class SellersMainWindow : Window
+    public partial class SellersMainWindow : UserControl
     {
         public SellersMainWindow()
         {
-            InitializeComponent();
+           InitializeComponent();
             DataContext = new SellersMainWindowViewModel();
         }
-        
+       
     }
 }
