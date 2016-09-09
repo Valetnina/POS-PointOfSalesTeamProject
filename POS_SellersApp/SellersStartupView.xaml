@@ -22,6 +22,5 @@
     </Window.Resources>
     <StackPanel>
         <ContentControl Content = "{Binding CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="{Binding User, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></Label>
     </StackPanel>
 </Window>

@@ -9,12 +9,16 @@ using System.Windows;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-
+using System.Runtime.Remoting.Contexts;
 
 namespace POS_PointOfSales.ViewModels
 {
    public class LoginViewModel:ViewModel
     {
+        public LoginViewModel(User user)
+        {
+            this.User = user;
+        }
         private Database db;
 
         private bool isAuthenticated;
@@ -99,8 +103,12 @@ namespace POS_PointOfSales.ViewModels
                 {
                     IsAuthenticated = true;
                     User = user;
-                        }
-                    else
+                    UserName = null;
+                    FirstName = null;
+                    Messenger.Default.Send(User);
+
+                }
+                else
                     {
                         MessageBox.Show("Could not authenticate user " + UserName);
                     }

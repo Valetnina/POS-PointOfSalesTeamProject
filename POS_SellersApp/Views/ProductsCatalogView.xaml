@@ -4,28 +4,52 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:POS_SellersApp.Views"
+             xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
-        <Grid.Resources>
-            <Style TargetType="{x:Type TextBlock}" x:Key="TextBlockStyle">
-                <Setter Property="FontFamily" Value="Comic Sans MS"/>
-                <Setter Property="FontSize" Value="25"/>
-            </Style>
-            <Style TargetType="{x:Type Button}" x:Key="ButtonStyle">
-                <Setter Property="Foreground" Value="Aqua"/>
-            </Style>
-        </Grid.Resources>
-        <TextBlock Style="{StaticResource TextBlockStyle}" Text = "Here will be the Products Catalog"/>
-        <WrapPanel Orientation="Vertical" Margin="119,21,10,211">
-        <ItemsControl ItemsSource="{Binding catalogCollection}">
+
+
+       <DockPanel Margin="10,10,10,10">
+
+        <Label DockPanel.Dock="Top" Content = "ProductCategory" HorizontalAlignment="Center"/>
+        <ItemsControl DockPanel.Dock="Bottom" ItemsSource="{Binding categoriesCollection}" HorizontalAlignment="Center">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Content="{Binding Name}"/>
+                    <Button Content="{Binding CategoryName}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-           
-        </WrapPanel>
-    </Grid>
+        <ItemsControl ItemsSource="{Binding catalogCollection}" >
+                <ItemsControl.Resources>
+                    <med:ImageConverter x:Key="imageConverter" />
+                </ItemsControl.Resources>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding Name}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <StackPanel>
+                                        <Image Source="{ Binding Path=Image, Converter={StaticResource imageConverter} }" />
+                                        <Label Content="{Binding Name}"></Label>
+                                    </StackPanel>
+                                </ControlTemplate>
+                                
+                            </Button.Template>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+    </DockPanel>
 </UserControl>
