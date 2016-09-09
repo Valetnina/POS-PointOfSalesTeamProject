@@ -21,6 +21,16 @@ namespace POS_SellersApp.ViewModels
                 UserName = user.UserName;
             }
         }
+        private int dom;
+
+        public int Dom
+        {
+            get { return dom; }
+            set { dom = value;
+            SetProperty(ref dom, value);
+            }
+        }
+
         private string userName;
         public string UserName { get { return userName; }
             set {
@@ -32,9 +42,9 @@ namespace POS_SellersApp.ViewModels
             {
                 User = user;
             });
-
-            SwitchViews = new ActionCommand(p=> OnSwitchViews("pay"));
-
+            User = new User { UserName= "test"};
+            SwitchViews = new ActionCommand(p=> OnSwitchViews("catalog"));
+            dom = 15;
         }
 
         private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();

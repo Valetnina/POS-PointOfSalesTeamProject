@@ -182,7 +182,7 @@
                                 <ControlTemplate>
                                     <StackPanel>
                                         <Image Source="{ Binding Path=Image, Converter={StaticResource imageConverter} }" />
-                                        <Label Content="{Binding Name}"></Label>
+                                    <Label Content="{Binding Name}" Foreground="#f7f6f6" FontFamily = "Constantia"></Label>
                                     </StackPanel>
                                 </ControlTemplate>
                                 

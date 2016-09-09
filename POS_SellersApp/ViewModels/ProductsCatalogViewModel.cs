@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using POS_DataLibrary;
+using System.Windows;
 
 namespace POS_SellersApp.ViewModels
 {

@@ -15,9 +15,6 @@
             <Setter Property="Height" Value="35"/>
             <Setter Property="FontSize" Value="20"/>
         </Style>
-
-
-        <Style BasedOn="{StaticResource BaseStyle}" TargetType="Button"/>
         <Style x:Key="BoxStyle" BasedOn="{StaticResource BaseStyle}" TargetType="{x:Type Control}">
             <Setter Property="MaxWidth" Value="250"/>
             <Setter Property="MinWidth" Value="70"/>

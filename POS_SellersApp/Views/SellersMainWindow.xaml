@@ -169,9 +169,9 @@
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">
-            <Label Content="varUser"  Style="{StaticResource BlueLabel}" Width="146"/>
+            <Label Content="{Binding UserName}"  Style="{StaticResource BlueLabel}" Width="146"/>
             <Label Content="Order# varNo" Style="{StaticResource BlueLabel}" Width="176"/>
-            <Label Content="varTime" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
+            <Label Content="varTime" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>-->
             </StackPanel>
             <Grid Background="#ffffff" Height="249">
                 <ListView>
@@ -207,8 +207,25 @@
             </Grid>
 
         </StackPanel>
-        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Width="473" Background="#0085bd" Orientation="Vertical">
-            <Label Content="varCategory" FontSize="22" HorizontalAlignment="Center" Foreground="#f7f6f6" FontFamily = "Constantia"/>
+        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Width="473" Orientation="Vertical" Background="White">
+            <ContentControl Content = "{Binding CurrentView}" Height="400"/>
+            <Label FontFamily = "Constantia">sdfsadfasdfasdrfasdfasdf</Label>
+            <Label Content="{Binding Dom}" FontSize="22" HorizontalAlignment="Center" >
+                <Label.Style>
+                    <Style TargetType="{x:Type Label}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border BorderBrush="#DDD" BorderThickness="1" CornerRadius="2" Background="#EEE" Padding="4">
+                                        <TextBlock Text="{TemplateBinding Content}" />
+                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Label.Style>
+            </Label>
             <WrapPanel Height="380"></WrapPanel>
             <Grid Height="93">
                 <Button Content="Meals" Style="{StaticResource MedButton}" Margin="23,35,355,28"/>

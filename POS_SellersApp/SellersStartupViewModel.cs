@@ -30,7 +30,7 @@ namespace POS_SellersApp
 
         private LoginViewModel loginView = new LoginViewModel();
        
-       private SellersMainWindowViewModel sellersMainView = new SellersMainWindowViewModel();
+      
        public SellersStartupViewModel()
        {
             SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
@@ -69,7 +69,7 @@ namespace POS_SellersApp
                        MessageBox.Show("You don't have acces from this location") ;
                        return;
                    }
-                   CurrentView = sellersMainView;
+                   CurrentView = new SellersMainWindowViewModel();
                    break;
                case "login":
                default:
