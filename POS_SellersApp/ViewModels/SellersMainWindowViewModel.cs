@@ -1,11 +1,12 @@
 ﻿using POS_DataLibrary;
 using POS_PointOfSales.ViewModels;
 using POS_ViewsLibrary;
+using System.ComponentModel;
 using System.Windows;
 
 namespace POS_SellersApp.ViewModels
 {
-   public class SellersMainWindowViewModel : ViewModel
+    public class SellersMainWindowViewModel : ViewModel,INotifyPropertyChanged 
     {
         private User user;
         public User User
@@ -18,25 +19,22 @@ namespace POS_SellersApp.ViewModels
             set
             {
                 user = value;
-                SetProperty(ref user, value);
-                UserName = user.UserName;
+                RaisePropertyChanged2("User");
+                RaisePropertyChanged2("UserName");
             }
         }
-        private int dom;
-
-        public int Dom
+        public string UserName
         {
-            get { return dom; }
-            set { dom = value;
-            SetProperty(ref dom, value);
+            get
+            {
+                if (user != null)
+                {
+                    return user.UserName;
+                }
+                return "NOT SET";
             }
         }
-
-        private string userName;
-        public string UserName { get { return userName; }
-            set {
-                SetProperty(ref userName, value);
-            } }
+        
         public SellersMainWindowViewModel()
         {
             Messenger.Default.Register<User>(this, (user) =>
@@ -46,6 +44,7 @@ namespace POS_SellersApp.ViewModels
 
             SwitchViews = new ActionCommand(p=> OnSwitchViews("catalog"));
             OrderNo = 1;
+            currentView = ProductsCatalogViewModel;
         }
 
         private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();        
@@ -58,7 +57,7 @@ namespace POS_SellersApp.ViewModels
         public ViewModel CurrentView
         {
             get { return currentView; }
-            set { SetProperty(ref currentView, value); }
+            set { RaisePropertyChanged2("CurrentView"); }
         }
 
         public ActionCommand SwitchViews { get; private set; }
@@ -91,8 +90,17 @@ namespace POS_SellersApp.ViewModels
             set
             {
                 orderNo = value;
-                SetProperty(ref orderNo, value);
+                RaisePropertyChanged2("OrderNo");
             }
         }
+        public new event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged2(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        } 
     }
     }

@@ -55,4 +55,10 @@ Create Model for Products, Products Categories.
 
 
 
+--WeekEnd Scrum Tina
+1.TODO: Find Bug SellersApp and Finish implementing the products dialog and Orders
 
+
+
+--WeekEnd Scrum Olga
+1.TODo: Design Paiment View and Implementing it with logic. Research print receipts. Research Images

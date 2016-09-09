@@ -25,7 +25,7 @@ namespace POS_PointOfSales.ViewModels
         {
             get { return user; }
             set { user = value;
-            SetProperty(ref user, value);
+            RaisePropertyChanged("User");
             }
         }
 
@@ -48,7 +48,7 @@ namespace POS_PointOfSales.ViewModels
             set
             {
                 userName = value;
-            SetProperty(ref userName, value);
+                RaisePropertyChanged("UserName");
             }
         }
         private string password;
@@ -59,18 +59,7 @@ namespace POS_PointOfSales.ViewModels
         {
             get { return password; }
             set { password = value;
-            SetProperty(ref password, value);
-            }
-        }
-        private string firstName;
-
-        public string FirstName
-        {
-            get { return firstName; }
-            set
-            {
-                firstName = value;
-                SetProperty(ref firstName, value);
+            RaisePropertyChanged("Password");
             }
         }
 
@@ -91,7 +80,7 @@ namespace POS_PointOfSales.ViewModels
                 {
                     User = user;
                     UserName = null;
-                    FirstName = null;
+                    Password = null;
                     Messenger.Default.Send(User);
 
                 }

@@ -24,7 +24,7 @@ namespace POS_SellersApp
             set
             {
                 userLoggedIn = value;
-                SetProperty(ref userLoggedIn, value);
+                RaisePropertyChanged("User");
             }
         }
 
@@ -60,7 +60,12 @@ namespace POS_SellersApp
        public ViewModel CurrentView
        {
            get { return currentView; }
-           set {SetProperty(ref currentView, value); }
+           set{
+               currentView = value;
+
+               RaisePropertyChanged("CurrentView");
+           }
+          
        }
 
        public ActionCommand SwitchViews { get; private set; }

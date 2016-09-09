@@ -163,12 +163,15 @@
 
         <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" Orientation="Horizontal">
             <Image Height="51" Width="70" Source="/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-            <Label Content="user" Width="636" HorizontalContentAlignment="Right" Foreground="#f7f6f6" FontSize="20"/>
+            <TextBlock  Width="636" Foreground="#f7f6f6" FontSize="20">
+                <Run Text="Welcome,  "/>
+                <Run Text="{Binding Path = UserName, Mode = OneWay, UpdateSourceTrigger=PropertyChanged}" />
+            </TextBlock>
             <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">
-            <Label Content="varUser"  Style="{StaticResource BlueLabel}" Width="146"/>
+                <Label Background="White" Content="{Binding Path=UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
             <Label Content="{Binding OrderNo}" Style="{StaticResource BlueLabel}" Foreground="Black" Width="176"/>
             <Label Content="varTime" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
@@ -206,9 +209,8 @@
             </Grid>
 
         </StackPanel>
-        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Width="473" Orientation="Vertical" Background="White">
-            <ContentControl Content = "{Binding CurrentView}" Height="400"/>
-            <Label FontFamily = "Constantia">sdfsadfasdfasdrfasdfasdf</Label>
+        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Orientation="Vertical">
+            <ContentControl Content = "{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="White" Height="200"/>
             <Label Content="{Binding Dom}" FontSize="22" HorizontalAlignment="Center" >
                 <!--<Label.Style>
                     <Style TargetType="{x:Type Label}">

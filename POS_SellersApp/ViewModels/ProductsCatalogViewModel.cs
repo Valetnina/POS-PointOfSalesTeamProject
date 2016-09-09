@@ -22,6 +22,8 @@ namespace POS_SellersApp.ViewModels
             db = new Database();
             catalogCollection = db.getAllProducts();
             PopulateWithProducts = new ActionCommand(OnPopulateWithProducts);
+
+           // MessageBox.Show("Call catalog");
           //  db.saveProduct(new Product());
 
         }
