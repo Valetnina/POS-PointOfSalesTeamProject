@@ -63,7 +63,7 @@ namespace POS_DataLibrary
         public User getUserByUserName(string userName, string password)
         {
             
-            SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[USER] WHERE UserName = @UserName and Password=@Password", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[USERS] WHERE UserName = @UserName and Password=@Password", conn);
             cmd.Parameters.AddWithValue("@UserName",userName);
             cmd.Parameters.AddWithValue("@Password", password);
 

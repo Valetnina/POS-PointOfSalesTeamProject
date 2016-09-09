@@ -41,11 +41,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
-        <Style x:Key="BigButton" TargetType="{x:Type Button}">
-            <!--<Setter Property="FontSize" Value="22"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Margin" Value="0,20,25,0"/>-->
+        <Style x:Key="BigButton" TargetType="{x:Type Button}">            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -156,7 +152,7 @@
     <DockPanel Height="600" Background="#0472a1">
         <StatusBar DockPanel.Dock="Bottom" Background="#0472a1" Height="40" Width="892" HorizontalAlignment="Stretch" MaxWidth="1200">
             <StatusBarItem HorizontalAlignment="Right" Width="79">
-                <TextBlock Text="varTime" Height="20" FontSize="14" Width="46" TextAlignment="Center"/>
+                <Label Content="{Binding CurrentTime}" Height="30" FontSize="14" Width="69" Foreground="#f7f6f6"/>
             </StatusBarItem>
         </StatusBar>
 
@@ -168,9 +164,9 @@
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">
-            <Label Content="varUser"  Style="{StaticResource BlueLabel}" Width="146"/>
-            <Label Content="{Binding OrderNo}" Style="{StaticResource BlueLabel}" Foreground="Black" Width="176"/>
-            <Label Content="varTime" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
+            <Label Content="{Binding UserName}"  Style="{StaticResource BlueLabel}" Width="146"/>
+            <Label Content="{Binding OrderNo}" Style="{StaticResource BlueLabel}"  Width="176"/>
+                <Label Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
             <Grid Background="#ffffff" Height="249">
                 <ListView>

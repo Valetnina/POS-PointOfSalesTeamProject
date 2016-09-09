@@ -10,6 +10,8 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Remoting.Contexts;
+using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace POS_PointOfSales.ViewModels
 {
@@ -106,66 +108,7 @@ namespace POS_PointOfSales.ViewModels
             }
         }
 
-        /*
-        public class SleepTrackerViewModel : INotifyPropertyChanged
-        {
-            private string _currentTime, _currentDate;
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            public SleepTrackerViewModel()
-            {
-                CurrentDateText();
-                DispatcherTimerSetup();
-            }
-
-            private void DispatcherTimerSetup()
-            {
-                DispatcherTimer dispatcherTimer = new DispatcherTimer();
-                dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-                dispatcherTimer.Tick += new EventHandler(CurrentTimeText);
-                dispatcherTimer.Start();
-            }
-
-            private void CurrentDateText()
-            {
-                CurrentDate = DateTime.Now.ToString("g");
-            }
-
-            private void CurrentTimeText(object sender, EventArgs e)
-            {
-                CurrentTime = DateTime.Now.ToString("HH:mm");
-            }
-
-            public string CurrentTime
-            {
-                get { return _currentTime; }
-                set
-                {
-                    if (_currentTime != null)
-                        _currentTime = value;
-
-                    OnPropertyChanged("CurrentTime");
-                }
-            }
-
-            public string CurrentDate
-            {
-                get { return _currentDate; }
-                set
-                {
-                    if (_currentDate != value)
-                        _currentDate = value;
-
-                    OnPropertyChanged("CurrentDate");
-                }
-            }
-
-            protected virtual void OnPropertyChanged(string propertyName)
-            {
-                PropertyChangedEventHandler handler = PropertyChanged;
-                if (handler != null)
-                    handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }*/
+        
+        
     }
 }
