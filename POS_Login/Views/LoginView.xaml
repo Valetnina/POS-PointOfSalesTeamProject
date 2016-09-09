@@ -15,9 +15,9 @@
             <Setter Property="Height" Value="35"/>
             <Setter Property="FontSize" Value="20"/>
         </Style>
-        
+
         <Style BasedOn="{StaticResource BaseStyle}" TargetType="Button"/>
-        
+
         <Style x:Key="BoxStyle" BasedOn="{StaticResource BaseStyle}" TargetType="{x:Type Control}">
             <Setter Property="MaxWidth" Value="250"/>
             <Setter Property="MinWidth" Value="70"/>
@@ -25,7 +25,7 @@
             <Setter Property="Height" Value="35"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
-       
+
         <Style x:Name="OverrideStyle" TargetType="Label" BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Foreground" Value="#e9e9e9"/>
             <Setter Property="MaxWidth" Value="170"/>
@@ -33,7 +33,7 @@
             <Setter Property="Width" Value="100"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
         </Style>
-        
+
         <Style TargetType="Button" BasedOn="{StaticResource BaseStyle}">
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="Width" Value="200"/>
@@ -53,9 +53,9 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    
+
     <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="30" Width="892" HorizontalAlignment="Stretch" MaxWidth="1200">
+        <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="30" HorizontalAlignment="Stretch" MaxWidth="1200">
             <StatusBarItem HorizontalAlignment="Right" Margin="0,0,10,0">
                 <Label Content="varTime" />
             </StatusBarItem>
@@ -79,7 +79,7 @@
                             <DropShadowEffect BlurRadius="5" ShadowDepth="3" />
                         </Button.Effect>
                     </Button>
-                </StackPanel> 
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </DockPanel>

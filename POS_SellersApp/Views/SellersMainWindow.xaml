@@ -21,21 +21,21 @@
             <Setter Property="TextAlignment" Value="Right"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
         </Style>
-        <Style x:Key="BlueLabel" TargetType="{x:Type Control}">
+        <Style x:Key="BlueLabel" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>   
         </Style>
-        <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
-        <Style x:Key="BlackLabel" TargetType="{x:Type Control}">
+        
+        <Style x:Key="BlackLabel" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        <Style BasedOn="{StaticResource BlackLabel}" TargetType="Label"/>
-        <Style x:Key="BigButton" TargetType="{x:Type Control}">
+        
+        <Style x:Key="BigButton" TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="Width" Value="200"/>
             <Setter Property="Foreground" Value="#0472a1"/>
@@ -54,10 +54,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource BigButton}" TargetType="Button"/>
         
-        <Style x:Key="SmallButton" TargetType="{x:Type Control}">
+        <Style x:Key="SmallButton" TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="Width" Value="95"/>
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="Height" Value="30"/>
@@ -74,11 +74,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource SmallButton}" TargetType="Button"/>
 
-        <Style x:Key="MedButton" TargetType="{x:Type Control}">
+        <Style x:Key="MedButton" TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Width" Value="95"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Template">
@@ -94,9 +94,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource SmallButton}" TargetType="Button"/>
 
-        <Style x:Key="RoundBlueButton" TargetType="{x:Type Control}">
+        <Style x:Key="RoundBlueButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="65"/>
             <Setter Property="Height" Value="65"/>
             <Setter Property="Effect">
@@ -183,14 +182,14 @@
                 </ListView>
             </Grid>
             <Grid Height="151">
-                <Label Height="23" Content="Sub total  :" Margin="0,1,338,127" />
-                <Label Height="23" Content="Discounts  :" Margin="0,29,338,99" />
-                <Label Height="23" Content="Tax  :" Margin="0,57,338,71" />
-                <Label Height="23" Content="Balance Due  :" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
-                <Label Height="23" Content="varSubTotal" Margin="87,0,251,128" />
-                <Label Height="23" Content="varDiscount" Margin="87,28,251,100" />
-                <Label Height="23" Content="varTax  :" Margin="87,57,251,71" />
-                <Label Height="23" Content="varBalDue" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
+                <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
+                <Label Height="23" Content="Discounts  :" Style="{StaticResource BlackLabel}" Margin="0,29,338,99" />
+                <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
+                <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
+                <Label Height="23" Content="varSubTotal" Style="{StaticResource BlackLabel}" Margin="87,0,251,128" />
+                <Label Height="23" Content="varDiscount" Style="{StaticResource BlackLabel}" Margin="87,28,251,100" />
+                <Label Height="23" Content="varTax  :" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
+                <Label Height="23" Content="varBalDue" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
                 <Button Content="Remove Item" Style="{StaticResource SmallButton}" Margin="22,101,303,20" />
                 <Button Content="Cancel Order" Style="{StaticResource SmallButton}" Margin="165,101,160,20" />
                 <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
@@ -203,8 +202,8 @@
                 <Button Style="{StaticResource RoundGrayButton}" Margin="23,7,332,7"/>
             </Grid>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Width="473" Background="#0085bd" Orientation="Vertical" Margin="0,0,0,5">
-            <Label Content="varCategory" FontSize="22" HorizontalAlignment="Center" Foreground="#f7f6f6"/>
+        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Width="473" Background="#0085bd" Orientation="Vertical">
+            <Label Content="varCategory" FontSize="22" HorizontalAlignment="Center" Foreground="#f7f6f6" FontFamily = "Constantia"/>
             <WrapPanel Height="380"></WrapPanel>
             <Grid Height="93">
                 <Button Content="Meals" Style="{StaticResource MedButton}" Margin="23,35,355,28"/>
