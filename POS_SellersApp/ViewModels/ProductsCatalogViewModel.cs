@@ -13,7 +13,6 @@ namespace POS_SellersApp.ViewModels
     {
         private Database db;
         public ObservableCollection<Product> catalogCollection { get; set; }
-        public ObservableCollection<ProductCategory> categoriesCollection { get; set; }
 
         public ActionCommand PopulateWithProducts { get; private set; }
 
@@ -21,7 +20,6 @@ namespace POS_SellersApp.ViewModels
         {
             db = new Database();
             catalogCollection = db.getAllProducts();
-            categoriesCollection = db.getCategories();
             PopulateWithProducts = new ActionCommand(OnPopulateWithProducts);
           //  db.saveProduct(new Product());
 

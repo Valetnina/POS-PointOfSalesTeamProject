@@ -25,7 +25,6 @@ namespace POS_SellersApp.ViewModels
         public string UserName { get { return userName; }
             set {
                 SetProperty(ref userName, value);
-                MessageBox.Show("" + userName);
             } }
         public SellersMainWindowViewModel()
         {

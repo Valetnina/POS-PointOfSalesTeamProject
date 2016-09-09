@@ -15,22 +15,10 @@ namespace POS_PointOfSales.ViewModels
 {
    public class LoginViewModel:ViewModel
     {
-        public LoginViewModel(User user)
-        {
-            this.User = user;
-        }
+      
         private Database db;
 
-        private bool isAuthenticated;
-
-        public bool IsAuthenticated
-        {
-            get { return isAuthenticated; }
-            set { isAuthenticated = value;
-            SetProperty(ref isAuthenticated, value);
-            }
-        }
-      
+        
         private User user;
 
         public User User
@@ -101,7 +89,6 @@ namespace POS_PointOfSales.ViewModels
                 var user = db.getUserByUserName(userN, pass);
                 if (user != null)
                 {
-                    IsAuthenticated = true;
                     User = user;
                     UserName = null;
                     FirstName = null;

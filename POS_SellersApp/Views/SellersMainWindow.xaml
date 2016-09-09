@@ -10,6 +10,13 @@
 
         Width="900" Background="#0085bd">
     <UserControl.Resources>
+        <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
+            <views:PaymentView/>
+        </DataTemplate>
+
+        <DataTemplate DataType = "{x:Type viewModels:ProductsCatalogViewModel}">
+            <views:ProductsCatalogView/>
+        </DataTemplate>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="FontSize" Value="20"/>
@@ -27,14 +34,15 @@
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>   
         </Style>
-        <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
+        <!--<Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
         <Style x:Key="BlackLabel" TargetType="{x:Type Control}">
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-        <Style BasedOn="{StaticResource BlackLabel}" TargetType="Label"/>
+        </Style>-->
+        <!--<Style BasedOn="{StaticResource BlackLabel}" TargetType="Label"/>-->
+        <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
         <Style x:Key="BigButton" TargetType="{x:Type Control}">
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="Width" Value="200"/>
@@ -54,7 +62,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource BigButton}" TargetType="Button"/>
+        <!--<Style BasedOn="{StaticResource BigButton}" TargetType="Button"/>-->
         
         <Style x:Key="SmallButton" TargetType="{x:Type Control}">
             <Setter Property="FontSize" Value="12"/>
@@ -74,7 +82,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource SmallButton}" TargetType="Button"/>
+        <!--<Style BasedOn="{StaticResource SmallButton}" TargetType="Button"/>-->
 
         <Style x:Key="MedButton" TargetType="{x:Type Control}">
             <Setter Property="FontSize" Value="16"/>
@@ -202,17 +210,12 @@
                 <Button Style="{StaticResource RoundGrayButton}" Margin="182,7,173,7"/>
                 <Button Style="{StaticResource RoundGrayButton}" Margin="23,7,332,7"/>
             </Grid>
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Width="473" Background="#0085bd" Orientation="Vertical" Margin="0,0,0,5">
-            <Label Content="varCategory" FontSize="22" HorizontalAlignment="Center" Foreground="#f7f6f6"/>
-            <WrapPanel Height="380"></WrapPanel>
-            <Grid Height="93">
-                <Button Content="Meals" Style="{StaticResource MedButton}" Margin="23,35,355,28"/>
-                <Button Content="Drinks" Style="{StaticResource MedButton}" Margin="193,35,185,28"/>
-                <Button Content="Deserts" Style="{StaticResource MedButton}" Margin="353,35,25,28"/>
-            </Grid>
-        </StackPanel>
-        <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
+        </StackPanel >
+        <StackPanel DockPanel.Dock="Right">
+            <Label Content="Hello"></Label>
+            <ContentControl Content = "{Binding CurrentView}" Height="133"  Name="spRightSide" />
+        <!--<StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
+        </StackPanel>-->
         </StackPanel>
     </DockPanel>
 
