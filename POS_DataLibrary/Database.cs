@@ -59,6 +59,33 @@ namespace POS_DataLibrary
 
             return categoriesCollection;
         }
+        public ObservableCollection<Product> GetProductsByCategory(String category)
+        {
+            ObservableCollection<Product> productsList = new ObservableCollection<Product>();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Product, ProductsCategory Where ProductCategoryId = Id and categoryName = @categoryName", conn);
+            cmd.Parameters.AddWithValue("@categoryName", category);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        string uPCCode = reader.GetString(reader.GetOrdinal("UPCCode"));
+                        string name = reader.GetString(reader.GetOrdinal("Name"));
+                        decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
+                        string productCategory = reader.GetString(reader.GetOrdinal("CategoryName"));
+                        byte[] imgBytes = (byte[])reader.GetSqlBinary(reader.GetOrdinal("Picture"));
+                        TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
+                        Bitmap picture = (Bitmap)tc.ConvertFrom(imgBytes);
+
+
+
+                        productsList.Add(new Product { UPCCode = uPCCode, Name = name, Price = price, CategoryName = new ProductCategory { CategoryName = productCategory }, Picture = picture });
+                    }
+                }
+            }
+            return productsList;
+        }
 
         public User getUserByUserName(string userName, string password)
         {

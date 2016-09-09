@@ -167,12 +167,12 @@
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">
-            <Label Content="{Binding UserName}"  Style="{StaticResource BlueLabel}" Width="146"/>
+            <Label Content="{Binding UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
             <Label Content="{Binding OrderNo}" Style="{StaticResource BlueLabel}"  Width="176"/>
                 <Label Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
             <Grid Background="#ffffff" Height="249">
-                <ListView>
+                <ListView ItemsSource="{Binding ProductsInOrder, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}"/>
@@ -203,33 +203,8 @@
                 <Button Style="{StaticResource RoundGrayButton}" Margin="182,7,173,7"/>
                 <Button Style="{StaticResource RoundGrayButton}" Margin="23,7,332,7"/>
             </Grid>
-
         </StackPanel>
-        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Orientation="Vertical">
-            <ContentControl Content = "{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Background="White" Height="200"/>
-            <Label Content="{Binding Dom}" FontSize="22" HorizontalAlignment="Center" >
-                <!--<Label.Style>
-                    <Style TargetType="{x:Type Label}">
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate>
-                                    <Border BorderBrush="#DDD" BorderThickness="1" CornerRadius="2" Background="#EEE" Padding="4">
-                                        <TextBlock Text="{TemplateBinding Content}" />
-                                        <ContentPresenter Content="{TemplateBinding Content}" />
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Label.Style>-->
-            </Label>
-            <WrapPanel Height="380"></WrapPanel>
-            <Grid Height="93">
-                <Button Content="Meals" Style="{StaticResource MedButton}" Margin="23,35,355,28"/>
-                <Button Content="Drinks" Style="{StaticResource MedButton}" Margin="193,35,185,28"/>
-                <Button Content="Deserts" Style="{StaticResource MedButton}" Margin="353,35,25,28"/>
-            </Grid>
-        </StackPanel>
+            <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
         <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
         </StackPanel>
     </DockPanel>

@@ -14,8 +14,6 @@ namespace POS_SellersApp
 {
    public class SellersStartupViewModel: ViewModel
     {
-
-
         private User userLoggedIn;
 
         public User User

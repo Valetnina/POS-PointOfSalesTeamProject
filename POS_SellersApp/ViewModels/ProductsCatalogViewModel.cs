@@ -13,31 +13,61 @@ namespace POS_SellersApp.ViewModels
   public  class ProductsCatalogViewModel:ViewModel
     {
         private Database db;
-        public ObservableCollection<Product> catalogCollection { get; set; }
 
-        public ActionCommand PopulateWithProducts { get; private set; }
+
+        private ObservableCollection<Product> catalogCollection;
+
+        public ObservableCollection<Product> CatalogCollection
+        {
+            get { return catalogCollection; }
+            set { catalogCollection = value;
+            RaisePropertyChanged("CatalogCollection");
+            }
+        }
+
+
+        public ActionCommand SwitchViews { get; private set; }
+        public ActionCommand AddToOrder { get; private set; }
 
         public ProductsCatalogViewModel()
         {
             db = new Database();
-            catalogCollection = db.getAllProducts();
-            PopulateWithProducts = new ActionCommand(OnPopulateWithProducts);
+            CatalogCollection = db.GetProductsByCategory("Meals");
+            SwitchViews = new ActionCommand((param) =>
+            {
+                OnSwitchViews(param.ToString());
+            });
+            AddToOrder = new ActionCommand((param) =>
+            {
+                OnAddToOrder(param as Product);
+            });
 
-           // MessageBox.Show("Call catalog");
           //  db.saveProduct(new Product());
 
         }
 
-        private void OnPopulateWithProducts(object obj)
+        private void OnSwitchViews(string destination)
         {
-            throw new NotImplementedException();
-        }
+            switch (destination)
+            {
+                case "Meals":
+                    CatalogCollection = db.GetProductsByCategory("Meals");
+                    break;
+                case "Drinks":
+                    CatalogCollection = db.GetProductsByCategory("Drinks");
+                    break;
+                case "Desserts":
+                
+                default:
+                    CatalogCollection = db.GetProductsByCategory("Desserts");
+                    break;
+            }
 
-        private void OnPopulateWithProducts()
+        }
+        private void OnAddToOrder(Product product)
         {
-            throw new NotImplementedException();
+         //   Messenger.Default.Send(product);
         }
-
 
     }
 }

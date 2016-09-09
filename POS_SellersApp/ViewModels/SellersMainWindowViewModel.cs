@@ -5,11 +5,21 @@ using System.ComponentModel;
 using System;
 using System.Windows;
 using System.Windows.Threading;
+using System.Collections.ObjectModel;
 
 namespace POS_SellersApp.ViewModels
 {
-    public class SellersMainWindowViewModel : ViewModel,INotifyPropertyChanged 
+    public class SellersMainWindowViewModel : ViewModel
     {
+        private ObservableCollection<Product> productsInOrder;
+
+        public ObservableCollection<Product> ProductsInOrder
+        {
+            get { return productsInOrder; }
+            set { productsInOrder = value;
+            RaisePropertyChanged("ProductsInOrder");
+            }
+        }
         private User user;
         public User User
         {
@@ -20,9 +30,10 @@ namespace POS_SellersApp.ViewModels
 
             set
             {
+               // MessageBox.Show("User is set " + User.UserName);
                 user = value;
-                RaisePropertyChanged2("User");
-                RaisePropertyChanged2("UserName");
+                RaisePropertyChanged("User");
+                RaisePropertyChanged("UserName");
             }
         }
         public string UserName
@@ -36,13 +47,30 @@ namespace POS_SellersApp.ViewModels
                 return "NOT SET";
             }
         }
-        
+        //private Product product;
+
+        //public Product Product
+        //{
+        //    get { return product; }
+        //    set { product = value; 
+        //    RaisePropertyChanged("Product")}
+        //}
         public SellersMainWindowViewModel()
         {
+            //Register for messages from differnet viewModels
             Messenger.Default.Register<User>(this, (user) =>
             {
+                MessageBox.Show(user.UserName + " received by Order");
                 User = user;
+                
             });
+            //Messenger.Default.Register<Product>(this, (product) =>
+            //{
+            // //   MessageBox.Show(product.Name + " received by Order");
+            //    ReceiveMessage(product);
+            //});
+            ProductsInOrder = new ObservableCollection<Product>();
+
 
             SwitchViews = new ActionCommand(p=> OnSwitchViews("catalog"));
             currentView = ProductsCatalogViewModel;
@@ -50,6 +78,15 @@ namespace POS_SellersApp.ViewModels
             CurrentDateText();
             DispatcherTimerSetup();
         }
+
+        private void ReceiveMessage(Product product)
+        {
+            MessageBox.Show(product.Name + " received by Order");
+            ProductsInOrder.Add(product);
+            MessageBox.Show("ProductsIn order" + ProductsInOrder.Count);
+        }
+
+       
 
         private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();        
 
@@ -61,7 +98,7 @@ namespace POS_SellersApp.ViewModels
         public ViewModel CurrentView
         {
             get { return currentView; }
-            set { RaisePropertyChanged2("CurrentView"); }
+            set { RaisePropertyChanged("CurrentView"); }
         }
 
         public ActionCommand SwitchViews { get; private set; }
@@ -94,19 +131,10 @@ namespace POS_SellersApp.ViewModels
             set
             {
                 orderNo = value;
-                RaisePropertyChanged2("OrderNo");
+                RaisePropertyChanged("OrderNo");
             }
         }
-        public new event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged2(string property)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
-            }
-        } 
-
+        
 
         private string _currentTime, _currentDate;
                       
@@ -136,7 +164,7 @@ namespace POS_SellersApp.ViewModels
                     if (_currentTime != null)
                         _currentTime = value;
 
-                    RaisePropertyChanged2("CurrentTime");
+                    RaisePropertyChanged("CurrentTime");
                 }
             }
 
@@ -147,7 +175,7 @@ namespace POS_SellersApp.ViewModels
                 {
                     if (_currentDate != value)
                         _currentDate = value;
-                    RaisePropertyChanged2("CurrentDate");
+                    RaisePropertyChanged("CurrentDate");
                 }
             }
     }
