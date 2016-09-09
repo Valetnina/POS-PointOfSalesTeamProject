@@ -161,13 +161,8 @@
 
         <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" Orientation="Horizontal">
             <Image Height="51" Width="70" Source="/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-<<<<<<< HEAD
-            <Label Content="Welcome, varUser!" Width="636" HorizontalContentAlignment="Right" Foreground="#f7f6f6" FontSize="20"/>
+            <Label Content="{Binding UserName}" ContentStringFormat="Welcome, {}{0}" Width="636" HorizontalContentAlignment="Right" Foreground="#f7f6f6" FontSize="20"/>
             <Button Content="Sign Out" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
-=======
-            <Label Content="{Binding UserName}" ContentStringFormat="Welcome, {}{0}" Width="636" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-            <Button Content="Sign Out" Width="154" Margin="15,5,5,5"/>
->>>>>>> origin/master
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">

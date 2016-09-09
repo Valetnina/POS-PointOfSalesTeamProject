@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace POS_DataLibrary
 {
@@ -14,6 +13,6 @@ namespace POS_DataLibrary
         public decimal Price { get; set; }
         public string Name { get; set; }
         public ProductCategory CategoryName { get; set; }
-        public Bitmap Picture { get; set; }
+        public Image Picture { get; set; }
     }
 }
