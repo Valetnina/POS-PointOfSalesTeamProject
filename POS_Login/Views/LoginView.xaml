@@ -6,44 +6,35 @@
         xmlns:local="clr-namespace:POS_PointOfSales.Views"
         xmlns:ff="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
          mc:Ignorable="d"
-        Height="700" Width="900" Background="#58b2d9"
-        >
+        Height="700" Width="900" Background="#58b2d9">
 
     <UserControl.Resources>
-        <Style TargetType="TextBlock">
+        <Style x:Key="BaseStyle" TargetType="{x:Type Control}">
             <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="35"/>
             <Setter Property="FontSize" Value="20"/>
+        </Style>
+        
+        <Style BasedOn="{StaticResource BaseStyle}" TargetType="Button"/>
+        
+        <Style x:Key="BoxStyle" BasedOn="{StaticResource BaseStyle}" TargetType="{x:Type Control}">
+            <Setter Property="MaxWidth" Value="250"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        </Style>
+       
+        <Style x:Name="OverrideStyle" TargetType="Label" BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Foreground" Value="#e9e9e9"/>
             <Setter Property="MaxWidth" Value="170"/>
             <Setter Property="MinWidth" Value="70"/>
             <Setter Property="Width" Value="100"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="TextAlignment" Value="Right"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
         </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="MaxWidth" Value="250"/>
-            <Setter Property="MinWidth" Value="70"/>
-            <Setter Property="Width" Value="250"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontFamily" Value="Constantia"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="PasswordBox">
-            <Setter Property="MaxWidth" Value="250"/>
-            <Setter Property="MinWidth" Value="70"/>
-            <Setter Property="Width" Value="250"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontFamily" Value="Constantia"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="FontFamily" Value="Constantia"/>
+        
+        <Style TargetType="Button" BasedOn="{StaticResource BaseStyle}">
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="Width" Value="200"/>
             <Setter Property="Background" Value="#167ca3"/>
@@ -62,10 +53,11 @@
             </Setter>
         </Style>
     </UserControl.Resources>
+    
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="30" Width="892" HorizontalAlignment="Stretch" MaxWidth="1200">
             <StatusBarItem HorizontalAlignment="Right" Margin="0,0,10,0">
-                <TextBlock Text="{Binding CurrentTime}"/>
+                <Label Content="varTime" />
             </StatusBarItem>
         </StatusBar>
         <StackPanel Width="700" Height="600" HorizontalAlignment="Center" Orientation="Vertical">
@@ -76,18 +68,18 @@
                     <Thickness x:Key="Height" Top="25" />
                 </StackPanel.Resources>
                 <StackPanel  Orientation="Vertical" Margin="0,0,-40,5" Width="115">
-                    <TextBlock  Text="Login :"/>
-                    <TextBlock  Text="Password :" Margin="{StaticResource Height}"/>
+                    <Label   Content="Login :" />
+                    <Label  Content="Password :"/>
                 </StackPanel>
                 <StackPanel  Orientation="Vertical" Width="373" HorizontalAlignment="Center" Margin="0,0,0,-27">
-                    <TextBox Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors = True}" />
-                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource Height}"/>
+                    <TextBox Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors = True}" Style="{StaticResource BoxStyle}" />
+                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource Height}" Style="{StaticResource BoxStyle}"/>
                     <Button Content="Log In" Command="{Binding Login}" xmlns:cmd="#unknown">
                         <Button.Effect>
                             <DropShadowEffect BlurRadius="5" ShadowDepth="3" />
                         </Button.Effect>
                     </Button>
-                </StackPanel>
+                </StackPanel> 
             </StackPanel>
         </StackPanel>
     </DockPanel>
