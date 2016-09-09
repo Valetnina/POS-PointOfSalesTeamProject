@@ -40,8 +40,20 @@ namespace POS_SellersApp
                 OnSwitchViews("catalog");
                
             });
+            Messenger.Default.Register<string>(this, (message)=>
+            {
+
+                OnSwitchViews(message);
+
+            });
             currentView = loginView;
+            SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
         }
+
+       private void OnSendLogoutMessage(string p)
+       {
+           Messenger.Default.Send("login");
+       }
 
        private ViewModel currentView;
 
@@ -52,6 +64,7 @@ namespace POS_SellersApp
        }
 
        public ActionCommand SwitchViews { get; private set; }
+       public ActionCommand SendLogoutMessage { get; private set; }
 
         
 

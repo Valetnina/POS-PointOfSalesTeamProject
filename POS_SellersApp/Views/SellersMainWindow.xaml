@@ -42,11 +42,10 @@
         </Style>
         <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
         <Style x:Key="BigButton" TargetType="{x:Type Button}">
-            <Setter Property="FontSize" Value="22"/>
+            <!--<Setter Property="FontSize" Value="22"/>
             <Setter Property="Width" Value="200"/>
-            <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="Height" Value="40"/>
-            <Setter Property="Margin" Value="0,20,25,0"/>
+            <Setter Property="Margin" Value="0,20,25,0"/>-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -164,13 +163,13 @@
 
         <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" Orientation="Horizontal">
             <Image Height="51" Width="70" Source="/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-            <Label Content="{Binding UserName}" ContentStringFormat="Welcome, {}{0}" Width="636" HorizontalContentAlignment="Right" Foreground="#f7f6f6" FontSize="20"/>
-            <Button Content="Sign Out" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
+            <Label Content="user" Width="636" HorizontalContentAlignment="Right" Foreground="#f7f6f6" FontSize="20"/>
+            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">
             <Label Content="varUser"  Style="{StaticResource BlueLabel}" Width="146"/>
-            <Label Content="Order# varNo" Style="{StaticResource BlueLabel}" Width="176"/>
+            <Label Content="{Binding OrderNo}" Style="{StaticResource BlueLabel}" Foreground="Black" Width="176"/>
             <Label Content="varTime" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
             <Grid Background="#ffffff" Height="249">

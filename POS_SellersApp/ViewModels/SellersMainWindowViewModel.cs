@@ -1,4 +1,5 @@
 ﻿using POS_DataLibrary;
+using POS_PointOfSales.ViewModels;
 using POS_ViewsLibrary;
 using System.Windows;
 
@@ -33,13 +34,14 @@ namespace POS_SellersApp.ViewModels
                 User = user;
             });
 
-            SwitchViews = new ActionCommand(p=> OnSwitchViews("pay"));
-
+            SwitchViews = new ActionCommand(p=> OnSwitchViews("catalog"));
+            OrderNo = 1;
         }
 
-        private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();
+        private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();        
 
         private PaimentViewModel payiementViewModel = new PaimentViewModel();
+
 
         private ViewModel currentView;
 
@@ -59,12 +61,28 @@ namespace POS_SellersApp.ViewModels
                 case "pay":
                     CurrentView = payiementViewModel;
                     break;
+                
                 case "catalog":
                 default:
                     CurrentView = ProductsCatalogViewModel;
                     break;
             }
 
+        }
+
+        private int orderNo;
+        public int OrderNo
+        {
+            get
+            {
+                return orderNo;
+            }
+
+            set
+            {
+                orderNo = value;
+                SetProperty(ref orderNo, value);
+            }
         }
     }
     }
