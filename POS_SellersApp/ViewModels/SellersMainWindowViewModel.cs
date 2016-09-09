@@ -2,7 +2,9 @@
 using POS_PointOfSales.ViewModels;
 using POS_ViewsLibrary;
 using System.ComponentModel;
+using System;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace POS_SellersApp.ViewModels
 {
@@ -43,8 +45,10 @@ namespace POS_SellersApp.ViewModels
             });
 
             SwitchViews = new ActionCommand(p=> OnSwitchViews("catalog"));
-            OrderNo = 1;
             currentView = ProductsCatalogViewModel;
+            OrderNo = "1";
+            CurrentDateText();
+            DispatcherTimerSetup();
         }
 
         private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();        
@@ -79,8 +83,8 @@ namespace POS_SellersApp.ViewModels
 
         }
 
-        private int orderNo;
-        public int OrderNo
+        private string orderNo;
+        public string OrderNo
         {
             get
             {
@@ -102,5 +106,49 @@ namespace POS_SellersApp.ViewModels
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         } 
+
+
+        private string _currentTime, _currentDate;
+                      
+            private void DispatcherTimerSetup()
+            {
+                DispatcherTimer dispatcherTimer = new DispatcherTimer();
+                dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+                dispatcherTimer.Tick += new EventHandler(CurrentTimeText);
+                dispatcherTimer.Start();
+            }
+
+            private void CurrentDateText()
+            {
+                CurrentDate = DateTime.Now.ToString("g");
+            }
+
+            private void CurrentTimeText(object sender, EventArgs e)
+            {
+                CurrentTime = DateTime.Now.ToString("HH:mm");
+            }
+
+            public string CurrentTime
+            {
+                get { return _currentTime; }
+                set
+                {
+                    if (_currentTime != null)
+                        _currentTime = value;
+
+                    RaisePropertyChanged2("CurrentTime");
+                }
+            }
+
+            public string CurrentDate
+            {
+                get { return _currentDate; }
+                set
+                {
+                    if (_currentDate != value)
+                        _currentDate = value;
+                    RaisePropertyChanged2("CurrentDate");
+                }
+            }
     }
     }
