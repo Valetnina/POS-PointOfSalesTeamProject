@@ -8,41 +8,40 @@ using System.Threading.Tasks;
 using POS_PointOfSales.ViewModels;
 using System.Windows;
 using POS_DataLibrary;
+using System.Runtime.Remoting.Contexts;
 
 namespace POS_SellersApp
 {
    public class SellersStartupViewModel: ViewModel
     {
-        private User user;
+
+
+        private User userLoggedIn;
 
         public User User
         {
-            get { return user; }
+            get { return userLoggedIn; }
             set
             {
-                user = value;
-                if (loginView.User != null)
-                {
-                    MessageBox.Show("Hello");
-                    SetProperty(ref user, value);
-                    OnSwitchViews("catalog");
-                }
+                userLoggedIn = value;
+                SetProperty(ref userLoggedIn, value);
             }
         }
 
-       private LoginViewModel loginView = new LoginViewModel();
+        private LoginViewModel loginView = new LoginViewModel();
        
        private SellersMainWindowViewModel sellersMainView = new SellersMainWindowViewModel();
        public SellersStartupViewModel()
        {
-           SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
-           CurrentView = loginView;
-          // User = loginView.User;
-          // if (User != null)
-           //{
-           //    OnSwitchViews("catalog");
-           //}
-       }
+            SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
+            Messenger.Default.Register<User>(this, (user) =>
+            {
+                User = user;
+                OnSwitchViews("catalog");
+               
+            });
+            currentView = loginView;
+        }
 
        private ViewModel currentView;
 
@@ -54,17 +53,18 @@ namespace POS_SellersApp
 
        public ActionCommand SwitchViews { get; private set; }
 
-       private void OnSwitchViews(string destination)
+        
+
+        private void OnSwitchViews(string destination)
        {
-           MessageBox.Show("Hello");
-           if (!loginView.IsAuthenticated)
+           if (User == null)
            {
                return;
            }
            switch (destination)
            {
                case "catalog":
-                   if (loginView.User.IsManager)
+                   if (User.IsManager)
                    {
                        MessageBox.Show("You don't have acces from this location") ;
                        return;

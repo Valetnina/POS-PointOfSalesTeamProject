@@ -11,15 +11,19 @@ namespace POS_SellersApp.ViewModels
 {
   public  class ProductsCatalogViewModel:ViewModel
     {
+        private Database db;
         public ObservableCollection<Product> catalogCollection { get; set; }
+        public ObservableCollection<ProductCategory> categoriesCollection { get; set; }
+
         public ActionCommand PopulateWithProducts { get; private set; }
 
         public ProductsCatalogViewModel()
         {
-            catalogCollection = new ObservableCollection<Product>();
-            catalogCollection.Add(new Product { Name = "beer"});
-            catalogCollection.Add(new Product { Name = "IceCream" });
+            db = new Database();
+            catalogCollection = db.getAllProducts();
+            categoriesCollection = db.getCategories();
             PopulateWithProducts = new ActionCommand(OnPopulateWithProducts);
+          //  db.saveProduct(new Product());
 
         }
 

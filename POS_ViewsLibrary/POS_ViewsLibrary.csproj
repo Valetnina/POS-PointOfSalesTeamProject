@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionComand.cs" />
+    <Compile Include="ImageConverter.cs" />
+    <Compile Include="Messenger.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PasswordBoxAssistant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
