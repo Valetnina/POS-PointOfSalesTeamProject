@@ -66,7 +66,11 @@ namespace POS_SellersApp.ViewModels
         }
         private void OnAddToOrder(Product product)
         {
-         //   Messenger.Default.Send(product);
+            if(product != null)
+            {
+                MessengerPoduct.Default.Send(product);
+
+            }
         }
 
     }

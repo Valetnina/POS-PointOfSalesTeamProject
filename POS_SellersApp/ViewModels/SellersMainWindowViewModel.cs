@@ -6,18 +6,92 @@ using System;
 using System.Windows;
 using System.Windows.Threading;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Collections.Specialized;
 
 namespace POS_SellersApp.ViewModels
 {
+
     public class SellersMainWindowViewModel : ViewModel
     {
-        private ObservableCollection<Product> productsInOrder;
-
-        public ObservableCollection<Product> ProductsInOrder
+        enum Discount
         {
-            get { return productsInOrder; }
-            set { productsInOrder = value;
-            RaisePropertyChanged("ProductsInOrder");
+            5, 10, 15, 20, 25, 30, 50, 75, 100
+        }
+        private const double TAX = 0.15;
+        private ObservableCollection<Int32> discountButtons;
+        public ObservableCollection<Int32> DiscountButtons
+        {
+            get
+            {
+                return discountButtons;
+            }
+
+            set
+            {
+                discountButtons = value;
+                RaisePropertyChanged("DiscountButtons");
+            }
+        }
+        public SellersMainWindowViewModel()
+        {
+            //Register for messages from differnet viewModels
+            MessengerUser.Default.Register<User>(this, (user) =>
+            {
+                MessageBox.Show(user.UserName + " received by Order");
+                User = user;
+
+            });
+            MessengerPoduct.Default.Register<Product>(this, (product) =>
+            {
+                //   MessageBox.Show(product.Name + " received by Order");
+                ReceiveMessage(product);
+            });
+            SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
+            User = user;
+            //Initialize comopents with some values
+            OrderItems = new ObservableCollection<OrderItems>();
+            DiscountButtons = new ObservableCollection<Int32>();
+            for (int i = 0; i <= 20; i = i+5)
+            {
+                DiscountButtons.Add(i);
+            }
+            DiscountButtons.Add(50);
+            DiscountButtons.Add(100);
+            //Register CollectionChangedEvent for the OrderItems
+            OrderItems.CollectionChanged += ContentCollectionChanged;
+
+            
+            SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
+            currentView = ProductsCatalogViewModel;
+            OrderNo = "1";
+            CurrentDateText();
+            DispatcherTimerSetup();
+            //Set the totals to zero
+          //  OrderSubTotal = 0;
+
+        }
+
+        public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RaisePropertyChanged("OrderSubTotal");
+            RaisePropertyChanged("OrderTax");
+            RaisePropertyChanged("BalanceDue");
+        }
+        private void OnSendLogoutMessage(string v)
+        {
+            MessengerLogout.Default.Send(v);
+        }
+
+        public ActionCommand SendLogoutMessage { get; private set; }
+
+        private ObservableCollection<OrderItems> orderItems;
+      
+        public ObservableCollection<OrderItems> OrderItems
+        {
+            get { return orderItems; }
+            set { orderItems = value;
+            RaisePropertyChanged("OrderItems");
             }
         }
         private User user;
@@ -42,48 +116,57 @@ namespace POS_SellersApp.ViewModels
             {
                 if (user != null)
                 {
+                   // Messenger.Default.Unregister(this);
                     return user.UserName;
                 }
                 return "NOT SET";
             }
         }
-        //private Product product;
-
-        //public Product Product
-        //{
-        //    get { return product; }
-        //    set { product = value; 
-        //    RaisePropertyChanged("Product")}
-        //}
-        public SellersMainWindowViewModel()
+        public decimal OrderSubTotal
         {
-            //Register for messages from differnet viewModels
-            Messenger.Default.Register<User>(this, (user) =>
+            get
             {
-                MessageBox.Show(user.UserName + " received by Order");
-                User = user;
-                
-            });
-            //Messenger.Default.Register<Product>(this, (product) =>
-            //{
-            // //   MessageBox.Show(product.Name + " received by Order");
-            //    ReceiveMessage(product);
-            //});
-            ProductsInOrder = new ObservableCollection<Product>();
+                decimal value = orderItems.Sum(od => od.Total);
+                if (value == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    return value;
+                }
 
+            }
+        } 
+        public decimal OrderTax
+        {
+            get
+            {
 
-            SwitchViews = new ActionCommand(p=> OnSwitchViews("catalog"));
-            currentView = ProductsCatalogViewModel;
-            OrderNo = "1";
-            CurrentDateText();
-            DispatcherTimerSetup();
+                return OrderSubTotal * (decimal)TAX ;
+            }
+
         }
+        public decimal BalanceDue
+        {
+            get
+            {
 
+                return (OrderSubTotal + OrderTax) ;
+            }
+
+        }
         private void ReceiveMessage(Product product)
         {
-            MessageBox.Show(product.Name + " received by Order");
-            ProductsInOrder.Add(product);
-            MessageBox.Show("ProductsIn order" + ProductsInOrder.Count);
+            OrderItems.Add(new POS_DataLibrary.OrderItems
+            {
+                UPCCode = product.UPCCode,
+                CategoryName = product.CategoryName,
+                Quantity = 1,
+                Price = product.Price,
+                Name = product.Name
+            });
+          
         }
 
        
@@ -178,5 +261,7 @@ namespace POS_SellersApp.ViewModels
                     RaisePropertyChanged("CurrentDate");
                 }
             }
+
+      
     }
     }

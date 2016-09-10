@@ -48,8 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionComand.cs" />
+    <Compile Include="DecimalStringConverter.cs" />
     <Compile Include="ImageConverter.cs" />
-    <Compile Include="Messenger.cs" />
+    <Compile Include="MessengerLogout.cs" />
+    <Compile Include="MessengerUser.cs" />
+    <Compile Include="MessengerProduct.cs" />
+    <Compile Include="Messenger\MessageBase.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PasswordBoxAssistant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +80,7 @@
   <ItemGroup>
     <Resource Include="Resources\Logo_Big.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

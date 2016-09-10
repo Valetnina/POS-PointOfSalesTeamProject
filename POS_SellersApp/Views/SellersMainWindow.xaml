@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:POS_SellersApp"
            xmlns:views = "clr-namespace:POS_SellersApp.Views" 
            xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
+              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
         mc:Ignorable="d"
 
         Width="900" Background="#0085bd">
@@ -172,33 +173,60 @@
                 <Label Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
             <Grid Background="#ffffff" Height="249">
-                <ListView ItemsSource="{Binding ProductsInOrder, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
+               
+                <ListView ItemsSource="{Binding OrderItems, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                     <ListView.View>
                         <GridView >
                             <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="Qty" Width="80" DisplayMemberBinding="{Binding Qty}" />
-                            <GridViewColumn Header="Each" Width="90" DisplayMemberBinding="{Binding Each}" />
+                            <GridViewColumn Header="Qty" Width="80" DisplayMemberBinding="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <GridViewColumn Header="Each" Width="90" DisplayMemberBinding="{Binding Price}" />
                             <GridViewColumn Header="Total" Width="100" DisplayMemberBinding="{Binding Total}" />
                         </GridView>
                     </ListView.View>
+                    <ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.HeaderTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding CategoryName}"/>
+                                </DataTemplate>
+                            </GroupStyle.HeaderTemplate>
+                        </GroupStyle>
+                    </ListView.GroupStyle>
                 </ListView>
             </Grid>
             <Grid Height="151">
+                <Grid.Resources>
+                    <med:DecimalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
+                </Grid.Resources>
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
                 <Label Height="23" Content="Discounts  :" Style="{StaticResource BlackLabel}" Margin="0,29,338,99" />
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
                 <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
-                <Label Height="23" Content="varSubTotal" Style="{StaticResource BlackLabel}" Margin="87,0,251,128" />
+                <Label Height="23" Content="{Binding OrderSubTotal, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" FontSize="12"  Margin="87,0,251,128" />
                 <Label Height="23" Content="varDiscount" Style="{StaticResource BlackLabel}" Margin="87,28,251,100" />
-                <Label Height="23" Content="varTax  :" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
-                <Label Height="23" Content="varBalDue" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
+                <Label Height="23" Content="{Binding OrderTax}" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
+                <Label Height="23" Content="{Binding BalanceDue}" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
                 <Button Content="Remove Item" Style="{StaticResource SmallButton}" Margin="22,101,303,20" />
                 <Button Content="Cancel Order" Style="{StaticResource SmallButton}" Margin="165,101,160,20" />
                 <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
             </Grid>
             <Grid Background="#edeaea" Height="79">
-                <Label Content="$" Panel.ZIndex="1000" FontSize="42" Margin="364,5,20,20" Foreground="#f7f6f6" />
-                <Button Style="{StaticResource RoundBlueButton}" Margin="345,7,10,7"/>
+                <ComboBox x:Name="cbDiscount" Width ="80" ItemsSource="{Binding DiscountButtons}">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                  <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label Content="{Binding DiscountButtons}" Panel.ZIndex="1000" FontSize="42" Foreground="#f7f6f6" Margin="0,0" />
+                                <Button  Style="{StaticResource RoundBlueButton}" Margin="0,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+               
                 <Label Content="%" Panel.ZIndex="1000" FontSize="30" Margin="197,14,187,11" Foreground="#047db1" />
                 <Button Style="{StaticResource RoundGrayButton}" Margin="182,7,173,7"/>
                 <Button Style="{StaticResource RoundGrayButton}" Margin="23,7,332,7"/>

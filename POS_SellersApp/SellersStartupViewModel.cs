@@ -32,26 +32,20 @@ namespace POS_SellersApp
        public SellersStartupViewModel()
        {
             SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
-            Messenger.Default.Register<User>(this, (user) =>
+            MessengerUser.Default.Register<User>(this, (user) =>
             {
                 User = user;
                 OnSwitchViews("catalog");
                
             });
-            Messenger.Default.Register<string>(this, (message)=>
+            MessengerLogout.Default.Register<string>(this, (message) =>
             {
-
                 OnSwitchViews(message);
 
             });
             currentView = loginView;
-            SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
+           
         }
-
-       private void OnSendLogoutMessage(string p)
-       {
-           Messenger.Default.Send("login");
-       }
 
        private ViewModel currentView;
 
@@ -67,8 +61,7 @@ namespace POS_SellersApp
        }
 
        public ActionCommand SwitchViews { get; private set; }
-       public ActionCommand SendLogoutMessage { get; private set; }
-
+  
         
 
         private void OnSwitchViews(string destination)
@@ -85,7 +78,17 @@ namespace POS_SellersApp
                        MessageBox.Show("You don't have acces from this location") ;
                        return;
                    }
-                   CurrentView = new SellersMainWindowViewModel();
+                    try
+                    {
+                        CurrentView = new SellersMainWindowViewModel();
+                        MessengerPoduct.Default.Unregister(this);
+
+                    }catch(Exception ex)
+                    {
+                        MessageBox.Show("Error. Could not navigate to next page");
+                        throw (ex);
+                    }
+
                    break;
                case "login":
                default:

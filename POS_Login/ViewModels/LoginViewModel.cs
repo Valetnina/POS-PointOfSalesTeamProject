@@ -83,7 +83,7 @@ namespace POS_PointOfSales.ViewModels
                     User = user;
                     UserName = null;
                     Password = null;
-                    Messenger.Default.Send(User);
+                    MessengerUser.Default.Send(User);
 
                 }
                 else
@@ -96,16 +96,7 @@ namespace POS_PointOfSales.ViewModels
 
             }
         }
-        public override void Cleanup()
-    {
-        // unregisters its own messages, so that we risk no leak
-        Messenger.Default.Unregister<User>(this);
-
-        // sends a message telling that this ViewModel is being cleaned
-        Messenger.Default.Send(new ViewModelDisposingMessage(this));
-
-        base.Cleanup();
-    }
+       
         
         
     }

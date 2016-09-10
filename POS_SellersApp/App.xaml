@@ -1,8 +1,9 @@
 ﻿<Application x:Class="POS_SellersApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:POS_SellersApp">
-    
+             xmlns:local="clr-namespace:POS_SellersApp"
+    StartupUri="Views/SellersMainWindow.xaml">
+
     <!--StartupUri="SellersStartupView.xaml">-->
     
     <!--Mesaj pentru Olga, daca vrei sa schimbi de unde incepe programul, atunci, du-te la App.xaml.cs, 

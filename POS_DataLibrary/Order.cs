@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace POS_DataLibrary
 {
-    class Order
+     public class Order
     {
+        
         public int OrderId { get; set; }
         public DateTime Date { get; set; }
         public string StoreNo { get; set; }
