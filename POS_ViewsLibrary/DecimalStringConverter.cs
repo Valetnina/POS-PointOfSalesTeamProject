@@ -26,9 +26,9 @@ namespace POS_ViewsLibrary
                 return value;
             else if (value is decimal && (decimal)value == EmptyStringValue)
                 return string.Empty;
-            else if (value is Int32 && (int)value == EmptyStringValue)
+            else if (value is Int32)
                 return value.ToString();
-            else if (value is Double && (double)value == EmptyStringValue)
+            else if (value is Double)
                 return ((double)value).ToString("#.##");
             else
         return ((decimal)value).ToString("#.##");

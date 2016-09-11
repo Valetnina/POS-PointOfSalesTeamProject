@@ -32,24 +32,27 @@ namespace POS_SellersApp.ViewModels
                 RaisePropertyChanged("DiscountButtons");
             }
         }
-        public SellersMainWindowViewModel()
+        public SellersMainWindowViewModel(User user)
         {
             db = new Database();
             //Register for messages from differnet viewModels
-            MessengerUser.Default.Register<User>(this, (user) =>
-            {
-                User = user;
+            //MessengerUser.Default.Register<User>(this, (user) =>
+            //{
+            //  
 
-            });
+            //});
+            User = user;
             MessengerPoduct.Default.Register<Product>(this, (product) =>
             {
                 ReceiveMessage(product);
             });
-            MessengerDone.Default.Register<String>(this, message => 
-                RecivedDoneMessage()
+            MessengerDone.Default.Register<String>(this, message =>
+               {
+                   MessageBox.Show("Hello");
+                   RecivedDoneMessage();
+               }
             );
             SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
-            User = user;
             //Initialize comopents with some values
             OrderItems = new ObservableCollection<OrderItems>();
             DiscountButtons = new ObservableCollection<Int32>();
@@ -68,7 +71,7 @@ namespace POS_SellersApp.ViewModels
             CancelOrder = new ActionCommand(p => OnCancelOrder());
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
             currentView = ProductsCatalogViewModel;
-            OrderNo = "1";
+            OrderNo = 1;
             CurrentDateText();
             DispatcherTimerSetup();
             //Set the totals to zero
@@ -77,14 +80,24 @@ namespace POS_SellersApp.ViewModels
 
         private void RecivedDoneMessage()
         {
-            //try
-            //{
-            //    db.saveOrderAndOrderItems(order, orderItems);
-            //}catch(Exception ex)
-            //{
-
-            //}
-            //currentView = ProductsCatalogViewModel;
+            
+            Order order = new Order {OrderId = OrderNo, Date = DateTime.Now, StoreNo="OV001", UserId="SEL01", OrderAmount = BalanceDue, Tax = OrderTax  };
+            
+            try
+            {
+                if (OrderItems.Count > 0)
+                {
+                    db.saveOrderAndOrderItems(order, OrderItems.ToList());
+                    CurrentView = ProductsCatalogViewModel;
+                    OrderItems.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inserting data to the database");
+                throw ex;
+            }
+           
         }
 
         public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -161,31 +174,31 @@ namespace POS_SellersApp.ViewModels
             }
         }
 
-        private User user;
+        private User userLoggedIn;
         public User User
         {
             get
             {
-                return user;
+                return userLoggedIn;
             }
 
             set
+
             {
-                // MessageBox.Show("User is set " + User.UserName);
-                user = value;
+                userLoggedIn = value;
                 RaisePropertyChanged("User");
-                RaisePropertyChanged("UserName");
+                RaisePropertyChanged("FirstName");
             }
         }
        
-        public string UserName
+        public string FirstName
         {
             get
             {
-                if (user != null)
+                if (User != null)
                 {
                     // Messenger.Default.Unregister(this);
-                    return user.UserName;
+                    return User.FirstName;
                 }
                 return "NOT SET";
             }
@@ -224,8 +237,8 @@ namespace POS_SellersApp.ViewModels
             }
 
         }
-        private string orderNo;
-        public string OrderNo
+        private int orderNo;
+        public int OrderNo
         {
             get
             {

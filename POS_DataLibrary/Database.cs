@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace POS_DataLibrary
 {
@@ -21,6 +22,7 @@ namespace POS_DataLibrary
             conn = new SqlConnection(CONN_STRING);
             conn.Open();
         }
+
 
         public ObservableCollection<Product> getAllProducts()
         {
@@ -99,19 +101,25 @@ namespace POS_DataLibrary
             {
                 if (reader.HasRows)
                 {
-                    
-                    return new User { UserName = userName, Password= password };
+                    while (reader.Read())
+                    {
+                        string userId = reader.GetString(reader.GetOrdinal("Id"));
+                        string firstName = reader.GetString(reader.GetOrdinal("FirstName"));
+                        string lastName = reader.GetString(reader.GetOrdinal("LastName"));
+
+                        return new User { UserName = userName, Password = password, Id = userId, FirstName = firstName, LastName = lastName };
+                    }
                 }
             }
             return null;
         }
-        public void saveOrderAndOrderItems(Order order, OrderItems orderItems)
+        public void saveOrderAndOrderItems(Order order, List<OrderItems> orderItems)
         {
-                SqlCommand command = conn.CreateCommand();
-                SqlTransaction transaction;
 
-                // Start a local transaction.
-                transaction = conn.BeginTransaction("SampleTransaction");
+            int modified;
+            SqlCommand command = conn.CreateCommand();
+            using (SqlTransaction transaction = conn.BeginTransaction())
+            {
 
                 // Must assign both transaction object and connection 
                 // to Command object for a pending local transaction
@@ -121,35 +129,54 @@ namespace POS_DataLibrary
                 try
                 {
                     command.CommandText =
-                        "Insert into Region (RegionID, RegionDescription) VALUES (100, 'Description')";
-                    command.ExecuteNonQuery();
-                    command.CommandText =
-                        "Insert into Region (RegionID, RegionDescription) VALUES (101, 'Description')";
-                    command.ExecuteNonQuery();
+                        "Insert into Orders (Date, StoreNo, UserId, OrderAmount, Tax)  OUTPUT Inserted.OrderId VALUES (@Date, @StoreNo, @UserId, @OrderAmount, @OrderTax)";
+                    command.Parameters.AddWithValue("@Date", order.Date);
+                    command.Parameters.AddWithValue("@StoreNo", order.StoreNo);
+                    command.Parameters.AddWithValue("@UserId", order.UserId);
+                    command.Parameters.AddWithValue("@OrderAmount", order.OrderAmount);
+                    command.Parameters.AddWithValue("@OrderTax", order.Tax);
+                    modified = (int)command.ExecuteScalar();
 
+
+
+                    foreach (var item in orderItems)
+                    {
+                        command.CommandText =
+                                "Insert into OrderItems(OrderId, UPCCode, Quantity, Discount, ProductCategoryId, ProductName, Price, Tax) VALUES (@OrderIdF, @UPCCode, @Quantity, @Discount, @ProductCategoryId, @ProductName, @Price, @Tax)";
+                        command.Parameters.AddWithValue("@OrderIdF", modified);
+                        command.Parameters.AddWithValue("@UPCCode", item.UPCCode);
+                        command.Parameters.AddWithValue("@Quantity", item.Quantity);
+                        command.Parameters.AddWithValue("@Discount", item.Discount);
+                        command.Parameters.AddWithValue("@ProductCategoryId", item.CategoryId);
+                        command.Parameters.AddWithValue("@ProductName", item.Name);
+                        command.Parameters.AddWithValue("@Price", item.Price);
+                        command.Parameters.AddWithValue("@Tax", item.Tax);
+                        command.ExecuteNonQuery();
+                        command.Parameters.Clear();
+                    }
                     // Attempt to commit the transaction.
-                    transaction.Commit();
-                    Console.WriteLine("Both records are written to database.");
+                    if (transaction.Connection != null) //Detecting zombie transaction
+                    {
+                        transaction.Commit();
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
-                    Console.WriteLine("  Message: {0}", ex.Message);
-
                     // Attempt to roll back the transaction. 
                     try
                     {
                         transaction.Rollback();
+                        throw ex;
                     }
                     catch (Exception ex2)
                     {
                         // This catch block will handle any errors that may have occurred 
                         // on the server that would cause the rollback to fail, such as 
                         // a closed connection.
-                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
-                        Console.WriteLine("  Message: {0}", ex2.Message);
+                        throw ex2;
                     }
                 }
+            }
         }
         public void saveProduct(Product product)
         {
