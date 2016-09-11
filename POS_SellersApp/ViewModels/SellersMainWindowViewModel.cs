@@ -68,7 +68,7 @@ namespace POS_SellersApp.ViewModels
             CancelOrder = new ActionCommand(p => OnCancelOrder());
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
             currentView = ProductsCatalogViewModel;
-            OrderNo = "1";
+            OrderNo = 1;
             CurrentDateText();
             DispatcherTimerSetup();
             //Set the totals to zero
@@ -77,14 +77,17 @@ namespace POS_SellersApp.ViewModels
 
         private void RecivedDoneMessage()
         {
+            Order order = new Order {OrderId =orderNo, Date = DateTime.Now, StoreNo="OV001", UserId=User, OrderAmount = BalanceDue, Tax = OrderTax  };
             //try
             //{
             //    db.saveOrderAndOrderItems(order, orderItems);
-            //}catch(Exception ex)
-            //{
-
             //}
-            //currentView = ProductsCatalogViewModel;
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Error inserting data to the database");
+            //    throw ex;
+            //}
+            currentView = ProductsCatalogViewModel;
         }
 
         public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -224,8 +227,8 @@ namespace POS_SellersApp.ViewModels
             }
 
         }
-        private string orderNo;
-        public string OrderNo
+        private int orderNo;
+        public int OrderNo
         {
             get
             {
