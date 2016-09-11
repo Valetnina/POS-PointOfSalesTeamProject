@@ -164,8 +164,8 @@
                     <Button Content="{Binding Name}" Command="{Binding Path=DataContext.AddToOrder, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
                             <Button.Template>
                                 <ControlTemplate>
-                                    <StackPanel>
-                                    <Image Source="{Binding Path=Image, Converter={StaticResource imageConverter} }" />
+                                    <StackPanel Width="100" Height="200">
+                                    <Image Source="{Binding Picture, Converter={StaticResource imageConverter} }" Height="70" Width="70"/>
                                     <Label Content="{Binding Name}" FontFamily = "Constantia"></Label>
                                     </StackPanel>
                                 </ControlTemplate>

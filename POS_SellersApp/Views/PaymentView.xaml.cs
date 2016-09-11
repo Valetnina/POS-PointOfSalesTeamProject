@@ -21,10 +21,11 @@ namespace POS_SellersApp.Views
     /// </summary>
     public partial class PaymentView : UserControl
     {
+
         public PaymentView()
         {
             InitializeComponent();
-            DataContext = new PaimentViewModel();
+            DataContext = new PaimentViewModel(0);
         }
     }
 }

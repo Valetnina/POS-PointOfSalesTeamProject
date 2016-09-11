@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 
 namespace POS_ViewsLibrary
@@ -14,7 +15,7 @@ namespace POS_ViewsLibrary
     /// One-way converter from System.Drawing.Image to System.Windows.Media.ImageSource
     /// </summary>
     [ValueConversion(typeof(System.Decimal), typeof(System.String))]
-    public class DecimalStringConverter : IValueConverter
+    public class NumericalStringConverter : IValueConverter
     {
         public int EmptyStringValue { get; set; }
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -24,8 +25,12 @@ namespace POS_ViewsLibrary
             else if (value is string)
                 return value;
             else if (value is decimal && (decimal)value == EmptyStringValue)
-        return string.Empty;
-    else
+                return string.Empty;
+            else if (value is Int32 && (int)value == EmptyStringValue)
+                return value.ToString();
+            else if (value is Double && (double)value == EmptyStringValue)
+                return ((double)value).ToString("#.##");
+            else
         return ((decimal)value).ToString("#.##");
         }
 

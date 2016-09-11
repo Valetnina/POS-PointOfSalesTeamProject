@@ -105,6 +105,52 @@ namespace POS_DataLibrary
             }
             return null;
         }
+        public void saveOrderAndOrderItems(Order order, OrderItems orderItems)
+        {
+                SqlCommand command = conn.CreateCommand();
+                SqlTransaction transaction;
+
+                // Start a local transaction.
+                transaction = conn.BeginTransaction("SampleTransaction");
+
+                // Must assign both transaction object and connection 
+                // to Command object for a pending local transaction
+                command.Connection = conn;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText =
+                        "Insert into Region (RegionID, RegionDescription) VALUES (100, 'Description')";
+                    command.ExecuteNonQuery();
+                    command.CommandText =
+                        "Insert into Region (RegionID, RegionDescription) VALUES (101, 'Description')";
+                    command.ExecuteNonQuery();
+
+                    // Attempt to commit the transaction.
+                    transaction.Commit();
+                    Console.WriteLine("Both records are written to database.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    // Attempt to roll back the transaction. 
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+                        // This catch block will handle any errors that may have occurred 
+                        // on the server that would cause the rollback to fail, such as 
+                        // a closed connection.
+                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        Console.WriteLine("  Message: {0}", ex2.Message);
+                    }
+                }
+        }
         public void saveProduct(Product product)
         {
             byte[] rawData = File.ReadAllBytes(@"C:\Users\Valentina\Documents\POS-PointOfSalesTeamProject\Images\Drinks\DrPepper.jpg");

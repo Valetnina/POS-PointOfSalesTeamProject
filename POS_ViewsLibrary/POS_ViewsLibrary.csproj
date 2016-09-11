@@ -51,6 +51,7 @@
     <Compile Include="DecimalStringConverter.cs" />
     <Compile Include="ImageConverter.cs" />
     <Compile Include="MessengerLogout.cs" />
+    <Compile Include="MessengerDone.cs" />
     <Compile Include="MessengerUser.cs" />
     <Compile Include="MessengerProduct.cs" />
     <Compile Include="Messenger\MessageBase.cs" />
