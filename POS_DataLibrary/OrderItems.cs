@@ -9,8 +9,8 @@ namespace POS_DataLibrary
 {
    public class OrderItems : INotifyPropertyChanged
     {
-        private Order orderId;
-        public Order OrderId
+        private int  orderId;
+        public int OrderId
         {
             get
             {
@@ -121,6 +121,17 @@ namespace POS_DataLibrary
             set
             {
                 categoryName = value;
+                RaisePropertyChanged("CategoryName");
+            }
+        }
+        private int categoryId;
+
+        public int CategoryId
+        {
+            get { return categoryId; }
+            set
+            {
+                categoryId = value;
                 RaisePropertyChanged("CategoryName");
             }
         }

@@ -81,9 +81,10 @@ namespace POS_PointOfSales.ViewModels
                 if (user != null)
                 {
                     User = user;
+                    MessengerUser.Default.Send(User);
                     UserName = null;
                     Password = null;
-                    MessengerUser.Default.Send(User);
+                  
 
                 }
                 else

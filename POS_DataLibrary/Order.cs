@@ -12,7 +12,7 @@ namespace POS_DataLibrary
         public int OrderId { get; set; }
         public DateTime Date { get; set; }
         public string StoreNo { get; set; }
-        public User UserId { get; set; }
+        public string UserId { get; set; }
         public decimal OrderAmount { get; set; }
         public decimal Tax { get; set; }
     }

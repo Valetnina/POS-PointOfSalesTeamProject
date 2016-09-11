@@ -80,7 +80,7 @@ namespace POS_SellersApp
                    }
                     try
                     {
-                        CurrentView = new SellersMainWindowViewModel();
+                        CurrentView = new SellersMainWindowViewModel(User);
                         MessengerPoduct.Default.Unregister(this);
 
                     }catch(Exception ex)
