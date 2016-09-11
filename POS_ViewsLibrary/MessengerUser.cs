@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace POS_ViewsLibrary
 {
-  public class Messenger
+  public class MessengerUser
     {
 
         private static readonly object CreationLock = new object();
@@ -15,12 +15,12 @@ namespace POS_ViewsLibrary
 
         #region Default property
 
-        private static Messenger _instance;
+        private static MessengerUser _instance;
 
         /// <summary>
         /// Gets the single instance of the Messenger.
         /// </summary>
-        public static Messenger Default
+        public static MessengerUser Default
         {
             get
             {
@@ -30,7 +30,7 @@ namespace POS_ViewsLibrary
                     {
                         if (_instance == null)
                         {
-                            _instance = new Messenger();
+                            _instance = new MessengerUser();
                         }
                     }
                 }
@@ -44,7 +44,7 @@ namespace POS_ViewsLibrary
         /// <summary>
         /// Initializes a new instance of the Messenger class.
         /// </summary>
-        private Messenger()
+        private MessengerUser()
         {
         }
 

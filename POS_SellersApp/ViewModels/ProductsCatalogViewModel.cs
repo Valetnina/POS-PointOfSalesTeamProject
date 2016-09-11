@@ -6,37 +6,72 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using POS_DataLibrary;
+using System.Windows;
 
 namespace POS_SellersApp.ViewModels
 {
   public  class ProductsCatalogViewModel:ViewModel
     {
         private Database db;
-        public ObservableCollection<Product> catalogCollection { get; set; }
-        public ObservableCollection<ProductCategory> categoriesCollection { get; set; }
 
-        public ActionCommand PopulateWithProducts { get; private set; }
+
+        private ObservableCollection<Product> catalogCollection;
+
+        public ObservableCollection<Product> CatalogCollection
+        {
+            get { return catalogCollection; }
+            set { catalogCollection = value;
+            RaisePropertyChanged("CatalogCollection");
+            }
+        }
+
+
+        public ActionCommand SwitchViews { get; private set; }
+        public ActionCommand AddToOrder { get; private set; }
 
         public ProductsCatalogViewModel()
         {
             db = new Database();
-            catalogCollection = db.getAllProducts();
-            categoriesCollection = db.getCategories();
-            PopulateWithProducts = new ActionCommand(OnPopulateWithProducts);
+            CatalogCollection = db.GetProductsByCategory("Meals");
+            SwitchViews = new ActionCommand((param) =>
+            {
+                OnSwitchViews(param.ToString());
+            });
+            AddToOrder = new ActionCommand((param) =>
+            {
+                OnAddToOrder(param as Product);
+            });
+
           //  db.saveProduct(new Product());
 
         }
 
-        private void OnPopulateWithProducts(object obj)
+        private void OnSwitchViews(string destination)
         {
-            throw new NotImplementedException();
-        }
+            switch (destination)
+            {
+                case "Meals":
+                    CatalogCollection = db.GetProductsByCategory("Meals");
+                    break;
+                case "Drinks":
+                    CatalogCollection = db.GetProductsByCategory("Drinks");
+                    break;
+                case "Desserts":
+                
+                default:
+                    CatalogCollection = db.GetProductsByCategory("Desserts");
+                    break;
+            }
 
-        private void OnPopulateWithProducts()
+        }
+        private void OnAddToOrder(Product product)
         {
-            throw new NotImplementedException();
-        }
+            if(product != null)
+            {
+                MessengerPoduct.Default.Send(product);
 
+            }
+        }
 
     }
 }

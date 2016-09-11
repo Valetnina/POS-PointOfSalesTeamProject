@@ -59,11 +59,38 @@ namespace POS_DataLibrary
 
             return categoriesCollection;
         }
+        public ObservableCollection<Product> GetProductsByCategory(String category)
+        {
+            ObservableCollection<Product> productsList = new ObservableCollection<Product>();
+            SqlCommand cmd = new SqlCommand("SELECT * FROM Product, ProductsCategory Where ProductCategoryId = Id and categoryName = @categoryName", conn);
+            cmd.Parameters.AddWithValue("@categoryName", category);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        string uPCCode = reader.GetString(reader.GetOrdinal("UPCCode"));
+                        string name = reader.GetString(reader.GetOrdinal("Name"));
+                        decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
+                        string productCategory = reader.GetString(reader.GetOrdinal("CategoryName"));
+                        byte[] imgBytes = (byte[])reader.GetSqlBinary(reader.GetOrdinal("Picture"));
+                        TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
+                        Bitmap picture = (Bitmap)tc.ConvertFrom(imgBytes);
+
+
+
+                        productsList.Add(new Product { UPCCode = uPCCode, Name = name, Price = price, CategoryName = new ProductCategory { CategoryName = productCategory }, Picture = picture });
+                    }
+                }
+            }
+            return productsList;
+        }
 
         public User getUserByUserName(string userName, string password)
         {
             
-            SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[USER] WHERE UserName = @UserName and Password=@Password", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[USERS] WHERE UserName = @UserName and Password=@Password", conn);
             cmd.Parameters.AddWithValue("@UserName",userName);
             cmd.Parameters.AddWithValue("@Password", password);
 
@@ -77,6 +104,52 @@ namespace POS_DataLibrary
                 }
             }
             return null;
+        }
+        public void saveOrderAndOrderItems(Order order, OrderItems orderItems)
+        {
+                SqlCommand command = conn.CreateCommand();
+                SqlTransaction transaction;
+
+                // Start a local transaction.
+                transaction = conn.BeginTransaction("SampleTransaction");
+
+                // Must assign both transaction object and connection 
+                // to Command object for a pending local transaction
+                command.Connection = conn;
+                command.Transaction = transaction;
+
+                try
+                {
+                    command.CommandText =
+                        "Insert into Region (RegionID, RegionDescription) VALUES (100, 'Description')";
+                    command.ExecuteNonQuery();
+                    command.CommandText =
+                        "Insert into Region (RegionID, RegionDescription) VALUES (101, 'Description')";
+                    command.ExecuteNonQuery();
+
+                    // Attempt to commit the transaction.
+                    transaction.Commit();
+                    Console.WriteLine("Both records are written to database.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Commit Exception Type: {0}", ex.GetType());
+                    Console.WriteLine("  Message: {0}", ex.Message);
+
+                    // Attempt to roll back the transaction. 
+                    try
+                    {
+                        transaction.Rollback();
+                    }
+                    catch (Exception ex2)
+                    {
+                        // This catch block will handle any errors that may have occurred 
+                        // on the server that would cause the rollback to fail, such as 
+                        // a closed connection.
+                        Console.WriteLine("Rollback Exception Type: {0}", ex2.GetType());
+                        Console.WriteLine("  Message: {0}", ex2.Message);
+                    }
+                }
         }
         public void saveProduct(Product product)
         {

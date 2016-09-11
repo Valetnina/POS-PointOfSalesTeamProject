@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace POS_ViewsLibrary
 {
-    public abstract class ViewModel : ObservableObject, IDataErrorInfo
+    public abstract class ViewModel : ObservableObject, IDataErrorInfo, IDisposable
     {
         /// <summary>
         /// Gets the validation error for a property whose name matches the specified <see cref="columnName"/>.
@@ -58,5 +58,14 @@ namespace POS_ViewsLibrary
 
             return null;
         }
+
+        protected virtual void OnDispose() { }
+
+        void IDisposable.Dispose()
+        {
+            this.OnDispose();
+        }
+
+
     }
 }

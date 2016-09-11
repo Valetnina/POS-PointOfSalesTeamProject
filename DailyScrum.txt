@@ -35,9 +35,30 @@ Create Model for Products, Products Categories, Orders and OrderDetails and popu
 
 
 
-Day03 Olga
+--Day03 Olga
 1. Done: Design for Login View, dataBibdig for datetime label
 2. ToDo: Create design for SellersAppMainWindow.Xaml
 
 
+--Day04 Tina
+1.Done: Create table Products and ProductsCategories and populate with data. Started Logic for SellersAppMainWindow.
+Create Model for Products, Products Categories. 
+2. Din't do: Model for Orders and OrderDetails. It took a lot of time to find out how to pass objects between two viewmodels
+3.TODO: Finish logic for SellersApp. Prototype the ManagersApp
 
+
+
+--Day05 Olga
+1.Done: design for SellersAppMainWindow.Xaml.
+2.Din't do: Still some design things to finish.
+3.TODO: Arrange the design for Products Catalog View. Work at the functionality for the SellersMainApp
+
+
+
+--WeekEnd Scrum Tina
+1.TODO: Find Bug SellersApp and Finish implementing the products dialog and Orders
+
+
+
+--WeekEnd Scrum Olga
+1.TODo: Design Paiment View and Implementing it with logic. Research print receipts. Research Images

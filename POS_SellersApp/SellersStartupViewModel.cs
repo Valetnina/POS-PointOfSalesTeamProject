@@ -14,8 +14,6 @@ namespace POS_SellersApp
 {
    public class SellersStartupViewModel: ViewModel
     {
-
-
         private User userLoggedIn;
 
         public User User
@@ -24,23 +22,29 @@ namespace POS_SellersApp
             set
             {
                 userLoggedIn = value;
-                SetProperty(ref userLoggedIn, value);
+                RaisePropertyChanged("User");
             }
         }
 
         private LoginViewModel loginView = new LoginViewModel();
        
-       private SellersMainWindowViewModel sellersMainView = new SellersMainWindowViewModel();
+      
        public SellersStartupViewModel()
        {
             SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
-            Messenger.Default.Register<User>(this, (user) =>
+            MessengerUser.Default.Register<User>(this, (user) =>
             {
                 User = user;
                 OnSwitchViews("catalog");
                
             });
+            MessengerLogout.Default.Register<string>(this, (message) =>
+            {
+                OnSwitchViews(message);
+
+            });
             currentView = loginView;
+           
         }
 
        private ViewModel currentView;
@@ -48,11 +52,16 @@ namespace POS_SellersApp
        public ViewModel CurrentView
        {
            get { return currentView; }
-           set {SetProperty(ref currentView, value); }
+           set{
+               currentView = value;
+
+               RaisePropertyChanged("CurrentView");
+           }
+          
        }
 
        public ActionCommand SwitchViews { get; private set; }
-
+  
         
 
         private void OnSwitchViews(string destination)
@@ -69,7 +78,17 @@ namespace POS_SellersApp
                        MessageBox.Show("You don't have acces from this location") ;
                        return;
                    }
-                   CurrentView = sellersMainView;
+                    try
+                    {
+                        CurrentView = new SellersMainWindowViewModel();
+                        MessengerPoduct.Default.Unregister(this);
+
+                    }catch(Exception ex)
+                    {
+                        MessageBox.Show("Error. Could not navigate to next page");
+                        throw (ex);
+                    }
+
                    break;
                case "login":
                default:

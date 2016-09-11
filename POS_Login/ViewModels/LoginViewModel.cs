@@ -10,34 +10,24 @@ using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Remoting.Contexts;
+using System.ComponentModel;
+using System.Windows.Threading;
 
 namespace POS_PointOfSales.ViewModels
 {
    public class LoginViewModel:ViewModel
     {
-        public LoginViewModel(User user)
-        {
-            this.User = user;
-        }
+      
         private Database db;
 
-        private bool isAuthenticated;
-
-        public bool IsAuthenticated
-        {
-            get { return isAuthenticated; }
-            set { isAuthenticated = value;
-            SetProperty(ref isAuthenticated, value);
-            }
-        }
-      
+        
         private User user;
 
         public User User
         {
             get { return user; }
             set { user = value;
-            SetProperty(ref user, value);
+            RaisePropertyChanged("User");
             }
         }
 
@@ -60,7 +50,7 @@ namespace POS_PointOfSales.ViewModels
             set
             {
                 userName = value;
-            SetProperty(ref userName, value);
+                RaisePropertyChanged("UserName");
             }
         }
         private string password;
@@ -71,18 +61,7 @@ namespace POS_PointOfSales.ViewModels
         {
             get { return password; }
             set { password = value;
-            SetProperty(ref password, value);
-            }
-        }
-        private string firstName;
-
-        public string FirstName
-        {
-            get { return firstName; }
-            set
-            {
-                firstName = value;
-                SetProperty(ref firstName, value);
+            RaisePropertyChanged("Password");
             }
         }
 
@@ -101,11 +80,10 @@ namespace POS_PointOfSales.ViewModels
                 var user = db.getUserByUserName(userN, pass);
                 if (user != null)
                 {
-                    IsAuthenticated = true;
                     User = user;
                     UserName = null;
-                    FirstName = null;
-                    Messenger.Default.Send(User);
+                    Password = null;
+                    MessengerUser.Default.Send(User);
 
                 }
                 else
@@ -118,67 +96,8 @@ namespace POS_PointOfSales.ViewModels
 
             }
         }
-
-        /*
-        public class SleepTrackerViewModel : INotifyPropertyChanged
-        {
-            private string _currentTime, _currentDate;
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            public SleepTrackerViewModel()
-            {
-                CurrentDateText();
-                DispatcherTimerSetup();
-            }
-
-            private void DispatcherTimerSetup()
-            {
-                DispatcherTimer dispatcherTimer = new DispatcherTimer();
-                dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-                dispatcherTimer.Tick += new EventHandler(CurrentTimeText);
-                dispatcherTimer.Start();
-            }
-
-            private void CurrentDateText()
-            {
-                CurrentDate = DateTime.Now.ToString("g");
-            }
-
-            private void CurrentTimeText(object sender, EventArgs e)
-            {
-                CurrentTime = DateTime.Now.ToString("HH:mm");
-            }
-
-            public string CurrentTime
-            {
-                get { return _currentTime; }
-                set
-                {
-                    if (_currentTime != null)
-                        _currentTime = value;
-
-                    OnPropertyChanged("CurrentTime");
-                }
-            }
-
-            public string CurrentDate
-            {
-                get { return _currentDate; }
-                set
-                {
-                    if (_currentDate != value)
-                        _currentDate = value;
-
-                    OnPropertyChanged("CurrentDate");
-                }
-            }
-
-            protected virtual void OnPropertyChanged(string propertyName)
-            {
-                PropertyChangedEventHandler handler = PropertyChanged;
-                if (handler != null)
-                    handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }*/
+       
+        
+        
     }
 }

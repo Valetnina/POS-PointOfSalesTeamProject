@@ -6,10 +6,18 @@
         xmlns:local="clr-namespace:POS_SellersApp"
            xmlns:views = "clr-namespace:POS_SellersApp.Views" 
            xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
+              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
         mc:Ignorable="d"
 
         Width="900" Background="#0085bd">
     <UserControl.Resources>
+        <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
+            <views:PaymentView/>
+        </DataTemplate>
+
+        <DataTemplate DataType = "{x:Type viewModels:ProductsCatalogViewModel}">
+            <views:ProductsCatalogView/>
+        </DataTemplate>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="FontSize" Value="20"/>
@@ -21,26 +29,20 @@
             <Setter Property="TextAlignment" Value="Right"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
         </Style>
-        <Style x:Key="BlueLabel" TargetType="{x:Type Control}">
+        <Style x:Key="BlueLabel" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>   
         </Style>
-        <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
-        <Style x:Key="BlackLabel" TargetType="{x:Type Control}">
+        <Style x:Key="BlackLabel" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        <Style BasedOn="{StaticResource BlackLabel}" TargetType="Label"/>
-        <Style x:Key="BigButton" TargetType="{x:Type Control}">
-            <Setter Property="FontSize" Value="22"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Foreground" Value="#0472a1"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Margin" Value="0,20,25,0"/>
+        <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
+        <Style x:Key="BigButton" TargetType="{x:Type Button}">            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -54,10 +56,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource BigButton}" TargetType="Button"/>
-        
-        <Style x:Key="SmallButton" TargetType="{x:Type Control}">
+        <Style x:Key="SmallButton" TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="Width" Value="95"/>
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="Height" Value="30"/>
@@ -74,11 +75,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource SmallButton}" TargetType="Button"/>
-
-        <Style x:Key="MedButton" TargetType="{x:Type Control}">
+        <Style x:Key="MedButton" TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="Width" Value="95"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Template">
@@ -94,9 +94,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource SmallButton}" TargetType="Button"/>
 
-        <Style x:Key="RoundBlueButton" TargetType="{x:Type Control}">
+        <Style x:Key="RoundBlueButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="65"/>
             <Setter Property="Height" Value="65"/>
             <Setter Property="Effect">
@@ -149,71 +148,113 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
+        <CollectionViewSource x:Key="ProductsGroup"                               
+                      Source="{Binding Path=OrderItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="CategoryName" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
     </UserControl.Resources>
     
     <DockPanel Height="600" Background="#0472a1">
         <StatusBar DockPanel.Dock="Bottom" Background="#0472a1" Height="40" Width="892" HorizontalAlignment="Stretch" MaxWidth="1200">
             <StatusBarItem HorizontalAlignment="Right" Width="79">
-                <TextBlock Text="varTime" Height="20" FontSize="14" Width="46" TextAlignment="Center"/>
+                <Label Content="{Binding CurrentTime}" Height="30" FontSize="14" Width="69" Foreground="#f7f6f6"/>
             </StatusBarItem>
         </StatusBar>
-
-
         <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" Orientation="Horizontal">
             <Image Height="51" Width="70" Source="/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-
-            <Label Content="{Binding UserName}" ContentStringFormat="Welcome, {}{0}" Width="636" HorizontalContentAlignment="Right" Foreground="#f7f6f6" FontSize="20"/>
-            <Button Content="Sign Out" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
-
+            <TextBlock  Width="636" Foreground="#f7f6f6" FontSize="20">
+                <Run Text="Welcome,  "/>
+                <Run Text="{Binding Path = UserName, Mode = OneWay, UpdateSourceTrigger=PropertyChanged}" />
+            </TextBlock>
+            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">
-            <Label Content="varUser"  Style="{StaticResource BlueLabel}" Width="146"/>
-            <Label Content="Order# varNo" Style="{StaticResource BlueLabel}" Width="176"/>
-            <Label Content="varTime" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
+            <Label Content="{Binding UserName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
+            <Label Content="{Binding OrderNo}" Style="{StaticResource BlueLabel}"  Width="176"/>
+                <Label Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
             <Grid Background="#ffffff" Height="249">
-                <ListView>
+                <ListView DataContext="{StaticResource ProductsGroup}" ItemsSource="{Binding IsAsync=True}" SelectedItem ="{Binding SelectedOrderItem, UpdateSourceTrigger=PropertyChanged}" >
                     <ListView.View>
                         <GridView >
-                            <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}"/>
-                            <GridViewColumn Header="Qty" Width="80" DisplayMemberBinding="{Binding Qty}" />
-                            <GridViewColumn Header="Each" Width="90" DisplayMemberBinding="{Binding Each}" />
-                            <GridViewColumn Header="Total" Width="100" DisplayMemberBinding="{Binding Total}" />
+                            <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn Header="Qty" Width="80" DisplayMemberBinding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" />
+                            <GridViewColumn Header="Each" Width="90" DisplayMemberBinding="{Binding Price, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" />
+                            <GridViewColumn Header="Total" Width="100" DisplayMemberBinding="{Binding Total, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" />
                         </GridView>
                     </ListView.View>
+                    <ListView.Resources>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        </Style>
+                    </ListView.Resources>
+                    <!--<ListView.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Margin" Value="0,0,0,5"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander IsExpanded="True" BorderBrush="#FFA4B97F" BorderThickness="0,0,0,1">
+                                                    <Expander.Header>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                                            <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
+                                                            <TextBlock Text=" item(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
+                                                        </StackPanel>
+                                                    </Expander.Header>
+                                                        <ItemsPresenter />
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </ListView.GroupStyle>-->
                 </ListView>
             </Grid>
             <Grid Height="151">
-                <Label Height="23" Content="Sub total  :" Margin="0,1,338,127" />
-                <Label Height="23" Content="Discounts  :" Margin="0,29,338,99" />
-                <Label Height="23" Content="Tax  :" Margin="0,57,338,71" />
-                <Label Height="23" Content="Balance Due  :" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
-                <Label Height="23" Content="varSubTotal" Margin="87,0,251,128" />
-                <Label Height="23" Content="varDiscount" Margin="87,28,251,100" />
-                <Label Height="23" Content="varTax  :" Margin="87,57,251,71" />
-                <Label Height="23" Content="varBalDue" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
-                <Button Content="Remove Item" Style="{StaticResource SmallButton}" Margin="22,101,303,20" />
-                <Button Content="Cancel Order" Style="{StaticResource SmallButton}" Margin="165,101,160,20" />
+                <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
+                <Label Height="23" Content="Discounts  :" Style="{StaticResource BlackLabel}" Margin="0,29,338,99" />
+                <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
+                <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
+                <Label Height="23" Content="{Binding OrderSubTotal, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" FontSize="12"  Margin="87,0,251,128" />
+                <Label Height="23" Content="{Binding Discount, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,28,251,100" />
+                <Label Height="23" Content="{Binding OrderTax, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
+                <Label Height="23" Content="{Binding BalanceDue, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
+                <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource SmallButton}" Margin="22,101,303,20" />
+                <Button Content="Cancel Order"  Command="{Binding CancelOrder}"  Style="{StaticResource SmallButton}" Margin="165,101,160,20" />
                 <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
             </Grid>
             <Grid Background="#edeaea" Height="79">
-                <Label Content="$" Panel.ZIndex="1000" FontSize="42" Margin="364,5,20,20" Foreground="#f7f6f6" />
-                <Button Style="{StaticResource RoundBlueButton}" Margin="345,7,10,7"/>
-                <Label Content="%" Panel.ZIndex="1000" FontSize="30" Margin="197,14,187,11" Foreground="#047db1" />
-                <Button Style="{StaticResource RoundGrayButton}" Margin="182,7,173,7"/>
+                <ComboBox x:Name="cbDiscount" Width ="80" ItemsSource="{Binding DiscountButtons}" SelectedItem="{Binding Path=SelectedDiscount, Mode=TwoWay}">
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+                  <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label  Panel.ZIndex="1000" FontSize="42" Foreground="#f7f6f6" Margin="0,0" />
+                                <Button  Style="{StaticResource RoundBlueButton}" Margin="0,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+               
+                <Label Content="Pay"  Panel.ZIndex="1000" FontSize="30" Margin="375,12,-10,13" Foreground="#047db1" />
+                <Button Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundGrayButton}" Margin="320,10,45,14"/>
                 <Button Style="{StaticResource RoundGrayButton}" Margin="23,7,332,7"/>
             </Grid>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Right" x:Name="spRightSide" Width="473" Background="#0085bd" Orientation="Vertical" Margin="0,0,0,5">
-            <Label Content="varCategory" FontSize="22" HorizontalAlignment="Center" Foreground="#f7f6f6"/>
-            <WrapPanel Height="380"></WrapPanel>
-            <Grid Height="93">
-                <Button Content="Meals" Style="{StaticResource MedButton}" Margin="23,35,355,28"/>
-                <Button Content="Drinks" Style="{StaticResource MedButton}" Margin="193,35,185,28"/>
-                <Button Content="Deserts" Style="{StaticResource MedButton}" Margin="353,35,25,28"/>
-            </Grid>
-        </StackPanel>
+            <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
         </StackPanel>
     </DockPanel>
