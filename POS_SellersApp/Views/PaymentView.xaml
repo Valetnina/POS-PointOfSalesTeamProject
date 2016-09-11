@@ -207,9 +207,9 @@
                 <Label Content="Balance Due" HorizontalAlignment="Left" Margin="48,19,0,0" VerticalAlignment="Top" Width="146" />
                 <Label Content="Amount Tendered" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="194,19,0,0" VerticalAlignment="Top" Width="130" />
                 <Label Content="varBalanceDue" HorizontalAlignment="Left" Margin="49,44,0,0" VerticalAlignment="Top" Width="146" Background="White"/>
-                <Label Content="varAmountTendered" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="195,44,0,0" VerticalAlignment="Top" Width="130" Background="White"/>
-                <Button Content="1" HorizontalAlignment="Left" Margin="51,119,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="2" HorizontalAlignment="Left" Margin="149,119,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
+                <Label Content="{Binding Amount}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="195,44,0,0" VerticalAlignment="Top" Width="130" Background="White"/>
+                <Button Content="1" Command="{Binding GetNumber}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" Margin="51,119,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
+                <Button Content="2" Command="{Binding GetNumber}" CommandParameter="2" HorizontalAlignment="Left" Margin="149,119,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
                 <Button Content="3" HorizontalAlignment="Left" Margin="247,119,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
                 <Button Content="4" HorizontalAlignment="Left" Margin="51,195,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
                 <Button Content="5" HorizontalAlignment="Left" Margin="149,196,0,0" VerticalAlignment="Top" Width="75" Height="57"/>

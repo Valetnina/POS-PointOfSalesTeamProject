@@ -15,13 +15,30 @@ namespace POS_SellersApp.ViewModels
         {
             this.BalanceDue = balanceDue;
             Done = new ActionCommand(p => OnDoneCommand());
+            AddAmount = new ActionCommand(p => OnAddAmount(p.ToString()));
         }
 
         public ActionCommand Done { get; private set; }
+
+        public ActionCommand AddAmount { get; private set; }
 
         private void OnDoneCommand()
         {
             MessengerDone.Default.Send("Done");
         }
+
+        private void OnAddAmount(string number)
+        {
+            Amount = number; 
+        }
+
+        private string amount;
+
+        public string Amount
+        {
+            get { return amount; }
+            set { amount = value; RaisePropertyChanged("Amount"); }
+        }
+
     }
 }
