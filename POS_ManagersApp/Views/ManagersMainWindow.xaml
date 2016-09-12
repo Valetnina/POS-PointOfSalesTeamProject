@@ -1,12 +1,30 @@
-﻿<Window x:Class="POS_ManagersApp.Views.ManagersMainWindow"
+﻿<UserControl x:Class="POS_ManagersApp.Views.ManagersMainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POS_ManagersApp.Views"
+         xmlns:views = "clr-namespace:POS_ManagersApp.Views" 
+           xmlns:viewModels = "clr-namespace:POS_ManagersApp.ViewModels" 
+              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
         mc:Ignorable="d"
-        Title="ManagersMainWindow" Height="300" Width="300">
+        Width="900" Background="#0085bd">
+    <UserControl.Resources>
+        <DataTemplate DataType = "{x:Type viewModels:DashboardViewModel}">
+            <views:DashboardView/>
+        </DataTemplate>
+
+        <DataTemplate DataType = "{x:Type viewModels:ManageProductsViewModel}">
+            <views:ManageProductsView/>
+        </DataTemplate>
+        <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
+
+    </UserControl.Resources>
+
     <Grid>
-        
+        <Button Command="{Binding SwitchViews}" CommandParameter="dashboard" Content="Dashboard" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding SwitchViews}" CommandParameter="manage" x:Name="button_Copy" Content="Manage Products" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,22,0,0"/>
+        <ContentControl  Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" Height="269" Width="825"/>
+
     </Grid>
-</Window>
+</UserControl>

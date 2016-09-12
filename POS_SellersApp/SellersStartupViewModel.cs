@@ -9,6 +9,7 @@ using POS_PointOfSales.ViewModels;
 using System.Windows;
 using POS_DataLibrary;
 using System.Runtime.Remoting.Contexts;
+using System.Windows.Threading;
 
 namespace POS_SellersApp
 {
@@ -31,10 +32,13 @@ namespace POS_SellersApp
       
        public SellersStartupViewModel()
        {
+            User = new User();
             SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
             MessengerUser.Default.Register<User>(this, (user) =>
             {
-                User = user;
+                User.FirstName = user.FirstName;
+                User.Id = user.Id;
+                User.LastName = user.LastName;
                 OnSwitchViews("catalog");
                
             });
@@ -44,10 +48,21 @@ namespace POS_SellersApp
 
             });
             currentView = loginView;
-           
+
+            _timer = new DispatcherTimer(DispatcherPriority.Render);
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += (sender, args) =>
+            {
+                CurrentTime = DateTime.Now.ToLongTimeString();
+            };
+            _timer.Start();
+
+                //CurrentDateText();
+                //DispatcherTimerSetup();
+
         }
 
-       private ViewModel currentView;
+        private ViewModel currentView;
 
        public ViewModel CurrentView
        {
@@ -78,16 +93,15 @@ namespace POS_SellersApp
                        MessageBox.Show("You don't have acces from this location") ;
                        return;
                    }
-                    try
-                    {
-                        CurrentView = new SellersMainWindowViewModel(User);
-                        MessengerPoduct.Default.Unregister(this);
+                    //try
+                    //{
+                        CurrentView = new SellersMainWindowViewModel();
 
-                    }catch(Exception ex)
-                    {
-                        MessageBox.Show("Error. Could not navigate to next page");
-                        throw (ex);
-                    }
+                    //}catch(Exception ex)
+                    //{
+                    //    MessageBox.Show("Error. Could not navigate to next page");
+                    //    throw (ex);
+                    //}
 
                    break;
                case "login":
@@ -97,5 +111,70 @@ namespace POS_SellersApp
            }
 
        }
+        #region CurrentTime
+
+        private string _currentTime;
+
+        public DispatcherTimer _timer;
+
+        public string CurrentTime
+        {
+            get
+            {
+                return this._currentTime;
+            }
+            set
+            {
+                if (_currentTime == value)
+                    return;
+                _currentTime = value;
+                RaisePropertyChanged("CurrentTime");
+            }
+        }
+
+
+        //private string _currentTime, _currentDate;
+
+        //private void DispatcherTimerSetup()
+        //{
+        //    DispatcherTimer dispatcherTimer = new DispatcherTimer();
+        //    dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+        //    dispatcherTimer.Tick += new EventHandler(CurrentTimeText);
+        //    dispatcherTimer.Start();
+        //}
+
+        //private void CurrentDateText()
+        //{
+        //    CurrentDate = DateTime.Now.ToString("g");
+        //}
+
+        //private void CurrentTimeText(object sender, EventArgs e)
+        //{
+        //    CurrentTime = DateTime.Now.ToString("HH:mm");
+        //}
+
+        //public string CurrentTime
+        //{
+        //    get { return _currentTime; }
+        //    set
+        //    {
+        //        if (_currentTime != null)
+        //            _currentTime = value;
+
+        //        RaisePropertyChanged("CurrentTime");
+        //    }
+        //}
+
+        //public string CurrentDate
+        //{
+        //    get { return _currentDate; }
+        //    set
+        //    {
+        //        if (_currentDate != value)
+        //            _currentDate = value;
+        //        RaisePropertyChanged("CurrentDate");
+        //    }
+        //}
+        #endregion
     }
 }

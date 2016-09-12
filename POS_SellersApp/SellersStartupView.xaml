@@ -9,7 +9,7 @@
          xmlns:viewsRef = "clr-namespace:POS_PointOfSales.Views;assembly=POS-PointOfSales" 
          xmlns:viewModelsRef = "clr-namespace:POS_PointOfSales.ViewModels;assembly=POS-PointOfSales" 
         mc:Ignorable="d"
-        Height="700" Width="900" WindowStyle="None">
+       Width="900" Height="745" WindowStyle="None" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <DataTemplate DataType = "{x:Type viewModelsRef:LoginViewModel}">
@@ -20,7 +20,12 @@
             <views:SellersMainWindow/>
         </DataTemplate>
     </Window.Resources>
-    <StackPanel>
-        <ContentControl Content = "{Binding CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-    </StackPanel>
+    <DockPanel>
+        <ContentControl DockPanel.Dock="Top" Content = "{Binding CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="30" HorizontalAlignment="Stretch" MaxWidth="1200">
+            <StatusBarItem HorizontalAlignment="Right" Margin="0,0,10,0">
+                <Label Content="{Binding CurrentTime}" />
+            </StatusBarItem>
+        </StatusBar>
+    </DockPanel>
 </Window>

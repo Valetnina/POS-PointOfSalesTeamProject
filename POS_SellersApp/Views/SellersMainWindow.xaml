@@ -9,7 +9,7 @@
               xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
         mc:Ignorable="d"
 
-        Width="900" Background="#0085bd">
+        Width="900" Height="700" Background="#0085bd">
     <UserControl.Resources>
         <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
             <views:PaymentView/>
@@ -33,7 +33,7 @@
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontFamily" Value="Constantia"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>   
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style x:Key="BlackLabel" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="Black"/>
@@ -42,72 +42,58 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
-
-        <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="90"/>
-            <Setter Property="Height" Value="25"/>
-            <Setter Property="Foreground" Value="#316379"/>
-            <Setter Property="FontFamily" Value="Constantia"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
-                </Setter.Value>
-            </Setter>
+        <Style x:Key="BigButton" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Rectangle Name="GrayEllipse" Opacity="1" RadiusX="20" RadiusY="20">
-                                <Rectangle.Fill>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                        <GradientStop Color="#dadada" Offset="0.6"/>
-                                    </LinearGradientBrush>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Fill" TargetName="GrayEllipse">
-                                    <Setter.Value>
-                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
-                                                         GradientOrigin="0.6, 0.3">
-                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                            <GradientStop Color="#d2d0d0" Offset="0.8"/>
-                                        </RadialGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="Fill" TargetName="GrayEllipse">
-                                    <Setter.Value>
-                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
-                                                         GradientOrigin="0.6, 0.3">
-                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                            <GradientStop Color="#0371a0" Offset="0.8"/>
-                                        </RadialGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
+                        <Border CornerRadius="30" 
+                                Background="#e9e9e9" 
+                                BorderBrush="#b9b6b6" 
+                                BorderThickness="0,1,1,0">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <Style x:Key="SmallButton" TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="Width" Value="95"/>
+            <Setter Property="Foreground" Value="#0472a1"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="20" 
+                                Background="#e9e9e9" 
+                                BorderBrush="#b9b6b6" 
+                                BorderThickness="0,1,1,0">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="MedButton" TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="95"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="Foreground" Value="#0472a1"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="20" 
+                                Background="#e9e9e9" 
+                                BorderBrush="#b9b6b6" 
+                                BorderThickness="0,1,1,0">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <Style x:Key="RoundBlueButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="65"/>
@@ -208,43 +194,38 @@
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
+
     <DockPanel Height="600" Background="#0472a1">
         <StatusBar DockPanel.Dock="Bottom" Background="#0472a1" Height="40" Width="892" HorizontalAlignment="Stretch" MaxWidth="1200">
             <StatusBarItem HorizontalAlignment="Right" Width="79">
-                <Label Content="{Binding CurrentTime, UpdateSourceTrigger=PropertyChanged}" Height="30" FontSize="14" Width="69" Foreground="#f7f6f6"/>
+                <Label Content="{Binding Path=CurrentTime, UpdateSourceTrigger=PropertyChanged}" Height="30" FontSize="14" Width="69" Foreground="#f7f6f6"/>
             </StatusBarItem>
         </StatusBar>
         <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" Orientation="Horizontal">
-            <Image Height="51" Width="70" Source="/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <Label Width="400"></Label>
+            <Image Height="51" Width="70" Source="pack://application:,,,/Resources/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
             <TextBlock  Width="636" Foreground="#f7f6f6" FontSize="20">
                 <Run Text="Welcome,  "/>
                 <Run Text="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
             </TextBlock>
-            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource RectGrayButton}" Width="140" Height="35" FontSize="20" Margin="15,5,5,5"/>
+            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">
-            <Label Content="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
+                <Label Content="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
                 <Label Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}"  Width="176"/>
                 <Label Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
             <Grid Background="#ffffff" Height="249">
-                <ListView DataContext="{StaticResource ProductsGroup}" ItemsSource="{Binding IsAsync=True}" SelectedItem ="{Binding SelectedOrderItem, UpdateSourceTrigger=PropertyChanged}" >
-                    <ListView.View>
-                        <GridView >
-                            <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Header="Qty" Width="80" DisplayMemberBinding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" />
-                            <GridViewColumn Header="Each" Width="90" DisplayMemberBinding="{Binding Price, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" />
-                            <GridViewColumn Header="Total" Width="100" DisplayMemberBinding="{Binding Total, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" />
-                        </GridView>
-                    </ListView.View>
-                    <ListView.Resources>
-                        <Style TargetType="{x:Type GridViewColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Left" />
-                        </Style>
-                    </ListView.Resources>
-                    <!--<ListView.GroupStyle>
+                <DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource ProductsGroup}}" SelectedItem="{Binding SelectedOrderItem}" IsReadOnly="True" SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="200" Header="Item" Binding="{Binding Name}" Foreground="Black" />
+                        <DataGridTextColumn Width ="60" Header="Qty" Binding="{Binding Quantity}" Foreground="Black" />
+                        <DataGridTextColumn  Width ="60" Header="Each" Binding="{Binding Price, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
+                        <DataGridTextColumn  Width ="60" Header="Total" Binding="{Binding Total, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
+
+                    </DataGrid.Columns>
+                    <DataGrid.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.ContainerStyle>
                                 <Style TargetType="{x:Type GroupItem}">
@@ -252,15 +233,15 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <Expander IsExpanded="True" BorderBrush="#FFA4B97F" BorderThickness="0,0,0,1">
+                                                <Expander IsExpanded="True" BorderBrush="#FF002255" BorderThickness="1,1,1,5">
                                                     <Expander.Header>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
-                                                            <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
-                                                            <TextBlock Text=" item(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
-                                                        </StackPanel>
+                                                        <DockPanel>
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                        </DockPanel>
                                                     </Expander.Header>
+                                                    <Expander.Content>
                                                         <ItemsPresenter />
+                                                    </Expander.Content>
                                                 </Expander>
                                             </ControlTemplate>
                                         </Setter.Value>
@@ -268,8 +249,8 @@
                                 </Style>
                             </GroupStyle.ContainerStyle>
                         </GroupStyle>
-                    </ListView.GroupStyle>-->
-                </ListView>
+                    </DataGrid.GroupStyle>
+                </DataGrid>
             </Grid>
             <Grid Height="151">
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
@@ -277,38 +258,38 @@
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
                 <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
                 <Label Height="23" Content="{Binding OrderSubTotal, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" FontSize="12"  Margin="87,0,251,128" />
-                <Label Height="23" Content="{Binding Discount, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,28,251,100" />
+                <Label Content="{Binding Discount, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource customDecimalToStringConverter}}" Margin="87,28,251,99" />
                 <Label Height="23" Content="{Binding OrderTax, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
                 <Label Height="23" Content="{Binding BalanceDue, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
-                <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource RectGrayButton}" Margin="22,101,303,20" />
+                <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource SmallButton}" Margin="22,101,303,20" />
                 <Button Content="Cancel Order"  Command="{Binding CancelOrder}"  Style="{StaticResource SmallButton}" Margin="165,101,160,20" />
                 <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
             </Grid>
-            <Grid Background="#edeaea" Height="95" Margin="0,0,-15,0">
+            <Grid Background="#edeaea" Height="79">
                 <ComboBox x:Name="cbDiscount" Width ="80" ItemsSource="{Binding DiscountButtons}" SelectedItem="{Binding Path=SelectedDiscount, Mode=TwoWay}">
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
-                  <ComboBox.ItemTemplate>
+                    <!--<ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Label  Panel.ZIndex="1000" FontSize="42" Foreground="#f7f6f6" Margin="0,0" />
                                 <Button  Style="{StaticResource RoundBlueButton}" Margin="0,0"/>
                             </Grid>
                         </DataTemplate>
-                    </ComboBox.ItemTemplate>
+                    </ComboBox.ItemTemplate>-->
                 </ComboBox>
-                <Button Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundBlueButton}" Content="Pay" Margin="320,10,45,14"/>
-                <Button Style="{StaticResource RoundGrayButton}" Margin="24,10,341,14" Content="Print" Foreground="Black" FontSize="8">
+
+                <Label Content="Pay"  Panel.ZIndex="1000" FontSize="30" Margin="375,12,-10,13" Foreground="#047db1" />
+                <Button Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundGrayButton}" Margin="320,10,45,14"/>
+                <Button Command="{Binding PrintReceipt}" Style="{StaticResource RoundGrayButton}" Margin="24,10,341,14" Content="Print" Foreground="Black" FontSize="8">
                 </Button>
             </Grid>
         </StackPanel>
-            <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
         </StackPanel>
     </DockPanel>
-
 </UserControl>
-

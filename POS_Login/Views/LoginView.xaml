@@ -98,11 +98,6 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="30" HorizontalAlignment="Stretch" MaxWidth="1200">
-            <StatusBarItem HorizontalAlignment="Right" Margin="0,0,10,0">
-                <Label Content="{Binding CurrentTime}" />
-            </StatusBarItem>
-        </StatusBar>
         <StackPanel Width="700" Height="600" HorizontalAlignment="Center" Orientation="Vertical">
             <Image Height="300" Source="Logo_Big.png"/>
             <StackPanel Orientation="Horizontal" Height="205" Margin="100,30,0,0" Width="475" VerticalAlignment="Top" HorizontalAlignment="Left">

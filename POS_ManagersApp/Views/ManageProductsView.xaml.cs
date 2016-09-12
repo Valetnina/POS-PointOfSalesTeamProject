@@ -1,4 +1,4 @@
-﻿using POS_SellersApp.ViewModels;
+﻿using POS_ManagersApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,17 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace POS_SellersApp.Views
+namespace POS_ManagersApp.Views
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for ManageProductsView.xaml
     /// </summary>
-    public partial class SellersMainWindow : UserControl
+    public partial class ManageProductsView : UserControl
     {
-        public SellersMainWindow()
+        public ManageProductsView()
         {
-            DataContext = new SellersMainWindowViewModel();
             InitializeComponent();
+            DataContext = new ManageProductsViewModel();
         }
     }
 }
