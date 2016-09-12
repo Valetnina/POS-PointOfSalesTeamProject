@@ -201,16 +201,16 @@
                 <Label Content="{Binding Path=CurrentTime, UpdateSourceTrigger=PropertyChanged}" Height="30" FontSize="14" Width="69" Foreground="#f7f6f6"/>
             </StatusBarItem>
         </StatusBar>
-        <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" Orientation="Horizontal">
-            <Label Width="400"></Label>
-            <Image Height="51" Width="70" Source="pack://application:,,,/Resources/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-            <TextBlock  Width="636" Foreground="#f7f6f6" FontSize="20">
-                <Run Text="Welcome,  "/>
-                <Run Text="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
-            </TextBlock>
-            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
+        <Grid DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Image Height="51" Width="70" Source="pack://application:,,,/Resources/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,-1"/>
+            <TextBlock  Width="Auto" TextAlignment="Left" Foreground="#f7f6f6" FontSize="20" Margin="403,5,235,10" Grid.ColumnSpan="2"><Run Text="Welcome,  "/><Run Text=" "/><Run Text="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" /></TextBlock>
+            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="233,6,13,4" Grid.Column="1"/>
+        </Grid>
+        <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Height="650" Background="#f7f6f6" Margin="0,0,0,-140" >
             <StackPanel Orientation="Horizontal" Height="31">
                 <Label Content="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
                 <Label Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}"  Width="176"/>
@@ -252,7 +252,7 @@
                     </DataGrid.GroupStyle>
                 </DataGrid>
             </Grid>
-            <Grid Height="151">
+            <Grid Height="168">
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
                 <Label Height="23" Content="Discounts  :" Style="{StaticResource BlackLabel}" Margin="0,29,338,99" />
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
@@ -265,7 +265,7 @@
                 <Button Content="Cancel Order"  Command="{Binding CancelOrder}"  Style="{StaticResource SmallButton}" Margin="165,101,160,20" />
                 <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
             </Grid>
-            <Grid Background="#edeaea" Height="79">
+            <Grid Background="#edeaea" Height="118">
                 <ComboBox x:Name="cbDiscount" Width ="80" ItemsSource="{Binding DiscountButtons}" SelectedItem="{Binding Path=SelectedDiscount, Mode=TwoWay}">
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -288,8 +288,8 @@
                 </Button>
             </Grid>
         </StackPanel>
-        <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
+        <ContentControl DockPanel.Dock="Right" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="600" Height="650"/>
+        <StackPanel  x:Name="spMiddle" Width="20" Margin="0,0,0,5">
         </StackPanel>
     </DockPanel>
 </UserControl>
