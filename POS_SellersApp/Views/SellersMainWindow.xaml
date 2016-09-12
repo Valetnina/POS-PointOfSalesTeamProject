@@ -10,6 +10,8 @@
         mc:Ignorable="d"
 
         Width="900" Height="700" Background="#0085bd">
+    
+
     <UserControl.Resources>
         <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
             <views:PaymentView/>
@@ -195,15 +197,10 @@
         </CollectionViewSource>
     </UserControl.Resources>
 
-    <DockPanel Height="600" Background="#0472a1">
-        <StatusBar DockPanel.Dock="Bottom" Background="#0472a1" Height="40" Width="892" HorizontalAlignment="Stretch" MaxWidth="1200">
-            <StatusBarItem HorizontalAlignment="Right" Width="79">
-                <Label Content="{Binding Path=CurrentTime, UpdateSourceTrigger=PropertyChanged}" Height="30" FontSize="14" Width="69" Foreground="#f7f6f6"/>
-            </StatusBarItem>
-        </StatusBar>
-        <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" Orientation="Horizontal">
+    <DockPanel Height="700" Background="#0472a1">
+        <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0085bd" Orientation="Horizontal">
             <Label Width="400"></Label>
-            <Image Height="51" Width="70" Source="pack://application:,,,/Resources/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <Image Height="51" Width="70" Source="{Binding DisplayedImagePath}" HorizontalAlignment="Left" Margin="10,0,0,0"/>
             <TextBlock  Width="636" Foreground="#f7f6f6" FontSize="20">
                 <Run Text="Welcome,  "/>
                 <Run Text="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -289,7 +286,7 @@
             </Grid>
         </StackPanel>
         <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
-        </StackPanel>
+        <!--<StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
+        </StackPanel>-->
     </DockPanel>
 </UserControl>

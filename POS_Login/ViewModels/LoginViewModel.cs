@@ -98,8 +98,11 @@ namespace POS_PointOfSales.ViewModels
 
             }
         }
-       
-        
+
+        public string DisplayedImagePath 
+{
+    get { return "/POS-PointOfSales;component/Logo_Big.png"; }
+}
         
     }
 }

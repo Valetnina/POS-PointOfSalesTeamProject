@@ -4,23 +4,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace POS_SellersApp.ViewModels
 {
     public class PaimentViewModel : ViewModel
     {
-        public Decimal  BalanceDue;
-
-        public PaimentViewModel(decimal balanceDue)
+        private decimal balanceDue;
+        private bool IsCash;
+        public decimal BalanceDue
         {
-            this.BalanceDue = balanceDue;
-            Done = new ActionCommand(p => OnDoneCommand());
-            AddAmount = new ActionCommand(p => OnAddAmount(p.ToString()));
+            get
+            {
+                return balanceDue;
+            }
+            set
+            {
+                balanceDue = value;
+                RaisePropertyChanged("BalanceDue");
+            }
         }
+       
+        public PaimentViewModel(decimal balance)
+        {
+            this.BalanceDue = balance;
+            Done = new ActionCommand(p => OnDoneCommand());
+
+            //Handle command on buttons
+            AddAmount = new ActionCommand(p => OnAddAmount(p.ToString()), p=> IsCash);
+            PayCash = new ActionCommand(p => OnPayCash());
+            Amount = "0";
+        }
+
+        private void OnPayCash()
+        {
+            IsCash = true;
+        }
+
 
         public ActionCommand Done { get; private set; }
 
         public ActionCommand AddAmount { get; private set; }
+        public ActionCommand PayCash { get; private set; }
 
         private void OnDoneCommand()
         {
@@ -30,19 +55,55 @@ namespace POS_SellersApp.ViewModels
 
         private void OnAddAmount(string number)
         {
-
-            Amount = number;
-
+            
+            switch(number){
+                case "c":
+                    Amount = "0";
+                    break;
+                default:
+                    if (Amount == "0")
+                    {
+                        Amount = number;
+                    }
+                    else
+                    {
+                        Amount += number;
+                    }
+                    break;
+            }
         }
 
         private string amount;
-
         public string Amount
         {
-            get { return amount; }
-            set { amount = value; RaisePropertyChanged("Amount"); }
+            get
+            {
+               return amount;
+            }
+            set
+            {
+                amount = value;
+                RaisePropertyChanged("Amount");
+                RaisePropertyChanged("Change");
+            }
+        }
+      
+        public string Change
+        {
+            get
+            {
+                if (decimal.Parse(Amount) == 0)
+                {
+                    return BalanceDue.ToString();
+                }
+                else
+                {
+                    return (BalanceDue - decimal.Parse(Amount)) + "";
+                }
+
+            }
         }
 
-
+       
     }
 }

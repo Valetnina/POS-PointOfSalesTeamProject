@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:POS_PointOfSales.Views"
         xmlns:ff="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
          mc:Ignorable="d"
-        Height="700" Width="900" Background="#58b2d9">
+        Height="660" Width="900" Background="#58b2d9">
 
     <UserControl.Resources>
         <Style x:Key="BaseStyle" TargetType="{x:Type Control}">
@@ -99,20 +99,20 @@
 
     <DockPanel>
         <StackPanel Width="700" Height="600" HorizontalAlignment="Center" Orientation="Vertical">
-            <Image Height="300" Source="Logo_Big.png"/>
+            <Image Height="300" Source="{Binding DisplayedImagePath}"/>
             <StackPanel Orientation="Horizontal" Height="205" Margin="100,30,0,0" Width="475" VerticalAlignment="Top" HorizontalAlignment="Left">
 
                 <StackPanel.Resources>
                     <Thickness x:Key="Height" Top="25" />
                 </StackPanel.Resources>
-                <StackPanel  Orientation="Vertical" Margin="0,0,-40,5" Width="115">
-                    <Label   Content="Login :" />
-                    <Label  Content="Password :"/>
+                <StackPanel  Orientation="Vertical" Margin="0,0,-40,5" Width="110">
+                    <Label  Content="Login :" HorizontalContentAlignment="Right" />
+                    <Label  Content="Password :" HorizontalContentAlignment="Right" Margin="0,25"/>
                 </StackPanel>
-                <StackPanel  Orientation="Vertical" Width="373" HorizontalAlignment="Center" Margin="0,0,0,-27">
+                <StackPanel  Orientation="Vertical" Width="343" HorizontalAlignment="Center" Margin="0,0,0,-27">
                     <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource BoxStyle}" />
                     <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource Height}" Style="{StaticResource BoxStyle}"/>
-                    <Button xmlns:cmd="#unknown" Content="Log In" Command="{Binding Login}" Style="{StaticResource RectBlueButton}" Margin="86,0,87,0" RenderTransformOrigin="0.471,1.851"/>
+                    <Button xmlns:cmd="#unknown" Content="Log In" Command="{Binding Login}" Style="{StaticResource RectBlueButton}" Margin="68,15,57,0" RenderTransformOrigin="0.471,1.851" Width="Auto"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

@@ -1,4 +1,5 @@
-﻿using POS_ViewsLibrary;
+﻿using POS_DataLibrary;
+using POS_ViewsLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,15 +13,19 @@ namespace POS_ManagersApp.ViewModels
 
     class DashboardViewModel:ViewModel
     {
+        private Database db;
         public ObservableCollection<TestClass> Errors { get; private set; }
+        public ObservableCollection<Sales> TodaySales { get; private set; }
         public DashboardViewModel()
         {
+            db = new Database();
             Errors = new ObservableCollection<TestClass>();
             Errors.Add(new TestClass() { Category = "Globalization", Number = 75 });
             Errors.Add(new TestClass() { Category = "Features", Number = 2 });
             Errors.Add(new TestClass() { Category = "ContentTypes", Number = 12 });
             Errors.Add(new TestClass() { Category = "Correctness", Number = 83 });
             Errors.Add(new TestClass() { Category = "Best Practices", Number = 29 });
+            TodaySales = db.getTodaySales(DateTime.Now.GetDateTimeFormats('d')[0]);
         }
         private object selectedItem = null;
         public object SelectedItem

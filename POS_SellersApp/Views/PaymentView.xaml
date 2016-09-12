@@ -4,8 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:POS_SellersApp.Views"
+             xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
+             xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
+             xmlns:vml = "clr-namespace:POS_ViewsLibrary.VML;assembly=POS_ViewsLibrary"
+             vml:ViewModelLocator.AutoHookedUpViewModel = "True"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="900" Width="500">
+             d:DesignHeight="700" d:DesignWidth="900" Width="500" Height="650">
+   
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
@@ -333,37 +338,41 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
     </UserControl.Resources>
-        <DockPanel Background="#0472a1" Margin="1,26,1,1">
-        <StackPanel x:Name="spRightSide" Width="473" Background="#edeaea" Orientation="Horizontal">            
-            <Grid Margin="0,10">
-                <Label Content="Balance Due" HorizontalAlignment="Left" Margin="48,19,0,0" VerticalAlignment="Top" Width="146" />
-                <Label Content="Amount Tendered" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="194,19,0,0" VerticalAlignment="Top" Width="130" />
-                <Label Content="varBalanceDue" HorizontalAlignment="Left" Margin="49,44,0,0" VerticalAlignment="Top" Width="146" Background="White"/>
-                <Label Content="{Binding Amount}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="195,44,0,0" VerticalAlignment="Top" Width="130" Background="White" Height="25"/>
-                <Button Content="1" Command="{Binding GetNumber}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Style="{StaticResource CalcButton}" HorizontalAlignment="Left" Margin="51,119,0,0" VerticalAlignment="Top"/>
-                <Button Content="2" Command="{Binding GetNumber}" CommandParameter="2" HorizontalAlignment="Left" Margin="149,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="3" HorizontalAlignment="Left" Margin="247,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="4" HorizontalAlignment="Left" Margin="51,195,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="5" HorizontalAlignment="Left" Margin="149,196,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="6" HorizontalAlignment="Left" Margin="247,197,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="7" HorizontalAlignment="Left" Margin="51,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="8" HorizontalAlignment="Left" Margin="147,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="9" HorizontalAlignment="Left" Margin="246,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="C" HorizontalAlignment="Left" Margin="51,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="0" HorizontalAlignment="Left" Margin="142,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="." HorizontalAlignment="Left" Margin="243,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+    <!--<UserControl.DataContext>
+        <viewModels:PaimentViewModel/>
+    </UserControl.DataContext>-->
+    <DockPanel Background="#0472a1" >
+        <StackPanel x:Name="spRightSide" Width="430" Background="#edeaea" Orientation="Horizontal" Margin="0,0,0,0">
+            <Grid>
+                <Label Content="Balance Due" HorizontalAlignment="Left" Margin="49,18,0,0" VerticalAlignment="Top" Width="146" />
+                <Label Content="Amount tendered" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="156,18,0,0" VerticalAlignment="Top" Width="130" />
+                <Label Content="{Binding BalanceDue, Converter={StaticResource customDecimalToStringConverter}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="146" Background="White" Height="25"/>
+                <Label Content="{Binding Amount}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="156,44,0,0" VerticalAlignment="Top" Width="130" Background="White" Height="25"/>
+                <Button Content="1" Command="{Binding AddAmount}" CommandParameter="1" Style="{StaticResource CalcButton}" HorizontalAlignment="Left" Margin="15,119,0,0" VerticalAlignment="Top" Width="76"/>
+                <Button Content="2" Command="{Binding AddAmount}" CommandParameter="2" HorizontalAlignment="Left" Margin="109,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="3" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="3" Margin="194,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="4" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="4" Margin="15,197,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="5" HorizontalAlignment="Left" Command="{Binding AddAmount}"  CommandParameter="5" Margin="109,197,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="6" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="6" Margin="194,197,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="7" HorizontalAlignment="Left"  Command="{Binding AddAmount}" CommandParameter="7" Margin="16,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="8" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="8" Margin="109,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="9" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="9" Margin="194,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="C" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="c" Margin="16,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="0" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="0" Margin="109,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="." HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="." Margin="194,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}" Width="76"/>
             </Grid>
             <Grid  Width="140">
-                <Label Content="Change" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="34,28,0,0" />
-                <Label Content="varChange" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Background="White" Margin="35,55,0,0"/>
-                <Button Content="Cash" Style="{StaticResource RectBlueButton}" Margin="22,139,22,341" />
-                <Button Content="Credit" Style="{StaticResource RectBlueButton}" Margin="22,217,22,263" />
-                <Button Content="Gift Card" Style="{StaticResource RectBlueButton}" Margin="22,300,22,180" />
-                <Button Style="{StaticResource RoundBlueButton}" Content="Done" FontSize="20" Margin="35,362,40,83" />
+                <Label Content="Change" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="26,14,0,0" RenderTransformOrigin="0.459,1.115" />
+                <Label Content="{Binding Change}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Background="White" Margin="35,41,0,0" RenderTransformOrigin="0.432,0.462" Height="24"/>
+                <Button Content="Cash" Command="{Binding PayCash}" Style="{StaticResource RectBlueButton}" Margin="14,138,31,472" />
+                <Button Content="Credit" Style="{StaticResource RectBlueButton}" Margin="14,216,31,394" />
+                <Button Content="Gift Card" Style="{StaticResource RectBlueButton}" Margin="14,299,31,311" />
+                <Button Command="{Binding Done}" Style="{StaticResource RoundBlueButton}" Content="Done" FontSize="20" Margin="26,361,48,214" />
             </Grid>
         </StackPanel>
-        <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
-        </StackPanel>
+        <!--<StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
+        </StackPanel>-->
     </DockPanel>
 </UserControl>

@@ -177,6 +177,31 @@ namespace POS_DataLibrary
             }
             return modified;
         }
+        public ObservableCollection<Sales> getTodaySales(string today)
+        {
+                ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
+                SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, count(ProductName) FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            //TODO
+                            string upcCode = reader.GetString(reader.GetOrdinal("UpcCode"));
+                            string seller = reader.GetString(reader.GetOrdinal("FirstName")) + " " + reader.GetString(reader.GetOrdinal("LastName"));
+                            string productName = reader.GetString(reader.GetOrdinal("ProductName"));
+                            int qty = reader.GetInt32(reader.GetOrdinal("Quantity"));
+                            decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
+                            decimal sales = qty * price;
+
+                            salesList.Add(new Sales() { Seller = seller, OrderItems = new OrderItems() { UPCCode = upcCode, Name = productName, Quantity = qty }, ItemTotal = sales });
+                        }
+                    }
+                }
+            return salesList;
+        }
+          
         
         public void saveProduct(Product product)
         {
@@ -197,4 +222,4 @@ namespace POS_DataLibrary
 
         }
             }
-        }
+}

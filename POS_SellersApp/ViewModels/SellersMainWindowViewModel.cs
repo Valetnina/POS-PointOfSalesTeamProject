@@ -287,6 +287,10 @@ namespace POS_SellersApp.ViewModels
                 currentView = value;
                 RaisePropertyChanged("CurrentView"); }
         }
+        public string DisplayedImagePath
+        {
+            get { return "/POS-PointOfSales;component/Logo_Small.png"; }
+        }
         #region Commands
         private void OnSendLogoutMessage(string v)
         {
