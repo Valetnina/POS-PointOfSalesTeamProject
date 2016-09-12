@@ -208,6 +208,7 @@
             <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
+
             <StackPanel Orientation="Horizontal" Height="31">
                 <Label Content="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
                 <Label Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}"  Width="176"/>
@@ -249,7 +250,7 @@
                     </DataGrid.GroupStyle>
                 </DataGrid>
             </Grid>
-            <Grid Height="151">
+            <Grid Height="168">
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
                 <Label Height="23" Content="Discounts  :" Style="{StaticResource BlackLabel}" Margin="0,29,338,99" />
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
@@ -262,7 +263,7 @@
                 <Button Content="Cancel Order"  Command="{Binding CancelOrder}"  Style="{StaticResource SmallButton}" Margin="165,101,160,20" />
                 <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
             </Grid>
-            <Grid Background="#edeaea" Height="79">
+            <Grid Background="#edeaea" Height="118">
                 <ComboBox x:Name="cbDiscount" Width ="80" ItemsSource="{Binding DiscountButtons}" SelectedItem="{Binding Path=SelectedDiscount, Mode=TwoWay}">
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -286,7 +287,5 @@
             </Grid>
         </StackPanel>
         <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <!--<StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
-        </StackPanel>-->
     </DockPanel>
 </UserControl>
