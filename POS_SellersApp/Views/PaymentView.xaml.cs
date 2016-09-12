@@ -25,7 +25,7 @@ namespace POS_SellersApp.Views
         public PaymentView()
         {
             InitializeComponent();
-           // DataContext = new PaimentViewModel(0);
+            DataContext = new PaimentViewModel(0);
         }
     }
 }
