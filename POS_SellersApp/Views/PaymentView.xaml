@@ -30,57 +30,177 @@
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        <Style x:Key="BigButton" TargetType="{x:Type Control}">
+
+        <Style x:Key="CalcButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="75"/>
+            <Setter Property="Height" Value="65"/>
+            <Setter Property="Foreground" Value="#0472a1"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="FontSize" Value="22"/>
-            <Setter Property="Width" Value="200"/>
-            <Setter Property="Foreground" Value="#0472a1"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Margin" Value="0,20,25,0"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="30" 
-                                Background="#e9e9e9" 
-                                BorderBrush="#b9b6b6" 
-                                BorderThickness="0,1,1,0">
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
+                        <Grid>
+                            <Rectangle Name="GrayEllipse" Opacity="1" RadiusX="15" RadiusY="15">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                        <GradientStop Color="#dadada" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#dadada" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#047db1" ShadowDepth="0" BlurRadius="10"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="SmallButton" TargetType="{x:Type Control}">
+        <Style x:Key="RectBlueButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="95"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Blue" ShadowDepth="0" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle Name="BlueEllipse" Opacity="1" RadiusX="20" RadiusY="20">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                        <GradientStop Color="#0587be" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#06a0e1" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#979899" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Foreground" Value="#316379"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Width" Value="95"/>
-            <Setter Property="Foreground" Value="#0472a1"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Template">
+            <Setter Property="Effect">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="20" 
-                                Background="#e9e9e9" 
-                                BorderBrush="#b9b6b6" 
-                                BorderThickness="0,1,1,0">
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </ControlTemplate>
+                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
                 </Setter.Value>
             </Setter>
-        </Style>
-        <Style x:Key="MedButton" TargetType="{x:Type Control}">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Width" Value="95"/>
-            <Setter Property="Foreground" Value="#0472a1"/>
-            <Setter Property="Height" Value="30"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="20" 
-                                Background="#e9e9e9" 
-                                BorderBrush="#b9b6b6" 
-                                BorderThickness="0,1,1,0">
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
+                        <Grid>
+                            <Rectangle Name="GrayEllipse" Opacity="1" RadiusX="20" RadiusY="20">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                        <GradientStop Color="#dadada" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#d2d0d0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -149,28 +269,66 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="RoundGrayButton" TargetType="{x:Type Control}">
-            <Setter Property="Width" Value="55"/>
-            <Setter Property="Height" Value="55"/>
+        <Style x:Key="RoundGrayButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="65"/>
+            <Setter Property="Height" Value="65"/>
+            <Setter Property="Foreground" Value="#0472a1"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="10"/>
+                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Ellipse>
+                            <Ellipse Name="GrayEllipse">
                                 <Ellipse.Fill>
                                     <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
                                                          GradientOrigin="0.6, 0.3">
                                         <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                        <GradientStop Color="#a2a2a2" Offset="0.8"/>
+                                        <GradientStop Color="#dadada" Offset="0.8"/>
                                     </RadialGradientBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#d2d0d0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -183,26 +341,26 @@
                 <Label Content="Amount Tendered" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="194,19,0,0" VerticalAlignment="Top" Width="130" />
                 <Label Content="varBalanceDue" HorizontalAlignment="Left" Margin="49,44,0,0" VerticalAlignment="Top" Width="146" Background="White"/>
                 <Label Content="{Binding Amount}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="195,44,0,0" VerticalAlignment="Top" Width="130" Background="White" Height="25"/>
-                <Button Content="1" Command="{Binding GetNumber}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" Margin="51,119,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="2" Command="{Binding GetNumber}" CommandParameter="2" HorizontalAlignment="Left" Margin="149,119,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="3" HorizontalAlignment="Left" Margin="247,119,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="4" HorizontalAlignment="Left" Margin="51,195,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="5" HorizontalAlignment="Left" Margin="149,196,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="6" HorizontalAlignment="Left" Margin="247,197,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="7" HorizontalAlignment="Left" Margin="51,275,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="8" HorizontalAlignment="Left" Margin="147,275,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="9" HorizontalAlignment="Left" Margin="246,275,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="C" HorizontalAlignment="Left" Margin="51,356,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="0" HorizontalAlignment="Left" Margin="142,356,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
-                <Button Content="." HorizontalAlignment="Left" Margin="243,356,0,0" VerticalAlignment="Top" Width="75" Height="57"/>
+                <Button Content="1" Command="{Binding GetNumber}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Style="{StaticResource CalcButton}" HorizontalAlignment="Left" Margin="51,119,0,0" VerticalAlignment="Top"/>
+                <Button Content="2" Command="{Binding GetNumber}" CommandParameter="2" HorizontalAlignment="Left" Margin="149,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="3" HorizontalAlignment="Left" Margin="247,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="4" HorizontalAlignment="Left" Margin="51,195,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="5" HorizontalAlignment="Left" Margin="149,196,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="6" HorizontalAlignment="Left" Margin="247,197,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="7" HorizontalAlignment="Left" Margin="51,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="8" HorizontalAlignment="Left" Margin="147,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="9" HorizontalAlignment="Left" Margin="246,275,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="C" HorizontalAlignment="Left" Margin="51,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="0" HorizontalAlignment="Left" Margin="142,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+                <Button Content="." HorizontalAlignment="Left" Margin="243,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
             </Grid>
             <Grid  Width="140">
                 <Label Content="Change" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="34,28,0,0" />
                 <Label Content="varChange" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Background="White" Margin="35,55,0,0"/>
-                <Button Content="Cash" Style="{StaticResource MedButton}" Margin="22,139,22,341" />
-                <Button Content="Credit" Style="{StaticResource MedButton}" Margin="22,217,22,263" />
-                <Button Content="Gift Card" Style="{StaticResource MedButton}" Margin="22,300,22,180" />
-                <Button Style="{StaticResource RoundBlueButton}" Margin="35,362,40,83" />
+                <Button Content="Cash" Style="{StaticResource RectBlueButton}" Margin="22,139,22,341" />
+                <Button Content="Credit" Style="{StaticResource RectBlueButton}" Margin="22,217,22,263" />
+                <Button Content="Gift Card" Style="{StaticResource RectBlueButton}" Margin="22,300,22,180" />
+                <Button Style="{StaticResource RoundBlueButton}" Content="Done" FontSize="20" Margin="35,362,40,83" />
             </Grid>
         </StackPanel>
         <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">

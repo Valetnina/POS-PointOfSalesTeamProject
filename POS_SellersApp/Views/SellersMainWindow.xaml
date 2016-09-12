@@ -284,7 +284,7 @@
 
                 <Label Content="Pay"  Panel.ZIndex="1000" FontSize="30" Margin="375,12,-10,13" Foreground="#047db1" />
                 <Button Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundGrayButton}" Margin="320,10,45,14"/>
-                    <Button Command="{Binding PrintReceipt}" Style="{StaticResource RoundGrayButton}" Margin="24,10,341,14" Content="Print" Foreground="Black" FontSize="8">
+                <Button Command="{Binding PrintReceipt}" Style="{StaticResource RoundGrayButton}" Margin="24,10,341,14" Content="Print" Foreground="Black" FontSize="8">
                 </Button>
             </Grid>
         </StackPanel>
