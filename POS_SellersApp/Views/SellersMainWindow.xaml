@@ -98,25 +98,63 @@
         <Style x:Key="RoundBlueButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="65"/>
             <Setter Property="Height" Value="65"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="10"/>
-                </Setter.Value> 
+                    <DropShadowEffect Color="Blue" ShadowDepth="0" BlurRadius="10"/>
+                </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Ellipse>
+                            <Ellipse Name="BlueEllipse">
                                 <Ellipse.Fill>
                                     <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
                                                          GradientOrigin="0.6, 0.3">
                                         <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                        <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        <GradientStop Color="#0587be" Offset="0.8"/>
                                     </RadialGradientBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#06a0e1" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#979899" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -251,7 +289,8 @@
                
                 <Label Content="Pay"  Panel.ZIndex="1000" FontSize="30" Margin="375,12,-10,13" Foreground="#047db1" />
                 <Button Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundGrayButton}" Margin="320,10,45,14"/>
-                <Button Style="{StaticResource RoundGrayButton}" Margin="23,7,332,7"/>
+                <Button Style="{StaticResource RoundGrayButton}" Margin="24,10,341,14" Content="Print" Foreground="Black" FontSize="8">
+                </Button>
             </Grid>
         </StackPanel>
             <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
