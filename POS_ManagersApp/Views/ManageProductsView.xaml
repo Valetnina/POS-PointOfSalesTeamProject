@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:POS_ManagersApp.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="700" d:DesignWidth="900">
     <Grid>
-        <TextBlock Text="Here will be the ManageProductsView" x:Name="textBlock" HorizontalAlignment="Left" Margin="23,152,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="252"/>
-
+        <StackPanel HorizontalAlignment="Left" Height="700" VerticalAlignment="Top" Width="900" Background="#036792">
+            <Grid Height="48"/>
+            <StackPanel Height="653" Orientation="Vertical" Background="#edeaea">
+                <Grid Height="653" Margin="0,0,657,0" Background="#5ab2d9"/>                
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>
