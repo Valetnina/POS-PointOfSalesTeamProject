@@ -62,3 +62,16 @@ Create Model for Products, Products Categories.
 
 --WeekEnd Scrum Olga
 1.TODo: Design Paiment View and Implementing it with logic. Research print receipts. Research Images
+
+
+
+--Day06 Tina
+1.Implemented products dialog and orders.Implemented partailly the print button. Setup of ManagersApp with switching functionality.
+2.Didn't do. Could not find bug messenger
+3.Implement paiement view and start working with Managers App
+
+
+--Day06 Olga
+1. Implemented triggers for buttons.. Designed The paiement view. Researched images
+2 Started logic paiement view but nott finished
+3. Finish logic paiement view. Start dashboard ManagersApp

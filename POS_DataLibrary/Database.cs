@@ -180,7 +180,7 @@ namespace POS_DataLibrary
         
         public void saveProduct(Product product)
         {
- byte[] rawData = File.ReadAllBytes(@"C:\Users\Valentina\Documents\POS-PointOfSalesTeamProject\Images\Drinks\Fanta.jpg");
+ //byte[] rawData = File.ReadAllBytes(@"C:\Users\Valentina\Documents\POS-PointOfSalesTeamProject\Images\Drinks\Fanta.jpg");
 
           ////  SqlCommand cmd = new SqlCommand("INSERT INTO Product (UPCCode, ProductCategoryId, Name, Price, Picture) VALUES (@UPCCode, @ProductCategoryId, @Name, @Price, @Picture)", conn);
 

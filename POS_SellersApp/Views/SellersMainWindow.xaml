@@ -9,7 +9,7 @@
               xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
         mc:Ignorable="d"
 
-        Width="900" Background="#0085bd">
+        Width="900" Height="700" Background="#0085bd">
     <UserControl.Resources>
         <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
             <views:PaymentView/>

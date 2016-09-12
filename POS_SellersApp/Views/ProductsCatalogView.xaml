@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:POS_SellersApp.Views"
              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300" >
+             d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
         
