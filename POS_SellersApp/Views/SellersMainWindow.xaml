@@ -220,6 +220,7 @@
                         <DataGridTextColumn Width="200" Header="Item" Binding="{Binding Name}" Foreground="Black" />
                         <DataGridTextColumn Width ="60" Header="Qty" Binding="{Binding Quantity}" Foreground="Black" />
                         <DataGridTextColumn  Width ="60" Header="Each" Binding="{Binding Price, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
+                        <DataGridTextColumn  Width ="60" Header="Total" Binding="{Binding Discount, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
                         <DataGridTextColumn  Width ="60" Header="Total" Binding="{Binding Total, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
 
                     </DataGrid.Columns>

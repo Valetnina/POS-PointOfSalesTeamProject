@@ -168,15 +168,16 @@ namespace POS_SellersApp.ViewModels
                 selectedDiscount = value;
                 RaisePropertyChanged("SelectedDiscount");
                 RaisePropertyChanged("Discount");
+                RaisePropertyChanged("Total");
                 RaisePropertyChanged("Tax");
                 RaisePropertyChanged("BalanceDue");
             }
         }
-        public decimal Discount
+        public string Discount
         {
             get
             {
-                return (decimal)SelectedDiscount / 100 * OrderSubTotal;
+                return string.Format("-{0}%",SelectedDiscount);
             }
         }
         private OrderItems selectedOrderItem;
@@ -245,7 +246,7 @@ namespace POS_SellersApp.ViewModels
             get
             {
 
-                return (OrderSubTotal - Discount) * (decimal)TAX;
+                return (OrderSubTotal - SelectedDiscount) * (decimal)TAX;
             }
 
         }
@@ -253,8 +254,7 @@ namespace POS_SellersApp.ViewModels
         {
             get
             {
-
-                return (OrderSubTotal + OrderTax);
+                return (OrderSubTotal - SelectedDiscount + OrderTax);
             }
 
         }
