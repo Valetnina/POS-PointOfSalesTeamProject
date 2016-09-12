@@ -39,9 +39,9 @@ namespace POS_DataLibrary
             }
         }
 
-        private ProductCategory categoryName;
+        private string categoryName;
 
-        public ProductCategory CategoryName
+        public string CategoryName
         {
             get { return categoryName; }
             set { categoryName = value;

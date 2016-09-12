@@ -25,6 +25,7 @@ namespace POS_SellersApp.ViewModels
         private void OnDoneCommand()
         {
             MessengerDone.Default.Send("Done");
+            MessengerDone.Default.Unregister(this);
         }
 
         private void OnAddAmount(string number)

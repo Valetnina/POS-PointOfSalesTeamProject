@@ -44,7 +44,7 @@ namespace POS_DataLibrary
 
 
 
-                        productsList.Add(new Product {UPCCode=uPCCode, Name=name, Price=price, CategoryName=new ProductCategory {CategoryName = productCategory }, Picture = picture  });
+                        productsList.Add(new Product {UPCCode=uPCCode, Name=name, Price=price, CategoryName= productCategory, Picture = picture  });
                     }
                 }
             }
@@ -76,13 +76,11 @@ namespace POS_DataLibrary
                         string name = reader.GetString(reader.GetOrdinal("Name"));
                         decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
                         string productCategory = reader.GetString(reader.GetOrdinal("CategoryName"));
+
                         byte[] imgBytes = (byte[])reader.GetSqlBinary(reader.GetOrdinal("Picture"));
                         TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
                         Bitmap picture = (Bitmap)tc.ConvertFrom(imgBytes);
-
-
-
-                        productsList.Add(new Product { UPCCode = uPCCode, Name = name, Price = price, CategoryName = new ProductCategory { CategoryName = productCategory }, Picture = picture });
+                        productsList.Add(new Product { Picture=picture, UPCCode = uPCCode, Name = name, Price = price, CategoryName =  productCategory});
                     }
                 }
             }
@@ -113,7 +111,7 @@ namespace POS_DataLibrary
             }
             return null;
         }
-        public void saveOrderAndOrderItems(Order order, List<OrderItems> orderItems)
+        public int saveOrderAndOrderItems(Order order, List<OrderItems> orderItems)
         {
 
             int modified;
@@ -177,23 +175,26 @@ namespace POS_DataLibrary
                     }
                 }
             }
+            return modified;
         }
+        
         public void saveProduct(Product product)
         {
-            byte[] rawData = File.ReadAllBytes(@"C:\Users\Valentina\Documents\POS-PointOfSalesTeamProject\Images\Drinks\DrPepper.jpg");
+ byte[] rawData = File.ReadAllBytes(@"C:\Users\Valentina\Documents\POS-PointOfSalesTeamProject\Images\Drinks\Fanta.jpg");
 
-          //  SqlCommand cmd = new SqlCommand("INSERT INTO Product (UPCCode, ProductCategoryId, Name, Price, Picture) VALUES (@UPCCode, @ProductCategoryId, @Name, @Price, @Picture)", conn);
-            SqlCommand cmd = new SqlCommand("Update Product set  Picture = @Picture", conn);
-            //cmd.Parameters.AddWithValue("@UPCCode", "DRK01");
-            //cmd.Parameters.AddWithValue("@ProductCategoryId", 3);
-            //cmd.Parameters.AddWithValue("@Name", "Test");
-            //cmd.Parameters.AddWithValue("@Price", 1);
-            cmd.Parameters.AddWithValue("@Picture", rawData);
+          ////  SqlCommand cmd = new SqlCommand("INSERT INTO Product (UPCCode, ProductCategoryId, Name, Price, Picture) VALUES (@UPCCode, @ProductCategoryId, @Name, @Price, @Picture)", conn);
+
+          //  SqlCommand cmd = new SqlCommand("Update Product set  Picture = @Picture where UPCCode = @UPCCode", conn);
+          //  cmd.Parameters.AddWithValue("@UPCCode", "DRK03");
+          //  //cmd.Parameters.AddWithValue("@ProductCategoryId", 2);
+          //  //cmd.Parameters.AddWithValue("@Name", "Sprite");
+          //  //cmd.Parameters.AddWithValue("@Price", 1.5);
+          //  //cmd.Parameters.AddWithValue("@Picture", rawData);
 
 
+          //  //cmd.ExecuteScalar();
+          //  cmd.ExecuteNonQuery();
 
-                    cmd.ExecuteNonQuery();
-
-                }
+        }
             }
         }

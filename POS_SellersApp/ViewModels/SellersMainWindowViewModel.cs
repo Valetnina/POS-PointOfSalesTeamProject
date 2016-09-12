@@ -8,6 +8,9 @@ using System.Windows.Threading;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Specialized;
+using System.Windows.Controls;
+using System.Drawing.Printing;
+using System.Drawing;
 
 namespace POS_SellersApp.ViewModels
 {
@@ -32,16 +35,22 @@ namespace POS_SellersApp.ViewModels
                 RaisePropertyChanged("DiscountButtons");
             }
         }
-        public SellersMainWindowViewModel(User user)
+        //   public User UserLoggedIn = new User();
+        public SellersMainWindowViewModel()
         {
+
             db = new Database();
             //Register for messages from differnet viewModels
-            //MessengerUser.Default.Register<User>(this, (user) =>
-            //{
-            //  
-
-            //});
-            User = user;
+            MessengerUser.Default.Register<User>(this, (user) =>
+            {
+                this.UserLoggedIn = user;
+                //UserLoggedIn.FirstName = user.FirstName;
+                //MessageBox.Show(UserLoggedIn.FirstName);
+                //RaisePropertyChanged("UserName");
+                //UserLoggedIn.Id = user.Id;
+                //UserLoggedIn.LastName = user.LastName;
+                //RaisePropertyChanged("FirstName");
+            });
             MessengerPoduct.Default.Register<Product>(this, (product) =>
             {
                 ReceiveMessage(product);
@@ -65,29 +74,37 @@ namespace POS_SellersApp.ViewModels
             SelectedDiscount = 0;
             //Register CollectionChangedEvent for the OrderItems
             OrderItems.CollectionChanged += ContentCollectionChanged;
+            //if (OrderItems != null && OrderItems.CanGroup == true)
+            //{
+            //    OrderItems.GroupDescriptions.Clear();
+            //    OrderItems.GroupDescriptions.Add(new PropertyGroupDescription("ProjectName"));
 
-            //Initialize commands
-            RemoveItem = new ActionCommand(p => OnRemoveItem());
+                //Initialize commands
+                RemoveItem = new ActionCommand(p => OnRemoveItem());
             CancelOrder = new ActionCommand(p => OnCancelOrder());
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
+            PrintReceipt = new ActionCommand(p => OnPrintReceipt());
             currentView = ProductsCatalogViewModel;
-            OrderNo = 1;
-            CurrentDateText();
-            DispatcherTimerSetup();
+            OrderNo = "1";
+            
             //Set the totals to zero
             //  OrderSubTotal = 0;
+            db.saveProduct(new Product());
         }
+
+
 
         private void RecivedDoneMessage()
         {
-            
-            Order order = new Order {OrderId = OrderNo, Date = DateTime.Now, StoreNo="OV001", UserId="SEL01", OrderAmount = BalanceDue, Tax = OrderTax  };
-            
+
+            Order order = new Order { Date = DateTime.Now, StoreNo = "OV001", UserId = "SEL01", OrderAmount = BalanceDue, Tax = OrderTax };
+
             try
             {
                 if (OrderItems.Count > 0)
                 {
-                    db.saveOrderAndOrderItems(order, OrderItems.ToList());
+                 int lastOrderId= db.saveOrderAndOrderItems(order, OrderItems.ToList());
+                    OrderNo = string.Format("Order# {0}", lastOrderId.ToString());
                     CurrentView = ProductsCatalogViewModel;
                     OrderItems.Clear();
                 }
@@ -97,14 +114,16 @@ namespace POS_SellersApp.ViewModels
                 MessageBox.Show("Error inserting data to the database");
                 throw ex;
             }
-           
+
         }
 
         public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             RaisePropertyChanged("OrderSubTotal");
             RaisePropertyChanged("OrderTax");
+            RaisePropertyChanged("SelectedDiscount");
             RaisePropertyChanged("BalanceDue");
+            RaisePropertyChanged("SelectedOrderItem");
         }
         private ObservableCollection<OrderItems> orderItems;
 
@@ -123,7 +142,7 @@ namespace POS_SellersApp.ViewModels
             //Check if the product was already selected
             if (OrderItems.Any(p => p.UPCCode == product.UPCCode))
             {
-                OrderItems.First(p => p.UPCCode == product.UPCCode).Quantity +=1;
+                OrderItems.First(p => p.UPCCode == product.UPCCode).Quantity += 1;
             }
             else
             {
@@ -138,7 +157,7 @@ namespace POS_SellersApp.ViewModels
             }
         }
         private Int32 selectedDiscount;
-        public Int32 SelectedDiscount { 
+        public Int32 SelectedDiscount {
             get
             {
                 return selectedDiscount;
@@ -149,14 +168,15 @@ namespace POS_SellersApp.ViewModels
                 selectedDiscount = value;
                 RaisePropertyChanged("SelectedDiscount");
                 RaisePropertyChanged("Discount");
+                RaisePropertyChanged("Tax");
+                RaisePropertyChanged("BalanceDue");
             }
         }
-        public double Discount
+        public decimal Discount
         {
             get
             {
-
-                return SelectedDiscount;
+                return (decimal)SelectedDiscount / 100 * OrderSubTotal;
             }
         }
         private OrderItems selectedOrderItem;
@@ -175,7 +195,7 @@ namespace POS_SellersApp.ViewModels
         }
 
         private User userLoggedIn;
-        public User User
+        public User UserLoggedIn
         {
             get
             {
@@ -186,19 +206,20 @@ namespace POS_SellersApp.ViewModels
 
             {
                 userLoggedIn = value;
-                RaisePropertyChanged("User");
+                RaisePropertyChanged("UserLoggedIn");
                 RaisePropertyChanged("FirstName");
             }
         }
-       
+
+
         public string FirstName
         {
             get
             {
-                if (User != null)
+                if (UserLoggedIn != null)
                 {
                     // Messenger.Default.Unregister(this);
-                    return User.FirstName;
+                    return UserLoggedIn.FirstName;
                 }
                 return "NOT SET";
             }
@@ -224,7 +245,7 @@ namespace POS_SellersApp.ViewModels
             get
             {
 
-                return OrderSubTotal * (decimal)TAX;
+                return (OrderSubTotal - Discount) * (decimal)TAX;
             }
 
         }
@@ -237,8 +258,8 @@ namespace POS_SellersApp.ViewModels
             }
 
         }
-        private int orderNo;
-        public int OrderNo
+        private string orderNo;
+        public string OrderNo
         {
             get
             {
@@ -254,7 +275,7 @@ namespace POS_SellersApp.ViewModels
 
         private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();
 
-    //    private PaimentViewModel payiementViewModel = new PaimentViewModel();
+        //    private PaimentViewModel payiementViewModel = new PaimentViewModel();
 
 
         private ViewModel currentView;
@@ -306,7 +327,7 @@ namespace POS_SellersApp.ViewModels
             switch (destination)
             {
                 case "pay":
-                    CurrentView =  new PaimentViewModel(BalanceDue);
+                    CurrentView = new PaimentViewModel(BalanceDue);
                     break;
 
                 case "catalog":
@@ -318,50 +339,79 @@ namespace POS_SellersApp.ViewModels
         }
         #endregion
 
-
-        #region DateTime Members
-        private string _currentTime, _currentDate;
-
-        private void DispatcherTimerSetup()
+     
+        #region PrintReceipt
+        public ActionCommand PrintReceipt { get; private set; }
+       
+       
+        private void OnPrintReceipt()
         {
-            DispatcherTimer dispatcherTimer = new DispatcherTimer();
-            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-            dispatcherTimer.Tick += new EventHandler(CurrentTimeText);
-            dispatcherTimer.Start();
+            var doc = new PrintDocument();
+            doc.PrintPage += new PrintPageEventHandler(CreateReceipt);
+            doc.Print();
         }
 
-        private void CurrentDateText()
+        public void CreateReceipt(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-            CurrentDate = DateTime.Now.ToString("g");
-        }
 
-        private void CurrentTimeText(object sender, EventArgs e)
-        {
-            CurrentTime = DateTime.Now.ToString("HH:mm");
-        }
+            //this prints the reciept
 
-        public string CurrentTime
-        {
-            get { return _currentTime; }
-            set
+            Graphics graphic = e.Graphics;
+            Font font = new Font("Courier New", 12); //must use a mono spaced font as the spaces need to line up
+
+            float fontHeight = font.GetHeight();
+
+            int startX = 10;
+            int startY = 10;
+            int offset = 40;
+
+            graphic.DrawString(" Olya&Valya", new Font("Courier New", 18), new SolidBrush(Color.Black), startX, startY);
+            string top = "Item Name".PadRight(30) + "Price";
+            graphic.DrawString(top, font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + (int)fontHeight; //make the spacing consistent
+            graphic.DrawString("----------------------------------", font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + (int)fontHeight + 5; //make the spacing consistent
+
+            decimal totalprice = 0;
+
+            foreach (var item in orderItems)
             {
-                if (_currentTime != null)
-                    _currentTime = value;
+                //create the string to print on the reciept
+                string productDescription = item.Name;
+                string productQty =item.Quantity.ToString();
+                string productPrice = item.Price.ToString();
+                string productTotal = item.Total.ToString();
 
-                RaisePropertyChanged("CurrentTime");
-            }
-        }
+                    string productLine = item.CategoryName;
 
-        public string CurrentDate
-        {
-            get { return _currentDate; }
-            set
-            {
-                if (_currentDate != value)
-                    _currentDate = value;
-                RaisePropertyChanged("CurrentDate");
+                    graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
+
+                    offset = offset + (int)fontHeight + 5; //make the spacing consistent
             }
+            //TODO: Pass the paiement information
+            decimal change = 0;
+            decimal totalPrice = 0;
+            decimal cash = 0;
+            change = (cash - totalprice);
+
+            //when we have drawn all of the items add the total
+
+            offset = offset + 20; //make some room so that the total stands out.
+
+            graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
+
+            offset = offset + 30; //make some room so that the total stands out.
+            graphic.DrawString("CASH ".PadRight(30) + String.Format("{0:c}", cash), font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + 15;
+            graphic.DrawString("CHANGE ".PadRight(30) + String.Format("{0:c}", change), font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + 30; //make some room so that the total stands out.
+            graphic.DrawString("     Thank-you for your custom,", font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + 15;
+            graphic.DrawString("       please come back soon!", font, new SolidBrush(Color.Black), startX, startY + offset);
+
+
         }
         #endregion
     }
+
 }

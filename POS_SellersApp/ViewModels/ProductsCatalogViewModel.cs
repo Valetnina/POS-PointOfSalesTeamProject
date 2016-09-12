@@ -29,6 +29,8 @@ namespace POS_SellersApp.ViewModels
         public ActionCommand SwitchViews { get; private set; }
         public ActionCommand AddToOrder { get; private set; }
 
+       
+
         public ProductsCatalogViewModel()
         {
             db = new Database();
@@ -41,25 +43,40 @@ namespace POS_SellersApp.ViewModels
             {
                 OnAddToOrder(param as Product);
             });
-
-          //  db.saveProduct(new Product());
-
+            Category = "Meals";
         }
+        private string category;
+        public string Category
+        {
+            get
+            {
+                return category;
+            }
 
+            set
+            {
+                category = value;
+                RaisePropertyChanged("Category");
+            }
+        }
         private void OnSwitchViews(string destination)
         {
             switch (destination)
             {
                 case "Meals":
                     CatalogCollection = db.GetProductsByCategory("Meals");
+                    Category = "Meals";
                     break;
                 case "Drinks":
                     CatalogCollection = db.GetProductsByCategory("Drinks");
+                    Category = "Drinks";
                     break;
                 case "Desserts":
                 
                 default:
                     CatalogCollection = db.GetProductsByCategory("Desserts");
+                    Category = "Desserts";
+
                     break;
             }
 

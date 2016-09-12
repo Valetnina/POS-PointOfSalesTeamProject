@@ -33,7 +33,7 @@
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontFamily" Value="Constantia"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>   
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style x:Key="BlackLabel" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="Black"/>
@@ -42,7 +42,7 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
         <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
-        <Style x:Key="BigButton" TargetType="{x:Type Button}">            
+        <Style x:Key="BigButton" TargetType="{x:Type Button}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -101,7 +101,7 @@
             <Setter Property="Effect">
                 <Setter.Value>
                     <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="10"/>
-                </Setter.Value> 
+                </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
@@ -156,17 +156,16 @@
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
-    
+
     <DockPanel Height="600" Background="#0472a1">
         <StatusBar DockPanel.Dock="Bottom" Background="#0472a1" Height="40" Width="892" HorizontalAlignment="Stretch" MaxWidth="1200">
             <StatusBarItem HorizontalAlignment="Right" Width="79">
-                <Label Content="{Binding CurrentTime, UpdateSourceTrigger=PropertyChanged}" Height="30" FontSize="14" Width="69" Foreground="#f7f6f6"/>
+                <Label Content="{Binding Path=CurrentTime, UpdateSourceTrigger=PropertyChanged}" Height="30" FontSize="14" Width="69" Foreground="#f7f6f6"/>
             </StatusBarItem>
         </StatusBar>
-
-
         <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0472a1" Orientation="Horizontal">
-            <Image Height="51" Width="70" Source="/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
+            <Label Width="400"></Label>
+            <Image Height="51" Width="70" Source="pack://application:,,,/Resources/Logo_Small.png" HorizontalAlignment="Left" Margin="10,0,0,0"/>
             <TextBlock  Width="636" Foreground="#f7f6f6" FontSize="20">
                 <Run Text="Welcome,  "/>
                 <Run Text="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -175,26 +174,20 @@
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
             <StackPanel Orientation="Horizontal" Height="31">
-            <Label Content="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
+                <Label Content="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
                 <Label Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}"  Width="176"/>
                 <Label Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
             <Grid Background="#ffffff" Height="249">
-                <ListView DataContext="{StaticResource ProductsGroup}" ItemsSource="{Binding IsAsync=True}" SelectedItem ="{Binding SelectedOrderItem, UpdateSourceTrigger=PropertyChanged}" >
-                    <ListView.View>
-                        <GridView >
-                            <GridViewColumn Header="Name" Width="150" DisplayMemberBinding="{Binding Name}" />
-                            <GridViewColumn Header="Qty" Width="80" DisplayMemberBinding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" />
-                            <GridViewColumn Header="Each" Width="90" DisplayMemberBinding="{Binding Price, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" />
-                            <GridViewColumn Header="Total" Width="100" DisplayMemberBinding="{Binding Total, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" />
-                        </GridView>
-                    </ListView.View>
-                    <ListView.Resources>
-                        <Style TargetType="{x:Type GridViewColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Left" />
-                        </Style>
-                    </ListView.Resources>
-                    <!--<ListView.GroupStyle>
+                <DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource ProductsGroup}}" SelectedItem="{Binding SelectedOrderItem}" IsReadOnly="True" SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Width="200" Header="Item" Binding="{Binding Name}" Foreground="Black" />
+                        <DataGridTextColumn Width ="60" Header="Qty" Binding="{Binding Quantity}" Foreground="Black" />
+                        <DataGridTextColumn  Width ="60" Header="Each" Binding="{Binding Price, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
+                        <DataGridTextColumn  Width ="60" Header="Total" Binding="{Binding Total, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
+
+                    </DataGrid.Columns>
+                    <DataGrid.GroupStyle>
                         <GroupStyle>
                             <GroupStyle.ContainerStyle>
                                 <Style TargetType="{x:Type GroupItem}">
@@ -202,15 +195,15 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type GroupItem}">
-                                                <Expander IsExpanded="True" BorderBrush="#FFA4B97F" BorderThickness="0,0,0,1">
+                                                <Expander IsExpanded="True" BorderBrush="#FF002255" BorderThickness="1,1,1,5">
                                                     <Expander.Header>
-                                                        <StackPanel Orientation="Horizontal">
-                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
-                                                            <TextBlock Text="{Binding ItemCount}" FontSize="22" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="10,0,0,0" VerticalAlignment="Bottom" />
-                                                            <TextBlock Text=" item(s)" FontSize="22" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom" />
-                                                        </StackPanel>
+                                                        <DockPanel>
+                                                            <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Margin="5,0,0,0" Width="100"/>
+                                                        </DockPanel>
                                                     </Expander.Header>
+                                                    <Expander.Content>
                                                         <ItemsPresenter />
+                                                    </Expander.Content>
                                                 </Expander>
                                             </ControlTemplate>
                                         </Setter.Value>
@@ -218,8 +211,8 @@
                                 </Style>
                             </GroupStyle.ContainerStyle>
                         </GroupStyle>
-                    </ListView.GroupStyle>-->
-                </ListView>
+                    </DataGrid.GroupStyle>
+                </DataGrid>
             </Grid>
             <Grid Height="151">
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
@@ -227,7 +220,7 @@
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
                 <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
                 <Label Height="23" Content="{Binding OrderSubTotal, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" FontSize="12"  Margin="87,0,251,128" />
-                <Label Height="23" Content="{Binding Discount, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,28,251,100" />
+                <Label Content="{Binding Discount, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource customDecimalToStringConverter}}" Margin="87,28,251,99" />
                 <Label Height="23" Content="{Binding OrderTax, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
                 <Label Height="23" Content="{Binding BalanceDue, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
                 <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource SmallButton}" Margin="22,101,303,20" />
@@ -241,25 +234,23 @@
                             <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ComboBox.ItemsPanel>
-                  <ComboBox.ItemTemplate>
+                    <!--<ComboBox.ItemTemplate>
                         <DataTemplate>
                             <Grid>
                                 <Label  Panel.ZIndex="1000" FontSize="42" Foreground="#f7f6f6" Margin="0,0" />
                                 <Button  Style="{StaticResource RoundBlueButton}" Margin="0,0"/>
                             </Grid>
                         </DataTemplate>
-                    </ComboBox.ItemTemplate>
+                    </ComboBox.ItemTemplate>-->
                 </ComboBox>
-               
+
                 <Label Content="Pay"  Panel.ZIndex="1000" FontSize="30" Margin="375,12,-10,13" Foreground="#047db1" />
                 <Button Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundGrayButton}" Margin="320,10,45,14"/>
-                <Button Style="{StaticResource RoundGrayButton}" Margin="23,7,332,7"/>
+                <Button Command="{Binding PrintReceipt}" Style="{StaticResource RoundGrayButton}" Margin="23,7,332,7"/>
             </Grid>
         </StackPanel>
-            <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
         </StackPanel>
     </DockPanel>
-
 </UserControl>
-

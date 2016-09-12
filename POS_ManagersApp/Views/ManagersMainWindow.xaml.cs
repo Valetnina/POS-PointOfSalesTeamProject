@@ -18,7 +18,7 @@ namespace POS_ManagersApp.Views
     /// <summary>
     /// Interaction logic for ManagersMainWindow.xaml
     /// </summary>
-    public partial class ManagersMainWindow : Window
+    public partial class ManagersMainWindow : UserControl
     {
         public ManagersMainWindow()
         {

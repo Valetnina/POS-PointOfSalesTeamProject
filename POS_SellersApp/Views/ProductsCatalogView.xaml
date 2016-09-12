@@ -85,8 +85,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style BasedOn="{StaticResource SmallButton}" TargetType="Button"/>
-
         <Style x:Key="RoundBlueButton" TargetType="{x:Type Control}">
             <Setter Property="Width" Value="65"/>
             <Setter Property="Height" Value="65"/>
@@ -141,16 +139,16 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <DockPanel Margin="10,10,10,10">
+    <DockPanel Margin="1,26,1,1">
 
-        <Label DockPanel.Dock="Top" Content = "ProductCategory" HorizontalAlignment="Center"/>
+        <Label Background="White" Width="100" DockPanel.Dock="Top" Content = "{Binding Category}" HorizontalAlignment="Center"/>
        
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal">
+        <StackPanel HorizontalAlignment="Center" DockPanel.Dock="Bottom" Orientation="Horizontal">
             <Button Content="Meals"  Style="{StaticResource MedButton}" Command="{Binding SwitchViews}" CommandParameter="Meals"/>
             <Button Content="Drinks" Style="{StaticResource MedButton}" Command="{Binding SwitchViews}" CommandParameter="Drinks"/>
             <Button Content="Deserts" Style="{StaticResource MedButton}" Command="{Binding SwitchViews}" CommandParameter="Desserts" />
         </StackPanel>
-        <ItemsControl ItemsSource="{Binding CatalogCollection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Background="White" >
+        <ItemsControl ItemsSource="{Binding CatalogCollection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <ItemsControl.Resources>
                     <med:ImageConverter x:Key="imageConverter" />
                 </ItemsControl.Resources>
@@ -164,7 +162,7 @@
                     <Button Content="{Binding Name}" Command="{Binding Path=DataContext.AddToOrder, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
                             <Button.Template>
                                 <ControlTemplate>
-                                    <StackPanel Width="100" Height="200">
+                                    <StackPanel Width="100" Height="100">
                                     <Image Source="{Binding Picture, Converter={StaticResource imageConverter} }" Height="70" Width="70"/>
                                     <Label Content="{Binding Name}" FontFamily = "Constantia"></Label>
                                     </StackPanel>

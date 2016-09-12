@@ -35,6 +35,7 @@ namespace POS_PointOfSales.ViewModels
         public ActionCommand Login { get; set; }
         public LoginViewModel()
         {
+            User = new User();
             //TODO handle Exceptions
             db = new Database();
             Login = new ActionCommand(p=>OnLogin(UserName, Password),
@@ -80,12 +81,12 @@ namespace POS_PointOfSales.ViewModels
                 var user = db.getUserByUserName(userN, pass);
                 if (user != null)
                 {
-                    User = user;
+                    User.Id = user.Id;
+                    User.FirstName = user.FirstName;
+                    User.LastName = user.LastName;
                     MessengerUser.Default.Send(User);
                     UserName = null;
                     Password = null;
-                  
-
                 }
                 else
                     {

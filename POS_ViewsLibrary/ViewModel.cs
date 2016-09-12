@@ -66,6 +66,5 @@ namespace POS_ViewsLibrary
             this.OnDispose();
         }
 
-
     }
 }
