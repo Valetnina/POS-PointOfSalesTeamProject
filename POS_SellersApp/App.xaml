@@ -4,15 +4,14 @@
              xmlns:local="clr-namespace:POS_SellersApp">
     <!--StartupUri="Views/sellersMainwindow.xaml">-->
     <!--StartupUri="Views/PaymentView.xaml">-->
-
     <!--StartupUri="SellersStartupView.xaml">-->
-    
+
     <!--Mesaj pentru Olga, daca vrei sa schimbi de unde incepe programul, atunci, du-te la App.xaml.cs, 
-    adica desfaci App.xaml si gasesti clasa aceasta, si schimbi acolo direct in cod in loc de SelleresStartpView pui clasa care ai tu nevoie. Merci--> 
-    
+    adica desfaci App.xaml si gasesti clasa aceasta, si schimbi acolo direct in cod in loc de SelleresStartpView pui clasa care ai tu nevoie. Merci-->
+
     <!--StartupUri="Views/ProductsCatalogView.xaml">-->
 
     <Application.Resources>
-         
+
     </Application.Resources>
 </Application>

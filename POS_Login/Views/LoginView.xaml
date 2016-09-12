@@ -32,20 +32,65 @@
             <Setter Property="Margin" Value="0,0,10,0"/>
         </Style>
 
-        <Style TargetType="Button" BasedOn="{StaticResource BaseStyle}">
-            <Setter Property="FontSize" Value="22"/>
+        <Style x:Key="RectBlueButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="200"/>
-            <Setter Property="Background" Value="#167ca3"/>
-            <Setter Property="Foreground" Value="#e9e9e9"/>
-            <Setter Property="BorderBrush" Value="#047db1"/>
             <Setter Property="Height" Value="45"/>
-            <Setter Property="Margin" Value="0,20,25,0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Blue" ShadowDepth="0" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="40" Background="#167ca3" BorderBrush="#047db1" BorderThickness="0,1,1,0" >
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
+                        <Grid>
+                            <Rectangle Name="BlueEllipse" Opacity="1" RadiusX="20" RadiusY="20">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                        <GradientStop Color="#0587be" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#06a0e1" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#979899" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -55,7 +100,7 @@
     <DockPanel>
         <StackPanel Width="700" Height="600" HorizontalAlignment="Center" Orientation="Vertical">
             <Image Height="300" Source="Logo_Big.png"/>
-            <StackPanel Orientation="Horizontal" Height="205" Margin="100,30,0,0" Width="362" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal" Height="205" Margin="100,30,0,0" Width="475" VerticalAlignment="Top" HorizontalAlignment="Left">
 
                 <StackPanel.Resources>
                     <Thickness x:Key="Height" Top="25" />
@@ -65,13 +110,9 @@
                     <Label  Content="Password :"/>
                 </StackPanel>
                 <StackPanel  Orientation="Vertical" Width="373" HorizontalAlignment="Center" Margin="0,0,0,-27">
-                    <TextBox Text="{Binding Path=UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors = True}" Style="{StaticResource BoxStyle}" />
-                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Path=Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource Height}" Style="{StaticResource BoxStyle}"/>
-                    <Button Content="Log In" Command="{Binding Login}" xmlns:cmd="#unknown">
-                        <Button.Effect>
-                            <DropShadowEffect BlurRadius="5" ShadowDepth="3" />
-                        </Button.Effect>
-                    </Button>
+                    <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource BoxStyle}" />
+                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource Height}" Style="{StaticResource BoxStyle}"/>
+                    <Button xmlns:cmd="#unknown" Content="Log In" Command="{Binding Login}" Style="{StaticResource RectBlueButton}" Margin="86,0,87,0" RenderTransformOrigin="0.471,1.851"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>

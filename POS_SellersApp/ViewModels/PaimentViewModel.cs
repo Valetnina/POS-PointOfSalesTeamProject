@@ -30,7 +30,9 @@ namespace POS_SellersApp.ViewModels
 
         private void OnAddAmount(string number)
         {
+
             Amount = number;
+
         }
 
         private string amount;
@@ -41,6 +43,6 @@ namespace POS_SellersApp.ViewModels
             set { amount = value; RaisePropertyChanged("Amount"); }
         }
 
-      
+
     }
 }
