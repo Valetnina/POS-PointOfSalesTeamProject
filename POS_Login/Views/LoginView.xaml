@@ -97,28 +97,6 @@
         </Style>
     </UserControl.Resources>
 
-<!--<<<<<<< HEAD
-    <DockPanel>
-        <StackPanel Width="700" Height="600" HorizontalAlignment="Center" Orientation="Vertical">
-            <Image Height="300" Source="{Binding DisplayedImagePath}"/>
-            <StackPanel Orientation="Horizontal" Height="205" Margin="100,30,0,0" Width="475" VerticalAlignment="Top" HorizontalAlignment="Left">
-
-                <StackPanel.Resources>
-                    <Thickness x:Key="Height" Top="25" />
-                </StackPanel.Resources>
-                <StackPanel  Orientation="Vertical" Margin="0,0,-40,5" Width="110">
-                    <Label  Content="Login :" HorizontalContentAlignment="Right" />
-                    <Label  Content="Password :" HorizontalContentAlignment="Right" Margin="0,25"/>
-                </StackPanel>
-                <StackPanel  Orientation="Vertical" Width="343" HorizontalAlignment="Center" Margin="0,0,0,-27">
-                    <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource BoxStyle}" />
-                    <PasswordBox x:Name="PasswordBox"  ff:PasswordBoxAssistant.BindPassword="true" ff:PasswordBoxAssistant.BoundPassword="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="{StaticResource Height}" Style="{StaticResource BoxStyle}"/>
-                    <Button xmlns:cmd="#unknown" Content="Log In" Command="{Binding Login}" Style="{StaticResource RectBlueButton}" Margin="68,15,57,0" RenderTransformOrigin="0.471,1.851" Width="Auto"/>
-                </StackPanel>
-            </StackPanel>
-        </StackPanel>
-    </DockPanel>
-=======-->
     <StackPanel Orientation="Vertical" RenderTransformOrigin="0.527,0.519">
         <Grid Width="700" Height="400" HorizontalAlignment="Center" >
             <Image Height="300" Source="Logo_Big.png" />
