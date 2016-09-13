@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Drawing.Printing;
 using System.Drawing;
 using POS_SellersApp.Views;
+using System.Windows.Input;
 
 namespace POS_SellersApp.ViewModels
 {
@@ -332,13 +333,14 @@ namespace POS_SellersApp.ViewModels
             }
         }
         public ActionCommand SwitchViews { get; private set; }
-
+       readonly static PaimentViewModel pvm = new PaimentViewModel();
         private void OnSwitchViews(string destination)
         {
             switch (destination)
             {
                 case "pay":
-                    CurrentView = new PaimentViewModel();
+                    pvm.Balance = BalanceDue.ToString();
+                    CurrentView = pvm;
                     MessengerBalance.Default.Send(BalanceDue);
                     break;
 
@@ -434,6 +436,27 @@ namespace POS_SellersApp.ViewModels
 
         }
         #endregion
+        private ICommand _closeCommand;
+        public ICommand CloseCommand
+        {
+            get
+            {
+                if (_closeCommand == null)
+                    _closeCommand = new ActionCommand(param => this.OnRequestClose());
+
+                return _closeCommand;
+            }
+        }
+
+        public event EventHandler RequestClose;
+
+        void OnRequestClose()
+        {
+            EventHandler handler = this.RequestClose;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
+
     }
 
 }
