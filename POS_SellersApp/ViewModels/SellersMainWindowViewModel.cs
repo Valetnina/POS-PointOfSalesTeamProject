@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Windows.Controls;
 using System.Drawing.Printing;
 using System.Drawing;
+using POS_SellersApp.Views;
 
 namespace POS_SellersApp.ViewModels
 {
@@ -19,7 +20,7 @@ namespace POS_SellersApp.ViewModels
 
     {
         private const double TAX = 0.15;
-
+        private bool IsDoneMessageReceived;
         private Database db;
         private ObservableCollection<Int32> discountButtons;
         public ObservableCollection<Int32> DiscountButtons
@@ -41,26 +42,23 @@ namespace POS_SellersApp.ViewModels
 
             db = new Database();
             //Register for messages from differnet viewModels
-            MessengerUser.Default.Register<User>(this, (user) =>
+            MessengerUserLogged.Default.Register<User>(this, (user) =>
             {
                 this.UserLoggedIn = user;
-                //UserLoggedIn.FirstName = user.FirstName;
-                //MessageBox.Show(UserLoggedIn.FirstName);
-                //RaisePropertyChanged("UserName");
-                //UserLoggedIn.Id = user.Id;
-                //UserLoggedIn.LastName = user.LastName;
-                //RaisePropertyChanged("FirstName");
             });
             MessengerPoduct.Default.Register<Product>(this, (product) =>
             {
                 ReceiveMessage(product);
             });
-            MessengerDone.Default.Register<String>(this, message =>
-               {
-                   MessageBox.Show("Hello");
-                   RecivedDoneMessage();
-               }
-            );
+            if (!IsDoneMessageReceived)
+            {
+                MessengerDone.Default.Register<String>(this, message =>
+                   {
+                       IsDoneMessageReceived = true;
+                       RecivedDoneMessage(message);
+                   }
+                );
+            }
             SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
             //Initialize comopents with some values
             OrderItems = new ObservableCollection<OrderItems>();
@@ -94,26 +92,36 @@ namespace POS_SellersApp.ViewModels
 
 
 
-        private void RecivedDoneMessage()
+        private void RecivedDoneMessage(string message)
         {
-
-            Order order = new Order { Date = DateTime.Now, StoreNo = "OV001", UserId = "SEL01", OrderAmount = BalanceDue, Tax = OrderTax };
-
-            try
+            switch (message)
             {
-                if (OrderItems.Count > 0)
-                {
-                 int lastOrderId= db.saveOrderAndOrderItems(order, OrderItems.ToList());
-                    OrderNo = string.Format("Order# {0}", lastOrderId.ToString());
-                    CurrentView = ProductsCatalogViewModel;
-                    OrderItems.Clear();
-                }
+                case "Register":
+                    Order order = new Order { Date = DateTime.Now, StoreNo = "OV001", UserId = "SEL01", OrderAmount = BalanceDue, Tax = OrderTax };
+
+                    try
+                    {
+                        if (OrderItems.Count > 0)
+                        {
+                            int lastOrderId = db.saveOrderAndOrderItems(order, OrderItems.ToList());
+                            OrderNo = string.Format("Order# {0}", lastOrderId.ToString());
+                            CurrentView = ProductsCatalogViewModel;
+                            OrderItems.Clear();
+                        }
+                        MessageBox.Show("Order has been sent to processing");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error inserting data to the database");
+                        throw ex;
+                    }
+                    break;
+                case "Back":
+                default:
+                    OnSwitchViews("catalog");
+                    break;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error inserting data to the database");
-                throw ex;
-            }
+           
 
         }
 
@@ -325,13 +333,13 @@ namespace POS_SellersApp.ViewModels
         }
         public ActionCommand SwitchViews { get; private set; }
 
-
         private void OnSwitchViews(string destination)
         {
             switch (destination)
             {
                 case "pay":
-                    CurrentView = new PaimentViewModel(BalanceDue);
+                    CurrentView = new PaimentViewModel();
+                    MessengerBalance.Default.Send(BalanceDue);
                     break;
 
                 case "catalog":
@@ -342,81 +350,19 @@ namespace POS_SellersApp.ViewModels
 
         }
         #endregion
+        //public void OpenChildDailog()
+        //{
+        //    DialogService service = new DialogService();
+        //    paiementVM.Balance = BalanceDue.ToString(); // Assign whatever you want
+        //    service.Show(new PaymentView(), paiementVM);
 
-        
-     
-        #region PrintReceipt
-        public ActionCommand PrintReceipt { get; private set; }
-       
-       
-        private void OnPrintReceipt()
-        {
-            var doc = new PrintDocument();
-            doc.PrintPage += new PrintPageEventHandler(CreateReceipt);
-            doc.Print();
-        }
+        //    // Now get the values when the child dailog get closed
 
-        public void CreateReceipt(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
+        //    var retVal = paiementVM.Change;
 
-            //this prints the reciept
-
-            Graphics graphic = e.Graphics;
-            Font font = new Font("Courier New", 12); //must use a mono spaced font as the spaces need to line up
-
-            float fontHeight = font.GetHeight();
-
-            int startX = 10;
-            int startY = 10;
-            int offset = 40;
-
-            graphic.DrawString(" Olya&Valya", new Font("Courier New", 18), new SolidBrush(Color.Black), startX, startY);
-            string top = "Item Name".PadRight(30) + "Price";
-            graphic.DrawString(top, font, new SolidBrush(Color.Black), startX, startY + offset);
-            offset = offset + (int)fontHeight; //make the spacing consistent
-            graphic.DrawString("----------------------------------", font, new SolidBrush(Color.Black), startX, startY + offset);
-            offset = offset + (int)fontHeight + 5; //make the spacing consistent
-
-            decimal totalprice = 0;
-
-            foreach (var item in orderItems)
-            {
-                //create the string to print on the reciept
-                string productDescription = item.Name;
-                string productQty =item.Quantity.ToString();
-                string productPrice = item.Price.ToString();
-                string productTotal = item.Total.ToString();
-
-                    string productLine = item.CategoryName;
-
-                    graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
-
-                    offset = offset + (int)fontHeight + 5; //make the spacing consistent
-            }
-            //TODO: Pass the paiement information
-            decimal change = 0;
-            decimal totalPrice = 0;
-            decimal cash = 0;
-            change = (cash - totalprice);
-
-            //when we have drawn all of the items add the total
-
-            offset = offset + 20; //make some room so that the total stands out.
-
-            graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
-
-            offset = offset + 30; //make some room so that the total stands out.
-            graphic.DrawString("CASH ".PadRight(30) + String.Format("{0:c}", cash), font, new SolidBrush(Color.Black), startX, startY + offset);
-            offset = offset + 15;
-            graphic.DrawString("CHANGE ".PadRight(30) + String.Format("{0:c}", change), font, new SolidBrush(Color.Black), startX, startY + offset);
-            offset = offset + 30; //make some room so that the total stands out.
-            graphic.DrawString("     Thank-you for your custom,", font, new SolidBrush(Color.Black), startX, startY + offset);
-            offset = offset + 15;
-            graphic.DrawString("       please come back soon!", font, new SolidBrush(Color.Black), startX, startY + offset);
+        //}
 
 
-        }
-        #endregion
     }
 
 }

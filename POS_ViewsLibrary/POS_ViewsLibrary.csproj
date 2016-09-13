@@ -50,6 +50,8 @@
     <Compile Include="ActionComand.cs" />
     <Compile Include="DecimalStringConverter.cs" />
     <Compile Include="ImageConverter.cs" />
+    <Compile Include="MessengerBalance.cs" />
+    <Compile Include="MessengerUserLogged.cs" />
     <Compile Include="MessengerLogout.cs" />
     <Compile Include="MessengerDone.cs" />
     <Compile Include="MessengerUser.cs" />
@@ -64,7 +66,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ViewModel.cs" />
-    <Compile Include="VML\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\POS_DataLibrary\POS_DataLibrary.csproj">

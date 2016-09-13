@@ -23,7 +23,7 @@ namespace POS_PointOfSales.Views
     {
         public LoginView()
         {
-            DataContext = new LoginViewModel();
+           // DataContext = new LoginViewModel();
             InitializeComponent();
         }
     }

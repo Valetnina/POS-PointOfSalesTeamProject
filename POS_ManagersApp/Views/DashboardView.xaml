@@ -9,7 +9,8 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <!--xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"-->
   
-    <Grid>
+    <StackPanel>
+        <!--<oxy:PlotView  Model="{Binding ResidentsPhotoChartViewModel.ChartModel}" Style="{StaticResource PlotViewStyle}" />-->
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TodaySales}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
@@ -31,5 +32,5 @@
             </chart:PieChart.Series>
         </chart:PieChart>-->
 
-    </Grid>
+    </StackPanel>
 </UserControl>
