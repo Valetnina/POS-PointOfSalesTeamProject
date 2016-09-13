@@ -343,6 +343,7 @@ namespace POS_SellersApp.ViewModels
         }
         #endregion
 
+        
      
         #region PrintReceipt
         public ActionCommand PrintReceipt { get; private set; }

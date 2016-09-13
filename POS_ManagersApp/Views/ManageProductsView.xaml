@@ -6,12 +6,34 @@
              xmlns:local="clr-namespace:POS_ManagersApp.Views"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900">
-    <Grid>
-        <StackPanel HorizontalAlignment="Left" Height="700" VerticalAlignment="Top" Width="900" Background="#036792">
-            <Grid Height="48"/>
-            <StackPanel Height="653" Orientation="Vertical" Background="#edeaea">
-                <Grid Height="653" Margin="0,0,657,0" Background="#5ab2d9"/>                
-            </StackPanel>
-        </StackPanel>
-    </Grid>
+    <UserControl.Resources>
+        <Style x:Key="BaseStyle" TargetType="{x:Type Label}">
+        <Setter Property="FontSize" Value="18"/>
+            </Style>
+    </UserControl.Resources>
+    <DockPanel Height="700" Width="900" LastChildFill="False">
+        <Grid DockPanel.Dock="Top" Height="48" Background="#036792"/>
+        <Grid DockPanel.Dock="Left" Height="653" Background="#5ab2d9" Width="224" Margin="0,0,0,-1">
+                <Button Content="Dashboard" Margin="23,36,33,577"/>
+                <Button Content="Products" Margin="23,96,33,517"/>
+                <Button Content="Reports" Margin="23,159,33,454"/>
+            <Button Content="Browse..." Margin="735,374,-664,239"/>
+            <Button Content="Add" Margin="289,522,-233,91"/>
+            <Button Content="Update" Margin="502,522,-446,91"/>
+            <Button Content="Delete" Margin="701,522,-645,91"/>
+        </Grid>
+        <Grid DockPanel.Dock="Left" Width="675">
+            <ComboBox Margin="125,28,116,579" ItemsSource="{Binding ProductsList}"></ComboBox>
+            <Label Content="UPC Code :" Width="200" Margin="24,122,436,496" Style="{StaticResource BaseStyle}"></Label>
+            <TextBox Text="{Binding UPCCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="170,122,176,496"/>
+            <Label Content="Category :" Width="200" Margin="24,182,436,436" Style="{StaticResource BaseStyle}"/>
+            <Label Content="Product Name :" Width="200" Margin="24,242,436,376" Style="{StaticResource BaseStyle}"/>
+            <Label Content="Price :" Width="200" Margin="24,309,436,309" Style="{StaticResource BaseStyle}"/>
+            <TextBox Text="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="170,182,176,436"/>
+            <TextBox Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="170,242,176,376"/>
+            <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="170,309,176,309"/>
+            <Label Content="Picture :" Width="200" Margin="24,376,436,242" Style="{StaticResource BaseStyle}"/>
+            <TextBox Margin="169,376,177,242"/>
+        </Grid>
+    </DockPanel>
 </UserControl>
