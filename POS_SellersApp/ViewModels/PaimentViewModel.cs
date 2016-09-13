@@ -12,9 +12,9 @@ namespace POS_SellersApp.ViewModels
     public class PaimentViewModel : ViewModel
     {
         private bool IsCash;
-        private bool IsMessageReceived;
        
        private string balance;
+       private bool IsDotClicked;
        public string Balance
         {
             get
@@ -41,12 +41,13 @@ namespace POS_SellersApp.ViewModels
 
         private bool CanExecuteDone()
         {
-            if ((decimal.Parse(Change) < 0))
-            {
-                MessageBox.Show("You cannot register paiement. The Amount tendered Shoud be greater than the Balance Due");
-                return false;
-            }
-            else return true;
+            //if ((decimal.Parse(Change) < 0))
+            //{
+            //    MessageBox.Show("You cannot register paiement. The Amount tendered Shoud be greater than the Balance Due");
+            //    return false;
+            //}
+            //else return true;
+            return true;
         }
 
         private void OnPayCash()
@@ -62,8 +63,8 @@ namespace POS_SellersApp.ViewModels
 
         private void OnDoneCommand(string message)
         {
-            MessengerDone.Default.Send(message);
-            MessengerDone.Default.Unregister(this);
+            MessengerDone.Default.Send(message, Amount);
+           // MessengerDone.Default.Unregister(this);
         }
 
         private void OnAddAmount(string number)
@@ -73,7 +74,22 @@ namespace POS_SellersApp.ViewModels
                 case "c":
                     Amount = "0";
                     break;
+                case ".":
+                    IsDotClicked = true;
+                    if (!IsDotClicked)
+                    {
+                        if (Amount == "0")
+                        {
+                            Amount = number;
+                        }
+                        else
+                        {
+                            Amount += number;
+                        }
+                    }
+                    break;
                 default:
+                    
                     if (Amount == "0")
                     {
                         Amount = number;

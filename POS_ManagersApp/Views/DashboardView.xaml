@@ -4,14 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:POS_ManagersApp.Views"
-               
+             xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <!--xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"-->
-  
-    <StackPanel>
-        <!--<oxy:PlotView  Model="{Binding ResidentsPhotoChartViewModel.ChartModel}" Style="{StaticResource PlotViewStyle}" />-->
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TodaySales}">
+             d:DesignHeight="900" d:DesignWidth="700" Width="600" Height="600">
+    <Grid Margin="0,0,91,0" >
+        <chart:PieChart ChartTitle="Sales Per Seller"  SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" >
+            <chart:PieChart.Series>
+                <chart:ChartSeries
+                SeriesTitle="Errors"
+                DisplayMember="Category"
+                ValueMember="Number"
+                ItemsSource="{Binding Path=Errors}" />
+            </chart:PieChart.Series>
+        </chart:PieChart>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TodaySales}" Margin="0,343,252,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
                 <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
@@ -20,17 +26,16 @@
                 <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
             </DataGrid.Columns>
         </DataGrid>
-        <!--<chart:PieChart Width="500" Height="500" ChartTitle="Sales"
-        ChartSubTitle="Record Sales by Seller"
-        SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" Margin="162,0,0,0"  VerticalAlignment="Bottom" >
-            <chart:PieChart.Series>
-                <chart:ChartSeries
-                SeriesTitle="Errors"
-                DisplayMember="Category"
-                ValueMember="Number"
-                ItemsSource="{Binding Path=Errors}" />
-            </chart:PieChart.Series>
-        </chart:PieChart>-->
-
-    </StackPanel>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TopItems}" Margin="351,343,-89,0" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
+                <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
+                <DataGridTextColumn Header="Qty" Binding="{Binding OrderItems.Quantity}" />
+                <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Sales This Month" HorizontalAlignment="Left" Margin="37,309,0,0" VerticalAlignment="Top" Width="140"/>
+        <Label Content="Top Items this Month" HorizontalAlignment="Left" Margin="390,309,-21,0" VerticalAlignment="Top" Width="140"/>
+        
+    </Grid>
 </UserControl>

@@ -164,11 +164,10 @@ namespace POS_DataLibrary
                     foreach (var item in orderItems)
                     {
                         command.CommandText =
-                                "Insert into OrderItems(OrderId, UPCCode, Quantity, Discount, ProductCategoryId, ProductName, Price, Tax) VALUES (@OrderIdF, @UPCCode, @Quantity, @Discount, @ProductCategoryId, @ProductName, @Price, @Tax)";
+                                "Insert into OrderItems(OrderId, UPCCode, Quantity, ProductCategoryId, ProductName, Price, Tax) VALUES (@OrderIdF, @UPCCode, @Quantity, @ProductCategoryId, @ProductName, @Price, @Tax)";
                         command.Parameters.AddWithValue("@OrderIdF", modified);
                         command.Parameters.AddWithValue("@UPCCode", item.UPCCode);
                         command.Parameters.AddWithValue("@Quantity", item.Quantity);
-                        command.Parameters.AddWithValue("@Discount", item.Discount);
                         command.Parameters.AddWithValue("@ProductCategoryId", item.CategoryId);
                         command.Parameters.AddWithValue("@ProductName", item.Name);
                         command.Parameters.AddWithValue("@Price", item.Price);
@@ -201,10 +200,10 @@ namespace POS_DataLibrary
             }
             return modified;
         }
-        public ObservableCollection<Sales> getTodaySales(string today)
+        public ObservableCollection<Sales> getTodaySales()
         {
                 ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
-                SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, count(ProductName) FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
+                SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, SUM(Price * Quantity) FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -225,7 +224,30 @@ namespace POS_DataLibrary
                 }
             return salesList;
         }
-          
+        public ObservableCollection<Sales> getTopItemsPerMonth()
+        {
+            ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
+            SqlCommand cmd = new SqlCommand("SELECT Top 5 UPCCode, ProductName,Quantity, Price, sum(Quantity) as Sum FROM Orders, OrderItems where Orders.OrderId = OrderItems.OrderId and Month(Date) = Month(CURRENT_TIMESTAMP) GROUP BY UPCCode, ProductName, Quantity, Price Order by sum(Quantity) desc", conn);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        //TODO
+                        string upcCode = reader.GetString(reader.GetOrdinal("UPCCode"));
+                        string productName = reader.GetString(reader.GetOrdinal("ProductName"));
+                        int Sum = reader.GetInt32(reader.GetOrdinal("Sum"));
+                        //int qty = reader.GetInt32(reader.GetOrdinal("Quantity"));
+                        decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
+                        decimal sales = Sum * price;
+
+                        salesList.Add(new Sales() { OrderItems = new OrderItems() { UPCCode = upcCode, Name = productName, Quantity = Sum }, ItemTotal = sales });
+                    }
+                }
+            }
+            return salesList;
+        }
         
         public void saveProduct(Product product)
         {
@@ -279,7 +301,28 @@ namespace POS_DataLibrary
 
         }
 
+<<<<<<< HEAD
 
 
+=======
+        public int getLastOrderNo()
+        {
+            int orderId = 0;
+            SqlCommand cmd = new SqlCommand("SELECT top 1 OrderId FROM Orders order By date desc", conn);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        //TODO
+                       orderId  = reader.GetInt32(reader.GetOrdinal("orderId"));
+
+                    }
+                }
+>>>>>>> origin/master
             }
+            return orderId;
+        }
+    }
 }

@@ -17,6 +17,8 @@ namespace POS_ManagersApp.ViewModels
     class ManageProductsViewModel:ViewModel
     {
         private ObservableCollection<Product> productsList = new ObservableCollection<Product>();
+        private ObservableCollection<Product> topItems = new ObservableCollection<Product>();
+
 
         private ObservableCollection<ProductCategory> categoryList = new ObservableCollection<ProductCategory>();
 
@@ -27,6 +29,7 @@ namespace POS_ManagersApp.ViewModels
                 RaisePropertyChanged("CategoryList"); }
         }
 
+ 
         private Database db = new Database();
 
        public ObservableCollection<Product> ProductsList
@@ -37,8 +40,10 @@ namespace POS_ManagersApp.ViewModels
         }
 
 
+
        public ManageProductsViewModel()
        {
+
 
            ProductsList = db.getAllProducts();
 
@@ -51,6 +56,9 @@ namespace POS_ManagersApp.ViewModels
            SelectImage = new ActionCommand(p => OnSelectImage());
 
            ClearForm = new ActionCommand(p => OnClearForm());
+
+           productsList = db.getAllProducts();
+
        }
 
               
