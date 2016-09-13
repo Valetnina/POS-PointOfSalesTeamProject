@@ -96,7 +96,6 @@ namespace POS_SellersApp
                     try
                     {
                         sellersVm.UserLoggedIn = User;
-                        MessageBox.Show(sellersVm.UserLoggedIn.FirstName);
                         CurrentView = sellersVm;
 
                     }

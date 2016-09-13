@@ -16,6 +16,8 @@ namespace POS_ManagersApp.ViewModels
         private Database db;
         public ObservableCollection<TestClass> Errors { get; private set; }
         public ObservableCollection<Sales> TodaySales { get; private set; }
+        public ObservableCollection<Sales> TopItems { get; set; }
+       
         public DashboardViewModel()
         {
             db = new Database();
@@ -25,7 +27,8 @@ namespace POS_ManagersApp.ViewModels
             Errors.Add(new TestClass() { Category = "ContentTypes", Number = 12 });
             Errors.Add(new TestClass() { Category = "Correctness", Number = 83 });
             Errors.Add(new TestClass() { Category = "Best Practices", Number = 29 });
-            TodaySales = db.getTodaySales(DateTime.Now.GetDateTimeFormats('d')[0]);
+            TodaySales = db.getTodaySales();
+            TopItems = db.getTopItemsPerMonth();
         }
         private object selectedItem = null;
         public object SelectedItem

@@ -15,8 +15,9 @@ namespace POS_ManagersApp.ViewModels
     class ManageProductsViewModel:ViewModel
     {
         private ObservableCollection<Product> productsList = new ObservableCollection<Product>();
+        private ObservableCollection<Product> topItems = new ObservableCollection<Product>();
 
-        private Database db;
+        private Database db = new Database();
 
        public ObservableCollection<Product> ProductsList
         {
@@ -26,9 +27,9 @@ namespace POS_ManagersApp.ViewModels
         }
 
 
+
        public ManageProductsViewModel()
        {
-            productsList = new ObservableCollection<Product>();
            productsList = db.getAllProducts();
        }
 

@@ -39,22 +39,6 @@ namespace POS_DataLibrary
             }
         }
 
-        private decimal discount;
-
-        public decimal Discount
-        {
-            get
-            {
-                return discount;
-            }
-
-            set
-            {
-                discount = value;
-                RaisePropertyChanged("Discount");
-            }
-        }
-
         public double Tax
         {
             get

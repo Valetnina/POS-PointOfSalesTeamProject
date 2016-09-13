@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:POS_SellersApp.Views"
              xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
-              xmlns:vml = "clr-namespace:POS_ViewsLibrary"
+             xmlns:vml = "clr-namespace:POS_ViewsLibrary" 
              
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900" Width="500" Height="650">
@@ -365,7 +365,7 @@
                 <Button Content="C" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="c" Margin="16,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
                 <Button Content="0" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="0" Margin="109,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
                 <Button Content="." HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="." Margin="194,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}" Width="76"/>
-                <Button Content="Cancel Paiement " Command="{Binding Done}" CommandParameter="Back" Style="{StaticResource RectBlueButton}" Margin="89,438,102,182" />
+                <Button Content="Cancel" Command="{Binding Done}" CommandParameter="Back" Style="{StaticResource RectBlueButton}" Margin="89,438,102,182" />
             </Grid>
             <Grid  Width="140">
                 <Label Content="Change" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="26,14,0,0" RenderTransformOrigin="0.459,1.115" />
@@ -375,7 +375,7 @@
                 <Button Content="Gift Card" Style="{StaticResource RectBlueButton}" Margin="14,299,31,311" />
                 <Button Command="{Binding Done}" CommandParameter="Register" Style="{StaticResource RoundBlueButton}" Content="Done" FontSize="20" Margin="26,361,48,214" />
             </Grid>
-            <Button x:Name="button" Content="Button" Width="75"/>
+            <Button Width="200" x:Name="button" Content="Button" />
         </StackPanel>
         <!--<StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
         </StackPanel>-->
