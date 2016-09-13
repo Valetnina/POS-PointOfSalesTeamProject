@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Drawing.Printing;
 using System.Drawing;
 using POS_SellersApp.Views;
+using System.Windows.Input;
 
 namespace POS_SellersApp.ViewModels
 {
@@ -332,13 +333,14 @@ namespace POS_SellersApp.ViewModels
             }
         }
         public ActionCommand SwitchViews { get; private set; }
-
+       readonly static PaimentViewModel pvm = new PaimentViewModel();
         private void OnSwitchViews(string destination)
         {
             switch (destination)
             {
                 case "pay":
-                    CurrentView = new PaimentViewModel();
+                    pvm.Balance = BalanceDue.ToString();
+                    CurrentView = pvm;
                     MessengerBalance.Default.Send(BalanceDue);
                     break;
 
@@ -361,6 +363,59 @@ namespace POS_SellersApp.ViewModels
         //    var retVal = paiementVM.Change;
 
         //}
+
+
+
+                    string productLine = item.CategoryName;
+
+                    graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
+
+                    offset = offset + (int)fontHeight + 5; //make the spacing consistent
+            }
+            //TODO: Pass the paiement information
+            decimal change = 0;
+            decimal totalPrice = 0;
+            decimal cash = 0;
+            change = (cash - totalprice);
+
+            //when we have drawn all of the items add the total
+
+            offset = offset + 20; //make some room so that the total stands out.
+
+            graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
+
+            offset = offset + 30; //make some room so that the total stands out.
+            graphic.DrawString("CASH ".PadRight(30) + String.Format("{0:c}", cash), font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + 15;
+            graphic.DrawString("CHANGE ".PadRight(30) + String.Format("{0:c}", change), font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + 30; //make some room so that the total stands out.
+            graphic.DrawString("     Thank-you for your custom,", font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + 15;
+            graphic.DrawString("       please come back soon!", font, new SolidBrush(Color.Black), startX, startY + offset);
+
+
+        }
+        #endregion
+        private ICommand _closeCommand;
+        public ICommand CloseCommand
+        {
+            get
+            {
+                if (_closeCommand == null)
+                    _closeCommand = new ActionCommand(param => this.OnRequestClose());
+
+                return _closeCommand;
+            }
+        }
+
+        public event EventHandler RequestClose;
+
+        void OnRequestClose()
+        {
+            EventHandler handler = this.RequestClose;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
 
 
     }

@@ -6,11 +6,13 @@
              xmlns:local="clr-namespace:POS_SellersApp.Views"
              xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
+              xmlns:vml = "clr-namespace:POS_ViewsLibrary"
+             vml:ViewModelLocator.AutoHookedUpViewModel = "True"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900" Width="500" Height="650">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <viewModels:PaimentViewModel/>
-    </UserControl.DataContext>
+    </UserControl.DataContext-->>
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
