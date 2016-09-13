@@ -209,7 +209,7 @@ namespace POS_DataLibrary
 
           ////  SqlCommand cmd = new SqlCommand("INSERT INTO Product (UPCCode, ProductCategoryId, Name, Price, Picture) VALUES (@UPCCode, @ProductCategoryId, @Name, @Price, @Picture)", conn);
 
-          //  SqlCommand cmd = new SqlCommand("Update Product set  Picture = @Picture where UPCCode = @UPCCode", conn);
+       
           //  cmd.Parameters.AddWithValue("@UPCCode", "DRK03");
           //  //cmd.Parameters.AddWithValue("@ProductCategoryId", 2);
           //  //cmd.Parameters.AddWithValue("@Name", "Sprite");
@@ -217,8 +217,9 @@ namespace POS_DataLibrary
           //  //cmd.Parameters.AddWithValue("@Picture", rawData);
 
 
-          //  //cmd.ExecuteScalar();
           //  cmd.ExecuteNonQuery();
+
+            //  SqlCommand cmd = new SqlCommand("Update Product set  Picture = @Picture where UPCCode = @UPCCode", conn);
 
         }
             }
