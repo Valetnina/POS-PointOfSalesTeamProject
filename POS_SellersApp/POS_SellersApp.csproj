@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="DialogService.cs" />
     <Compile Include="Views\SellersMainWindow.xaml.cs">
       <DependentUpon>SellersMainWindow.xaml</DependentUpon>
     </Compile>

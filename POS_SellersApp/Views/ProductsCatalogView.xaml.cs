@@ -23,7 +23,7 @@ namespace POS_SellersApp.Views
     {
         public ProductsCatalogView()
         {
-            DataContext = new ProductsCatalogViewModel();
+          //  DataContext = new ProductsCatalogViewModel();
             InitializeComponent();
           
         }

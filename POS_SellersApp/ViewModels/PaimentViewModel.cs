@@ -5,35 +5,52 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace POS_SellersApp.ViewModels
 {
     public class PaimentViewModel : ViewModel
     {
-        private decimal balanceDue;
         private bool IsCash;
-        public decimal BalanceDue
+        private bool IsMessageReceived;
+       
+       private string balance;
+       public string Balance
         {
             get
             {
-                return balanceDue;
+                return balance;
             }
             set
             {
-                balanceDue = value;
-                RaisePropertyChanged("BalanceDue");
+                balance = value;
+                RaisePropertyChanged("Balance");
+                //if(decimal.Parse(Balance) > 0 && IsMessageReceived)
+                //{
+                //    MessengerBalance.Default.Unregister(this);
+                //}
             }
         }
-       
-        public PaimentViewModel(decimal balance)
+        public PaimentViewModel()
         {
-            this.BalanceDue = balance;
-            Done = new ActionCommand(p => OnDoneCommand());
+
+            Done = new ActionCommand(p => OnDoneCommand(p.ToString()), p=> CanExecuteDone());
 
             //Handle command on buttons
             AddAmount = new ActionCommand(p => OnAddAmount(p.ToString()), p=> IsCash);
             PayCash = new ActionCommand(p => OnPayCash());
             Amount = "0";
+            Balance = "0";
+        }
+
+        private bool CanExecuteDone()
+        {
+            if ((decimal.Parse(Change) < 0))
+            {
+                MessageBox.Show("You cannot register paiement. The Amount tendered Shoud be greater than the Balance Due");
+                return false;
+            }
+            else return true;
         }
 
         private void OnPayCash()
@@ -47,9 +64,9 @@ namespace POS_SellersApp.ViewModels
         public ActionCommand AddAmount { get; private set; }
         public ActionCommand PayCash { get; private set; }
 
-        private void OnDoneCommand()
+        private void OnDoneCommand(string message)
         {
-            MessengerDone.Default.Send("Done");
+            MessengerDone.Default.Send(message);
             MessengerDone.Default.Unregister(this);
         }
 
@@ -94,16 +111,35 @@ namespace POS_SellersApp.ViewModels
             {
                 if (decimal.Parse(Amount) == 0)
                 {
-                    return BalanceDue.ToString();
+                    return Balance;
                 }
                 else
                 {
-                    return (BalanceDue - decimal.Parse(Amount)) + "";
+                    return (-decimal.Parse(Balance) + decimal.Parse(Amount)) + "";
                 }
 
             }
         }
+        //private ICommand _closeCommand;
+        //public ICommand CloseCommand
+        //{
+        //    get
+        //    {
+        //        if (_closeCommand == null)
+        //            _closeCommand = new ActionCommand(param => this.OnRequestClose());
 
-       
+        //        return _closeCommand;
+        //    }
+        //}
+
+        //public event EventHandler RequestClose;
+
+        //void OnRequestClose()
+        //{
+        //    EventHandler handler = this.RequestClose;
+        //    if (handler != null)
+        //        handler(this, EventArgs.Empty);
+        //}
+
     }
 }

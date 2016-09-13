@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Windows.Controls;
 using System.Drawing.Printing;
 using System.Drawing;
+using POS_SellersApp.Views;
 
 namespace POS_SellersApp.ViewModels
 {
@@ -19,7 +20,7 @@ namespace POS_SellersApp.ViewModels
 
     {
         private const double TAX = 0.15;
-
+        private bool IsDoneMessageReceived;
         private Database db;
         private ObservableCollection<Int32> discountButtons;
         public ObservableCollection<Int32> DiscountButtons
@@ -41,26 +42,23 @@ namespace POS_SellersApp.ViewModels
 
             db = new Database();
             //Register for messages from differnet viewModels
-            MessengerUser.Default.Register<User>(this, (user) =>
+            MessengerUserLogged.Default.Register<User>(this, (user) =>
             {
                 this.UserLoggedIn = user;
-                //UserLoggedIn.FirstName = user.FirstName;
-                //MessageBox.Show(UserLoggedIn.FirstName);
-                //RaisePropertyChanged("UserName");
-                //UserLoggedIn.Id = user.Id;
-                //UserLoggedIn.LastName = user.LastName;
-                //RaisePropertyChanged("FirstName");
             });
             MessengerPoduct.Default.Register<Product>(this, (product) =>
             {
                 ReceiveMessage(product);
             });
-            MessengerDone.Default.Register<String>(this, message =>
-               {
-                   MessageBox.Show("Hello");
-                   RecivedDoneMessage();
-               }
-            );
+            if (!IsDoneMessageReceived)
+            {
+                MessengerDone.Default.Register<String>(this, message =>
+                   {
+                       IsDoneMessageReceived = true;
+                       RecivedDoneMessage(message);
+                   }
+                );
+            }
             SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
             //Initialize comopents with some values
             OrderItems = new ObservableCollection<OrderItems>();
@@ -94,26 +92,36 @@ namespace POS_SellersApp.ViewModels
 
 
 
-        private void RecivedDoneMessage()
+        private void RecivedDoneMessage(string message)
         {
-
-            Order order = new Order { Date = DateTime.Now, StoreNo = "OV001", UserId = "SEL01", OrderAmount = BalanceDue, Tax = OrderTax };
-
-            try
+            switch (message)
             {
-                if (OrderItems.Count > 0)
-                {
-                 int lastOrderId= db.saveOrderAndOrderItems(order, OrderItems.ToList());
-                    OrderNo = string.Format("Order# {0}", lastOrderId.ToString());
-                    CurrentView = ProductsCatalogViewModel;
-                    OrderItems.Clear();
-                }
+                case "Register":
+                    Order order = new Order { Date = DateTime.Now, StoreNo = "OV001", UserId = "SEL01", OrderAmount = BalanceDue, Tax = OrderTax };
+
+                    try
+                    {
+                        if (OrderItems.Count > 0)
+                        {
+                            int lastOrderId = db.saveOrderAndOrderItems(order, OrderItems.ToList());
+                            OrderNo = string.Format("Order# {0}", lastOrderId.ToString());
+                            CurrentView = ProductsCatalogViewModel;
+                            OrderItems.Clear();
+                        }
+                        MessageBox.Show("Order has been sent to processing");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error inserting data to the database");
+                        throw ex;
+                    }
+                    break;
+                case "Back":
+                default:
+                    OnSwitchViews("catalog");
+                    break;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error inserting data to the database");
-                throw ex;
-            }
+           
 
         }
 
@@ -325,13 +333,13 @@ namespace POS_SellersApp.ViewModels
         }
         public ActionCommand SwitchViews { get; private set; }
 
-
         private void OnSwitchViews(string destination)
         {
             switch (destination)
             {
                 case "pay":
-                    CurrentView = new PaimentViewModel(BalanceDue);
+                    CurrentView = new PaimentViewModel();
+                    MessengerBalance.Default.Send(BalanceDue);
                     break;
 
                 case "catalog":
@@ -342,8 +350,18 @@ namespace POS_SellersApp.ViewModels
 
         }
         #endregion
+        //public void OpenChildDailog()
+        //{
+        //    DialogService service = new DialogService();
+        //    paiementVM.Balance = BalanceDue.ToString(); // Assign whatever you want
+        //    service.Show(new PaymentView(), paiementVM);
 
-     
+        //    // Now get the values when the child dailog get closed
+
+        //    var retVal = paiementVM.Change;
+
+        //}
+
         #region PrintReceipt
         public ActionCommand PrintReceipt { get; private set; }
        

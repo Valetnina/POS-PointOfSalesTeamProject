@@ -11,6 +11,9 @@
         mc:Ignorable="d"
        Width="900" Height="700" WindowStyle="None" WindowStartupLocation="CenterScreen">
 
+    <Window.DataContext>
+        <local:SellersStartupViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <DataTemplate DataType = "{x:Type viewModelsRef:LoginViewModel}">
             <viewsRef:LoginView/>

@@ -4,13 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POS_SellersApp"
-           xmlns:views = "clr-namespace:POS_SellersApp.Views" 
-           xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
-              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
+        xmlns:views = "clr-namespace:POS_SellersApp.Views" 
+        xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
+        xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
         mc:Ignorable="d"
-
         Width="900" Height="700" Background="#0085bd">
-    
+    <UserControl.DataContext>
+        <viewModels:SellersMainWindowViewModel/>
+    </UserControl.DataContext>
+
 
     <UserControl.Resources>
         <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
@@ -220,7 +222,7 @@
                         <DataGridTextColumn Width="200" Header="Item" Binding="{Binding Name}" Foreground="Black" />
                         <DataGridTextColumn Width ="60" Header="Qty" Binding="{Binding Quantity}" Foreground="Black" />
                         <DataGridTextColumn  Width ="60" Header="Each" Binding="{Binding Price, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
-                        <DataGridTextColumn  Width ="60" Header="Total" Binding="{Binding Discount, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
+                        <DataGridTextColumn  Width ="60" Header="Discount" Binding="{Binding Discount, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
                         <DataGridTextColumn  Width ="60" Header="Total" Binding="{Binding Total, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
 
                     </DataGrid.Columns>

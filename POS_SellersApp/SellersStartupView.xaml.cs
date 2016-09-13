@@ -21,7 +21,7 @@ namespace POS_SellersApp
     {
         public SellersStartupView()
         {
-            DataContext = new SellersStartupViewModel();
+           // DataContext = new SellersStartupViewModel();
             InitializeComponent();
            
         }
