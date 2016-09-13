@@ -28,6 +28,7 @@ namespace POS_ManagersApp.ViewModels
 
        public ManageProductsViewModel()
        {
+            productsList = new ObservableCollection<Product>();
            productsList = db.getAllProducts();
        }
 

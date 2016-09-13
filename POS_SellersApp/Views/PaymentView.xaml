@@ -7,12 +7,13 @@
              xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
               xmlns:vml = "clr-namespace:POS_ViewsLibrary"
-             vml:ViewModelLocator.AutoHookedUpViewModel = "True"
+             
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900" Width="500" Height="650">
+    <!--vml:ViewModelLocator.AutoHookedUpViewModel = "True"-->
     <!--<UserControl.DataContext>
         <viewModels:PaimentViewModel/>
-    </UserControl.DataContext-->>
+    </UserControl.DataContext-->
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
@@ -365,8 +366,6 @@
                 <Button Content="0" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="0" Margin="109,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
                 <Button Content="." HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="." Margin="194,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}" Width="76"/>
                 <Button Content="Cancel Paiement " Command="{Binding Done}" CommandParameter="Back" Style="{StaticResource RectBlueButton}" Margin="89,438,102,182" />
-
-
             </Grid>
             <Grid  Width="140">
                 <Label Content="Change" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="26,14,0,0" RenderTransformOrigin="0.459,1.115" />

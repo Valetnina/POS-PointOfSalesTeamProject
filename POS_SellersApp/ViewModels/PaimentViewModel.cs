@@ -25,10 +25,6 @@ namespace POS_SellersApp.ViewModels
             {
                 balance = value;
                 RaisePropertyChanged("Balance");
-                //if(decimal.Parse(Balance) > 0 && IsMessageReceived)
-                //{
-                //    MessengerBalance.Default.Unregister(this);
-                //}
             }
         }
         public PaimentViewModel()
@@ -115,7 +111,7 @@ namespace POS_SellersApp.ViewModels
                 }
                 else
                 {
-                    return (-decimal.Parse(Balance) + decimal.Parse(Amount)) + "";
+                    return (decimal.Parse(Amount)) -decimal.Parse(Balance) + "";
                 }
 
             }

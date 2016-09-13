@@ -43,10 +43,7 @@ namespace POS_SellersApp.ViewModels
 
             db = new Database();
             //Register for messages from differnet viewModels
-            MessengerUserLogged.Default.Register<User>(this, (user) =>
-            {
-                this.UserLoggedIn = user;
-            });
+           
             MessengerPoduct.Default.Register<Product>(this, (product) =>
             {
                 ReceiveMessage(product);
@@ -56,7 +53,11 @@ namespace POS_SellersApp.ViewModels
                 MessengerDone.Default.Register<String>(this, message =>
                    {
                        IsDoneMessageReceived = true;
-                       RecivedDoneMessage(message);
+                       if (!IsDoneMessageReceived)
+                       {
+                           RecivedDoneMessage(message);
+                       }
+                       
                    }
                 );
             }
@@ -71,6 +72,7 @@ namespace POS_SellersApp.ViewModels
             DiscountButtons.Add(50);
             DiscountButtons.Add(100);
             SelectedDiscount = 0;
+            
             //Register CollectionChangedEvent for the OrderItems
             OrderItems.CollectionChanged += ContentCollectionChanged;
             //if (OrderItems != null && OrderItems.CanGroup == true)
@@ -82,23 +84,24 @@ namespace POS_SellersApp.ViewModels
                 RemoveItem = new ActionCommand(p => OnRemoveItem());
             CancelOrder = new ActionCommand(p => OnCancelOrder());
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
-            PrintReceipt = new ActionCommand(p => OnPrintReceipt());
+            //PrintReceipt = new ActionCommand(p => OnPrintReceipt());
             currentView = ProductsCatalogViewModel;
             OrderNo = "1";
             
             //Set the totals to zero
             //  OrderSubTotal = 0;
-            db.saveProduct(new Product());
         }
 
 
 
         private void RecivedDoneMessage(string message)
         {
+            if (IsDoneMessageReceived) return;
             switch (message)
             {
                 case "Register":
-                    Order order = new Order { Date = DateTime.Now, StoreNo = "OV001", UserId = "SEL01", OrderAmount = BalanceDue, Tax = OrderTax };
+                   
+                    Order order = new Order { Date = DateTime.Now, Discount = SelectedDiscount/100, StoreNo = "OV001", UserId = "SEL02", OrderAmount = BalanceDue, Tax = OrderTax };
 
                     try
                     {
@@ -161,7 +164,7 @@ namespace POS_SellersApp.ViewModels
                     CategoryName = product.CategoryName.ToString(),
                     Quantity = 1,
                     Price = product.Price,
-                    Name = product.Name
+                    Name = product.Name,
                 });
             }
         }
@@ -177,16 +180,15 @@ namespace POS_SellersApp.ViewModels
                 selectedDiscount = value;
                 RaisePropertyChanged("SelectedDiscount");
                 RaisePropertyChanged("Discount");
-                RaisePropertyChanged("Total");
-                RaisePropertyChanged("Tax");
+                RaisePropertyChanged("OrderTax");
                 RaisePropertyChanged("BalanceDue");
             }
         }
-        public string Discount
+        public decimal Discount
         {
             get
             {
-                return string.Format("-{0}%",SelectedDiscount);
+                return (OrderSubTotal* SelectedDiscount / 100);
             }
         }
         private OrderItems selectedOrderItem;
@@ -216,6 +218,7 @@ namespace POS_SellersApp.ViewModels
 
             {
                 userLoggedIn = value;
+
                 RaisePropertyChanged("UserLoggedIn");
                 RaisePropertyChanged("FirstName");
             }
@@ -228,7 +231,6 @@ namespace POS_SellersApp.ViewModels
             {
                 if (UserLoggedIn != null)
                 {
-                    // Messenger.Default.Unregister(this);
                     return UserLoggedIn.FirstName;
                 }
                 return "NOT SET";
@@ -255,7 +257,7 @@ namespace POS_SellersApp.ViewModels
             get
             {
 
-                return (OrderSubTotal - SelectedDiscount) * (decimal)TAX;
+                return (OrderSubTotal - Discount) *(decimal)TAX;
             }
 
         }
@@ -263,7 +265,7 @@ namespace POS_SellersApp.ViewModels
         {
             get
             {
-                return (OrderSubTotal - SelectedDiscount + OrderTax);
+                return (OrderSubTotal - Discount + OrderTax);
             }
 
         }
@@ -339,7 +341,7 @@ namespace POS_SellersApp.ViewModels
             switch (destination)
             {
                 case "pay":
-                    pvm.Balance = BalanceDue.ToString();
+                    pvm.Balance = BalanceDue.ToString("#.##");
                     CurrentView = pvm;
                     MessengerBalance.Default.Send(BalanceDue);
                     break;
@@ -366,36 +368,35 @@ namespace POS_SellersApp.ViewModels
 
 
 
-                    string productLine = item.CategoryName;
+            //        string productLine = item.CategoryName;
 
-                    graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
+            //        graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
 
-                    offset = offset + (int)fontHeight + 5; //make the spacing consistent
-            }
-            //TODO: Pass the paiement information
-            decimal change = 0;
-            decimal totalPrice = 0;
-            decimal cash = 0;
-            change = (cash - totalprice);
+            //        offset = offset + (int)fontHeight + 5; //make the spacing consistent
+            //}
+            ////TODO: Pass the paiement information
+            //decimal change = 0;
+            //decimal totalPrice = 0;
+            //decimal cash = 0;
+            //change = (cash - totalprice);
 
-            //when we have drawn all of the items add the total
+            ////when we have drawn all of the items add the total
 
-            offset = offset + 20; //make some room so that the total stands out.
+            //offset = offset + 20; //make some room so that the total stands out.
 
-            graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
+            //graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
 
-            offset = offset + 30; //make some room so that the total stands out.
-            graphic.DrawString("CASH ".PadRight(30) + String.Format("{0:c}", cash), font, new SolidBrush(Color.Black), startX, startY + offset);
-            offset = offset + 15;
-            graphic.DrawString("CHANGE ".PadRight(30) + String.Format("{0:c}", change), font, new SolidBrush(Color.Black), startX, startY + offset);
-            offset = offset + 30; //make some room so that the total stands out.
-            graphic.DrawString("     Thank-you for your custom,", font, new SolidBrush(Color.Black), startX, startY + offset);
-            offset = offset + 15;
-            graphic.DrawString("       please come back soon!", font, new SolidBrush(Color.Black), startX, startY + offset);
+            //offset = offset + 30; //make some room so that the total stands out.
+            //graphic.DrawString("CASH ".PadRight(30) + String.Format("{0:c}", cash), font, new SolidBrush(Color.Black), startX, startY + offset);
+            //offset = offset + 15;
+            //graphic.DrawString("CHANGE ".PadRight(30) + String.Format("{0:c}", change), font, new SolidBrush(Color.Black), startX, startY + offset);
+            //offset = offset + 30; //make some room so that the total stands out.
+            //graphic.DrawString("     Thank-you for your custom,", font, new SolidBrush(Color.Black), startX, startY + offset);
+            //offset = offset + 15;
+            //graphic.DrawString("       please come back soon!", font, new SolidBrush(Color.Black), startX, startY + offset);
 
 
-        }
-        #endregion
+        //}
         private ICommand _closeCommand;
         public ICommand CloseCommand
         {

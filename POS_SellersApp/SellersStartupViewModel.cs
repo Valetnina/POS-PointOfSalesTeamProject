@@ -77,7 +77,7 @@ namespace POS_SellersApp
 
        public ActionCommand SwitchViews { get; private set; }
 
-        SellersMainWindowViewModel sellersVm = new SellersMainWindowViewModel();
+       readonly static SellersMainWindowViewModel sellersVm = new SellersMainWindowViewModel();
 
         private void OnSwitchViews(string destination)
        {
@@ -95,8 +95,9 @@ namespace POS_SellersApp
                    }
                     try
                     {
+                        sellersVm.UserLoggedIn = User;
+                        MessageBox.Show(sellersVm.UserLoggedIn.FirstName);
                         CurrentView = sellersVm;
-                        MessengerUserLogged.Default.Send(User);
 
                     }
                     catch(Exception ex)
