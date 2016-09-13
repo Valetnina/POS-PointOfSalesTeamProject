@@ -14,7 +14,7 @@ namespace POS_ManagersApp.ViewModels
     
     class ManageProductsViewModel:ViewModel
     {
-        private ObservableCollection<Product> productsList;
+        private ObservableCollection<Product> productsList = new ObservableCollection<Product>();
 
         private Database db;
 
@@ -31,7 +31,6 @@ namespace POS_ManagersApp.ViewModels
             productsList = new ObservableCollection<Product>();
            productsList = db.getAllProducts();
        }
-
 
         private string upcCode;
         public string UPCCode
