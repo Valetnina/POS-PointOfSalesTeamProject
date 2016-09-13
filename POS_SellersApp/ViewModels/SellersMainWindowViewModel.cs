@@ -25,7 +25,6 @@ namespace POS_SellersApp.ViewModels
         //   public User UserLoggedIn = new User();
         public SellersMainWindowViewModel()
         {
-
             db = new Database();
             //Register for messages from differnet viewModels
 
@@ -35,9 +34,7 @@ namespace POS_SellersApp.ViewModels
             });
             MessengerDone.Default.Register<String>(this, message =>
                  {
-
                      RecivedDoneMessage(message);
-
                  });
             SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
             //Initialize comopents with some values
@@ -69,7 +66,25 @@ namespace POS_SellersApp.ViewModels
             //Check if the product was already selected
             if (OrderItems.Any(p => p.UPCCode == SelectedOrderItem.UPCCode))
             {
-                OrderItems.First(p => p.UPCCode == SelectedOrderItem.UPCCode).Quantity -= 1;
+                if (OrderItems.First(p => p.UPCCode == SelectedOrderItem.UPCCode).Quantity == 0)
+                {
+                    if (SelectedOrderItem != null)
+                    {
+                        MessageBoxResult result = MessageBox.Show("You are about to delete an item. Do you want to continue?", "Delete Item", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            OrderItems.Remove(SelectedOrderItem);
+                        };
+                    }
+                }
+                else
+                {
+                    OrderItems.First(p => p.UPCCode == SelectedOrderItem.UPCCode).Quantity -= 1;
+                    RaisePropertyChanged("OrderSubTotal");
+                    RaisePropertyChanged("OrderTax");
+                    RaisePropertyChanged("BalanceDue");
+                }
+                
             }
         }
 
@@ -81,7 +96,7 @@ namespace POS_SellersApp.ViewModels
             {
                 case "Register":
 
-                    Order order = new Order { Date = DateTime.Now,  StoreNo = "OV001", UserId = UserLoggedIn.Id, OrderAmount = BalanceDue, Tax = OrderTax };
+                    Order order = new Order { Date = DateTime.Now,  StoreNo = "OV001", UserId = UserLoggedIn.Id, OrderAmount = OrderSubTotal, Tax = OrderTax };
 
                     try
                     {
@@ -134,6 +149,9 @@ namespace POS_SellersApp.ViewModels
             if (OrderItems.Any(p => p.UPCCode == product.UPCCode))
             {
                 OrderItems.First(p => p.UPCCode == product.UPCCode).Quantity += 1;
+                RaisePropertyChanged("OrderSubTotal");
+                RaisePropertyChanged("OrderTax");
+                RaisePropertyChanged("BalanceDue");
             }
             else
             {
@@ -295,9 +313,13 @@ namespace POS_SellersApp.ViewModels
             switch (destination)
             {
                 case "pay":
+                    if (OrderItems.Count < 1)
+                    {
+                        MessageBox.Show("You cannot pay an empty order", "Paiement Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                     pvm.Balance = BalanceDue.ToString("#.##");
                     CurrentView = pvm;
-                    MessengerBalance.Default.Send(BalanceDue);
                     break;
 
                 case "catalog":

@@ -18,8 +18,6 @@ namespace POS_ManagersApp.ViewModels
     {
         private ObservableCollection<Product> productsList = new ObservableCollection<Product>();
         private ObservableCollection<Product> topItems = new ObservableCollection<Product>();
-
-
         private ObservableCollection<ProductCategory> categoryList = new ObservableCollection<ProductCategory>();
 
         public ObservableCollection<ProductCategory> CategoryList

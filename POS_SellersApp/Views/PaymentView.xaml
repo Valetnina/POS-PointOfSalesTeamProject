@@ -7,13 +7,9 @@
              xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
              xmlns:vml = "clr-namespace:POS_ViewsLibrary" 
-             
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900" Width="500" Height="650">
-    <!--vml:ViewModelLocator.AutoHookedUpViewModel = "True"-->
-    <!--<UserControl.DataContext>
-        <viewModels:PaimentViewModel/>
-    </UserControl.DataContext-->
+   
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
@@ -343,15 +339,13 @@
         </Style>
         <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
     </UserControl.Resources>
-    <!--<UserControl.DataContext>
-        <viewModels:PaimentViewModel/>
-    </UserControl.DataContext>-->
+    
     <DockPanel Background="#0472a1" >
         <StackPanel x:Name="spRightSide" Width="430" Background="#edeaea" Orientation="Horizontal" Margin="0,0,0,0">
             <Grid>
                 <Label Content="Balance Due" HorizontalAlignment="Left" Margin="49,18,0,0" VerticalAlignment="Top" Width="146" />
                 <Label Content="Amount tendered" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="156,18,0,0" VerticalAlignment="Top" Width="130" />
-                <TextBlock Text="{Binding Balance, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="141" Background="White" Height="39"/>
+                <TextBlock Text="{Binding Balance, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource customDecimalToStringConverter}}" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="141" Background="White" Height="39"/>
                 <Label Content="{Binding Amount}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="156,44,0,0" VerticalAlignment="Top" Width="130" Background="White" Height="39"/>
                 <Button Content="1" Command="{Binding AddAmount}" CommandParameter="1" Style="{StaticResource CalcButton}" HorizontalAlignment="Left" Margin="15,119,0,0" VerticalAlignment="Top" Width="76"/>
                 <Button Content="2" Command="{Binding AddAmount}" CommandParameter="2" HorizontalAlignment="Left" Margin="109,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>

@@ -258,7 +258,6 @@
             </Grid>
             <Grid Height="168">
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
-                <Label Height="23" Content="Discounts  :" Style="{StaticResource BlackLabel}" Margin="0,29,338,99" />
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
                 <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
                 <Label Height="23" Content="{Binding OrderSubTotal, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" FontSize="12"  Margin="87,0,251,128" />

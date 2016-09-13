@@ -30,24 +30,13 @@ namespace POS_SellersApp.ViewModels
         public PaimentViewModel()
         {
 
-            Done = new ActionCommand(p => OnDoneCommand(p.ToString()), p=> CanExecuteDone());
+            Done = new ActionCommand(p => OnDoneCommand(p.ToString()));
 
             //Handle command on buttons
             AddAmount = new ActionCommand(p => OnAddAmount(p.ToString()), p=> IsCash);
             PayCash = new ActionCommand(p => OnPayCash());
             Amount = "0";
             Balance = "0";
-        }
-
-        private bool CanExecuteDone()
-        {
-            //if ((decimal.Parse(Change) < 0))
-            //{
-            //    MessageBox.Show("You cannot register paiement. The Amount tendered Shoud be greater than the Balance Due");
-            //    return false;
-            //}
-            //else return true;
-            return true;
         }
 
         private void OnPayCash()
@@ -63,8 +52,21 @@ namespace POS_SellersApp.ViewModels
 
         private void OnDoneCommand(string message)
         {
-            MessengerDone.Default.Send(message, Amount);
-           // MessengerDone.Default.Unregister(this);
+            switch (message)
+            {
+                case "Register":
+                    if (decimal.Parse(Change) < 0 || Amount == "0")
+                    {
+                        MessageBox.Show("you cannot commit transaction. Client paiement cannot be less than the Balance Due");
+                    }
+                    else MessengerDone.Default.Send(message);
+                    break;
+                case "Back":
+                default:
+                    MessengerDone.Default.Send(message);
+                    break;
+
+            }
         }
 
         private void OnAddAmount(string number)
@@ -75,7 +77,10 @@ namespace POS_SellersApp.ViewModels
                     Amount = "0";
                     break;
                 case ".":
-                    IsDotClicked = true;
+                    if (Amount == "0")
+                    {
+                        return;
+                    }
                     if (!IsDotClicked)
                     {
                         if (Amount == "0")
@@ -86,6 +91,7 @@ namespace POS_SellersApp.ViewModels
                         {
                             Amount += number;
                         }
+                        IsDotClicked = true;
                     }
                     break;
                 default:
@@ -121,15 +127,16 @@ namespace POS_SellersApp.ViewModels
         {
             get
             {
-                if (decimal.Parse(Amount) == 0)
+                decimal parsedAmount;
+                if (decimal.TryParse(Amount, out parsedAmount))
                 {
-                    return Balance;
+                    if (parsedAmount == 0)
+                    {
+                        return "-"+Balance;
+                    }
+                    else return (decimal.Parse(Amount)) - decimal.Parse(Balance) + "";
                 }
-                else
-                {
-                    return (decimal.Parse(Amount)) -decimal.Parse(Balance) + "";
-                }
-
+                else return "0";
             }
         }
         //private ICommand _closeCommand;
