@@ -6,8 +6,14 @@
              xmlns:local="clr-namespace:POS_SellersApp.Views"
              xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
+              xmlns:vml = "clr-namespace:POS_ViewsLibrary"
+             
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900" Width="500" Height="650">
+    <!--vml:ViewModelLocator.AutoHookedUpViewModel = "True"-->
+    <!--<UserControl.DataContext>
+        <viewModels:PaimentViewModel/>
+    </UserControl.DataContext-->
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
@@ -345,8 +351,8 @@
             <Grid>
                 <Label Content="Balance Due" HorizontalAlignment="Left" Margin="49,18,0,0" VerticalAlignment="Top" Width="146" />
                 <Label Content="Amount tendered" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="156,18,0,0" VerticalAlignment="Top" Width="130" />
-                <Label Content="{Binding BalanceDue, Converter={StaticResource customDecimalToStringConverter}, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="146" Background="White" Height="25"/>
-                <Label Content="{Binding Amount}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="156,44,0,0" VerticalAlignment="Top" Width="130" Background="White" Height="25"/>
+                <TextBlock Text="{Binding Balance, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" Width="141" Background="White" Height="39"/>
+                <Label Content="{Binding Amount}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="156,44,0,0" VerticalAlignment="Top" Width="130" Background="White" Height="39"/>
                 <Button Content="1" Command="{Binding AddAmount}" CommandParameter="1" Style="{StaticResource CalcButton}" HorizontalAlignment="Left" Margin="15,119,0,0" VerticalAlignment="Top" Width="76"/>
                 <Button Content="2" Command="{Binding AddAmount}" CommandParameter="2" HorizontalAlignment="Left" Margin="109,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
                 <Button Content="3" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="3" Margin="194,119,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
@@ -359,15 +365,17 @@
                 <Button Content="C" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="c" Margin="16,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
                 <Button Content="0" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="0" Margin="109,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
                 <Button Content="." HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="." Margin="194,356,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}" Width="76"/>
+                <Button Content="Cancel Paiement " Command="{Binding Done}" CommandParameter="Back" Style="{StaticResource RectBlueButton}" Margin="89,438,102,182" />
             </Grid>
             <Grid  Width="140">
                 <Label Content="Change" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="26,14,0,0" RenderTransformOrigin="0.459,1.115" />
-                <Label Content="{Binding Change}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Background="White" Margin="35,41,0,0" RenderTransformOrigin="0.432,0.462" Height="24"/>
+                <Label Content="{Binding Change}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Background="White" Margin="35,41,0,0" RenderTransformOrigin="0.432,0.462" Height="41"/>
                 <Button Content="Cash" Command="{Binding PayCash}" Style="{StaticResource RectBlueButton}" Margin="14,138,31,472" />
                 <Button Content="Credit" Style="{StaticResource RectBlueButton}" Margin="14,216,31,394" />
                 <Button Content="Gift Card" Style="{StaticResource RectBlueButton}" Margin="14,299,31,311" />
-                <Button Command="{Binding Done}" Style="{StaticResource RoundBlueButton}" Content="Done" FontSize="20" Margin="26,361,48,214" />
+                <Button Command="{Binding Done}" CommandParameter="Register" Style="{StaticResource RoundBlueButton}" Content="Done" FontSize="20" Margin="26,361,48,214" />
             </Grid>
+            <Button x:Name="button" Content="Button" Width="75"/>
         </StackPanel>
         <!--<StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
         </StackPanel>-->

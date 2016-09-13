@@ -4,10 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:POS_PointOfSales.Views"
+        xmlns:viewModels="clr-namespace:POS_PointOfSales.ViewModels"
         xmlns:ff="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
          mc:Ignorable="d"
         Height="660" Width="900" Background="#58b2d9">
-
+    <UserControl.DataContext>
+        <viewModels:LoginViewModel/>
+    </UserControl.DataContext>
     <UserControl.Resources>
         <Style x:Key="BaseStyle" TargetType="{x:Type Control}">
             <Setter Property="FontFamily" Value="Constantia"/>

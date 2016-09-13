@@ -76,8 +76,8 @@ namespace POS_SellersApp
        }
 
        public ActionCommand SwitchViews { get; private set; }
-  
-        
+
+       readonly static SellersMainWindowViewModel sellersVm = new SellersMainWindowViewModel();
 
         private void OnSwitchViews(string destination)
        {
@@ -93,15 +93,18 @@ namespace POS_SellersApp
                        MessageBox.Show("You don't have acces from this location") ;
                        return;
                    }
-                    //try
-                    //{
-                        CurrentView = new SellersMainWindowViewModel();
+                    try
+                    {
+                        sellersVm.UserLoggedIn = User;
+                        MessageBox.Show(sellersVm.UserLoggedIn.FirstName);
+                        CurrentView = sellersVm;
 
-                    //}catch(Exception ex)
-                    //{
-                    //    MessageBox.Show("Error. Could not navigate to next page");
-                    //    throw (ex);
-                    //}
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("Error. Could not navigate to next page");
+                       throw (ex);
+                    }
 
                    break;
                case "login":

@@ -23,7 +23,7 @@ namespace POS_SellersApp.Views
     {
         public SellersMainWindow()
         {
-            DataContext = new SellersMainWindowViewModel();
+            //DataContext = new SellersMainWindowViewModel();
             InitializeComponent();
         }
     }

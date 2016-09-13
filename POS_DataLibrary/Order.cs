@@ -15,5 +15,6 @@ namespace POS_DataLibrary
         public string UserId { get; set; }
         public decimal OrderAmount { get; set; }
         public decimal Tax { get; set; }
+        public decimal Discount { get; set; }
     }
 }

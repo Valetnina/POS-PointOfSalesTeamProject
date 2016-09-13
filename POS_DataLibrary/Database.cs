@@ -38,6 +38,7 @@ namespace POS_DataLibrary
                         string name = reader.GetString(reader.GetOrdinal("Name"));
                         decimal  price = reader.GetDecimal(reader.GetOrdinal("Price"));
                         string productCategory = reader.GetString(reader.GetOrdinal("CategoryName"));
+
                         byte[] imgBytes = (byte[])reader.GetSqlBinary(reader.GetOrdinal("Picture"));
                         TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
                        Bitmap picture = (Bitmap)tc.ConvertFrom(imgBytes);
@@ -49,6 +50,29 @@ namespace POS_DataLibrary
                 }
             }
             return productsList;
+        }
+
+        public ObservableCollection<ProductCategory> getAllCategories()
+        {
+            ObservableCollection<ProductCategory> categoryList = new ObservableCollection<ProductCategory>();
+            SqlCommand cmd = new SqlCommand("SELECT DISTINCT Id, CategoryName FROM ProductsCategory", conn);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(reader.GetOrdinal("Id"));
+                        string categoryName = reader.GetString(reader.GetOrdinal("CategoryName"));
+                        
+
+
+
+                        categoryList.Add(new ProductCategory { Id = id, CategoryName = categoryName});
+                    }
+                }
+            }
+            return categoryList;
         }
 
         public ObservableCollection<ProductCategory> getCategories()
@@ -222,5 +246,40 @@ namespace POS_DataLibrary
             //  SqlCommand cmd = new SqlCommand("Update Product set  Picture = @Picture where UPCCode = @UPCCode", conn);
 
         }
+
+
+        public void addProduct(Product p, string path)
+        {
+            byte[] rawData = File.ReadAllBytes(path);
+            SqlCommand cmd = new SqlCommand("INSERT INTO Product (UPCCode, ProductCategoryId, Name, Price, Picture) VALUES (@UPCCode, @ProductCategoryId, @Name, @Price, @Picture)", conn);
+
+
+            cmd.Parameters.AddWithValue("@UPCCode", p.UPCCode);
+            cmd.Parameters.AddWithValue("@ProductCategoryId", p.CategoryId);
+            cmd.Parameters.AddWithValue("@Name", p.Name);
+            cmd.Parameters.AddWithValue("@Price", p.Price);
+           cmd.Parameters.AddWithValue("@Picture", rawData);
+
+
+            cmd.ExecuteNonQuery();
+
+        }
+
+        public void updateProduct(Product p)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Product SET  Name = @Name, Price = @Price WHERE UPCCode = @UPCCode )", conn);
+            
+            cmd.Parameters.AddWithValue("@UPCCode", p.UPCCode);
+            cmd.Parameters.AddWithValue("@Name", p.Name);
+            cmd.Parameters.AddWithValue("@Price", p.Price);
+            // cmd.Parameters.AddWithValue("@Picture", rawData);
+
+
+            cmd.ExecuteNonQuery();
+
+        }
+
+
+
             }
 }
