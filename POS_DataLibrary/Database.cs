@@ -259,7 +259,7 @@ namespace POS_DataLibrary
                             decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
                             decimal sales = reader.GetDecimal(reader.GetOrdinal("TotalSales"));
 
-                        salesList.Add(new Sales() { Seller = seller, OrderItems = new OrderItems() { UPCCode = upcCode, Name = productName, Quantity = qty }, ItemTotal = sales });
+                        salesList.Add(new Sales() { Seller = seller, OrderItems = new OrderItems() { UPCCode = upcCode, Name = productName, Quantity = qty}, ItemTotal = sales });
                         }
                     }
                 }

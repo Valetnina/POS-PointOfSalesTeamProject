@@ -128,5 +128,9 @@ namespace POS_DataLibrary
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
         }
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

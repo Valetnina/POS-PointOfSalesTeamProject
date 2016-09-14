@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using POS_DataLibrary;
 using System.Windows.Forms;
 using System.IO;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace POS_ManagersApp.ViewModels
@@ -24,7 +25,7 @@ namespace POS_ManagersApp.ViewModels
         {
             get { return categoryList; }
             set { categoryList = value; 
-                RaisePropertyChanged("CategoryList"); }
+            RaisePropertyChanged("CategoryList"); }
         }
 
  
@@ -41,26 +42,21 @@ namespace POS_ManagersApp.ViewModels
 
        public ManageProductsViewModel()
        {
-
-
            ProductsList = db.getAllProducts();
-
            CategoryList = db.getAllCategories();
-           
            AddProduct = new ActionCommand(p => OnAddProduct());
-
            UpdateProduct = new ActionCommand(p => OnUpdateProduct());
-
            SelectImage = new ActionCommand(p => OnSelectImage());
-
            ClearForm = new ActionCommand(p => OnClearForm());
-
            productsList = db.getAllProducts();
-
        }
 
               
         private string upcCode;
+
+
+    [Required]
+        [StringLength(5)]
         public string UPCCode
         {
             get { return upcCode; }
@@ -72,7 +68,7 @@ namespace POS_ManagersApp.ViewModels
         }
 
         private string category;
-
+        [Required]
         public string Category
         {
             get { return category; }
@@ -81,7 +77,8 @@ namespace POS_ManagersApp.ViewModels
         }
 
         private string productName;
-
+        [Required]
+        [StringLength(50, MinimumLength=4)]
         public string ProductName
         {
             get { return productName; }
@@ -90,7 +87,7 @@ namespace POS_ManagersApp.ViewModels
         }
 
         private decimal price;
-
+        [Required]
         public decimal Price
         {
             get { return price; }

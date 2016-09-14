@@ -7,7 +7,7 @@
              xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="700" Width="600" Height="600">
-    <StackPanel >
+    <StackPanel Height="700">
         <StackPanel Orientation="Horizontal">
             <ComboBox ItemsSource="{Binding CalendarMonths}"  SelectedItem="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" Height="100" >
             </ComboBox>
@@ -39,9 +39,9 @@
             </chart:PieChart>
         </StackPanel >
         <StackPanel Orientation="Horizontal">
-            <StackPanel>
+            <Grid Height="250">
                 <Label Content="Sales This Month" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140"/>
-                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding AllSales}" IsReadOnly="True" SelectionMode="Single" Grid.ColumnSpan="2" >
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding AllSales}" IsReadOnly="True" SelectionMode="Single" Margin="0,31,0,61">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
                         <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
@@ -50,9 +50,9 @@
                         <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Command="{Binding ExportToPDF}" Content="Export PDF" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
-                <Button Command="{Binding SendEmail}" Content="Send via Email" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
-            </StackPanel>
+                <Button Command="{Binding ExportToPDF}" Content="Export PDF" Margin="0,189,0,19"  />
+                <Button Command="{Binding SendEmail}" Content="Send via Email" Height="66" VerticalAlignment="Bottom" Margin="0,0,0,-47" />
+            </Grid>
             <StackPanel>
                 <Label Content="Top Items this Month" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140"/>
                 <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TopItems}" IsReadOnly="True" SelectionMode="Single" Grid.ColumnSpan="2" >
