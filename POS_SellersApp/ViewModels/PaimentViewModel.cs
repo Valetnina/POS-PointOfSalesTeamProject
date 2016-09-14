@@ -104,6 +104,8 @@ namespace POS_SellersApp.ViewModels
 
         private void OnDoneCommand(string message)
         {
+            
+                
             switch (message)
             {
                 case "Register":
@@ -119,6 +121,9 @@ namespace POS_SellersApp.ViewModels
                     break;
 
             }
+            Balance = "0";
+            Amount = "0";
+            IsCash = false;
         }
 
         private void OnAddAmount(string number)

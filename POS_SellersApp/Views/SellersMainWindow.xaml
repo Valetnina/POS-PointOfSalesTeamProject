@@ -348,7 +348,6 @@
                         <DataGridTextColumn Width ="70" Header="Qty" Binding="{Binding Quantity}" Foreground="Black" />
                         <DataGridTextColumn  Width ="70" Header="Each" Binding="{Binding Price, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
                         <DataGridTextColumn  Width ="90" Header="Total" Binding="{Binding Total, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
-
                     </DataGrid.Columns>
                     <DataGrid.GroupStyle>
                         <GroupStyle>

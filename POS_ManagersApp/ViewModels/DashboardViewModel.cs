@@ -22,30 +22,83 @@ namespace POS_ManagersApp.ViewModels
     class DashboardViewModel:ViewModel
     {
         private Database db;
-        public ObservableCollection<Sales> SalesChartPerSeller { get; private set; }
-        public ObservableCollection<SalesChartData> salesChartData { get; private set; }
 
-        public ObservableCollection<Sales> TodaySales { get; private set; }
-        public ObservableCollection<Sales> TopItems { get; set; }
+        public ObservableCollection<Sales> SalesChartPerSeller
+        {
+            get { 
+                return  db.getSalesPerSeller(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year); 
+            }
+        }
+        public ObservableCollection<SalesChartData> salesChartData
+        {
+            get
+            {
+                return getSalesChartData();
+            }
+        }
 
-        private ObservableCollection<AreaData> Areas { get; set; }
+        public ObservableCollection<Sales> AllSales
+        {
+            get
+            {
+                return db.getSales(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year);
+            }
+        }
+        public ObservableCollection<Sales> TopItems
+        {
+            get
+            {
+                return db.getTopItemsPerMonth(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year);
+            }
+        }
 
+        public ObservableCollection<ColumnChartData> ColumnChartSales
+        {
+            get
+            {
+                return getColumnChartData();
+            }
+        }
 
-
-
+        public ObservableCollection<string> CalendarMonths { get; set; }
         public DashboardViewModel()
         {
             db = new Database();
-            SalesChartPerSeller = db.getSalesPerSeller();
-            TodaySales = db.getTodaySales();
-            TopItems = db.getTopItemsPerMonth();
+            CalendarMonths = new ObservableCollection<string>();
+            for (int i = 0; i < 3; i++)
+            {
+                CalendarMonths.Add(DateTime.Now.AddMonths(-i).ToString("Y"));
+            }
+
+            SelectedMonth = CalendarMonths[0];
+         
             ExportToPDF = new ActionCommand(p => OnExportToPDF());
             SendEmail = new ActionCommand(p => OnSendEmail());
-            salesChartData = new ObservableCollection<SalesChartData>();
+
+           
+            
+        }
+        private ObservableCollection<ColumnChartData> getColumnChartData()
+        {
+             ObservableCollection<ColumnChartData> chart = new ObservableCollection<ColumnChartData>();
+            ObservableCollection<ProductCategory> categoriesList = new ObservableCollection<ProductCategory>();
+            categoriesList = db.getAllCategories();
+
+            foreach (var item in categoriesList)
+            {
+                chart.Add(new ColumnChartData { Name = item.CategoryName, TotalSales = db.getAllSalesByItem(item.CategoryName, DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year) });
+            }
+            return chart;
+        }
+        private ObservableCollection<SalesChartData> getSalesChartData()
+        {
+            ObservableCollection<SalesChartData> chart = new ObservableCollection<SalesChartData>();
+
             foreach (var item in SalesChartPerSeller)
             {
-                salesChartData.Add(new SalesChartData { SellerChart = item.Seller, SalesPerSeller= item.ItemTotal});
+                chart.Add(new SalesChartData { SellerChart = item.Seller, SalesPerSeller = item.ItemTotal });
             }
+            return chart;
         }
         private object selectedItem = null;
         public object SelectedItem
@@ -60,6 +113,29 @@ namespace POS_ManagersApp.ViewModels
                 selectedItem = value;
             }
         }
+        private string selectedMonth;
+
+        public string SelectedMonth
+        {
+            get { return selectedMonth; }
+            set { selectedMonth = value;
+            RaisePropertyChanged("SelectedMonth");
+            RaisePropertyChanged("SalesChartPerSeller");
+            RaisePropertyChanged("TotalSalesPerMonth");
+            RaisePropertyChanged("ColumnChartSales");
+            RaisePropertyChanged("AllSales");
+            RaisePropertyChanged("TopItems");
+            RaisePropertyChanged("salesChartData");
+
+            }
+        }
+        public decimal TotalSalesPerMonth
+        {
+           get
+            {
+                return  ColumnChartSales.Sum(od => od.TotalSales);
+            }
+        }
 
         public ActionCommand ExportToPDF { get; private set; }
         public ActionCommand SendEmail { get; private set; }
@@ -68,11 +144,8 @@ namespace POS_ManagersApp.ViewModels
         {
             
             int noOfColumns = 0, noOfRows = 0;
-            DataTable tbl = null;
-
-
             noOfColumns = 5;
-            noOfRows = TodaySales.Count;
+            noOfRows = AllSales.Count;
 
 
             float HeaderTextSize = 8;
@@ -146,11 +219,11 @@ namespace POS_ManagersApp.ViewModels
 
             // Sets the gridview column names as table headers.
 
-            foreach (var p in TodaySales[0].GetType().GetProperties().Where(p => p.GetGetMethod().GetParameters().Count() == 0))
+            foreach (var p in AllSales[0].GetType().GetProperties().Where(p => p.GetGetMethod().GetParameters().Count() == 0))
             {
 
                 Phrase ph = null;
-                ph = new Phrase(p.GetValue(TodaySales[0], null).ToString(), FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD));
+                ph = new Phrase(p.GetValue(AllSales[0], null).ToString(), FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD));
                 mainTable.AddCell(ph);
             }
            
@@ -158,7 +231,7 @@ namespace POS_ManagersApp.ViewModels
             // Reads the gridview rows and adds them to the mainTable
 
 
-            foreach (var item in TodaySales)
+            foreach (var item in AllSales)
             {
 
                 foreach (var p in item.GetType().GetProperties().Where(p => p.GetGetMethod().GetParameters().Count() == 0))
@@ -226,9 +299,9 @@ namespace POS_ManagersApp.ViewModels
         public string SellerChart { get; set; }
         public decimal SalesPerSeller { get; set; }
     }
-    public class AreaData
+    public class ColumnChartData
     {
-        public string Key { get; set; }
-        public int Count { get; set; }
+        public string Name { get; set; }
+        public decimal TotalSales { get; set; }
     }
 }

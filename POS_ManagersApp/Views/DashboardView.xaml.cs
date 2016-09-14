@@ -24,7 +24,6 @@ namespace POS_ManagersApp.Views
         public DashboardView()
         {
             InitializeComponent();
-            DataContext = new DashboardViewModel();
         }
     }
 }

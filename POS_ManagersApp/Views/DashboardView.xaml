@@ -7,48 +7,63 @@
              xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="700" Width="600" Height="600">
-    <Grid Margin="0,0,91,0" >
-        <chart:PieChart
+    <StackPanel >
+        <StackPanel Orientation="Horizontal">
+            <ComboBox ItemsSource="{Binding CalendarMonths}"  SelectedItem="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" Height="100" >
+            </ComboBox>
+            <TextBlock>
+                <Run Text="{Binding TotalSalesPerMonth, Mode=OneWay}"></Run>
+                <Run Text="$"></Run>
+            </TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,-67,0">
+            <chart:ClusteredBarChart  Width="317" ChartSubTitle="Sales" ChartTitle="Sales By month" RenderTransformOrigin="0.509,0.57">
+                <chart:ClusteredBarChart.Series>
+                    <chart:ChartSeries DisplayMember="Name"
+            		ItemsSource="{Binding ColumnChartSales}"
+            		SeriesTitle="Sales By categories"
+            		ValueMember="TotalSales" />
+                </chart:ClusteredBarChart.Series>
+            </chart:ClusteredBarChart>
+            <chart:PieChart
         ChartTitle="Sales Per Register/User"
         ChartSubTitle="Chart for tracking performance"
-        SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" Margin="143,0,-51,160" >
-            <chart:PieChart.Series>
-                <chart:ChartSeries
-                SeriesTitle="Sales/Register"
-                DisplayMember="SellerChart"
-                ValueMember="SalesPerSeller"
-                ItemsSource="{Binding Path=salesChartData}" />
-            </chart:PieChart.Series>
-        </chart:PieChart>
-        <chart:ClusteredBarChart ChartTitle="{Binding AreaChartTitle}" 
-    ChartSubTitle="{Binding AreaChartSubTitle}" 
-    SelectedItem="{Binding SelectedArea, Mode=TwoWay}" Grid.Column="3" Grid.RowSpan="10">
-            <chart:ClusteredBarChart.Series>
-                <chart:ChartSeries SeriesTitle="Areas" DisplayMember="Key"
-            ValueMember="Count" ItemsSource="{Binding Areas}"/>
-            </chart:ClusteredBarChart.Series>
-        </chart:ClusteredBarChart>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TodaySales}" Margin="0,343,252,0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
-                <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
-                <DataGridTextColumn Header="Seller" Binding="{Binding Seller}" />
-                <DataGridTextColumn Header="Qty" Binding="{Binding OrderItems.Quantity}" />
-                <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TopItems}" Margin="351,343,-89,0" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
-                <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
-                <DataGridTextColumn Header="Qty" Binding="{Binding OrderItems.Quantity}" />
-                <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Label Content="Sales This Month" HorizontalAlignment="Left" Margin="37,309,0,0" VerticalAlignment="Top" Width="140"/>
-        <Label Content="Top Items this Month" HorizontalAlignment="Left" Margin="390,309,-21,0" VerticalAlignment="Top" Width="140"/>
-        <Button Command="{Binding ExportToPDF}" Content="Export PDF" HorizontalAlignment="Left" Margin="271,445,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Command="{Binding SendEmail}" Content="Send via Email" HorizontalAlignment="Left" Margin="271,495,0,0" VerticalAlignment="Top" Width="75"/>
-
-    </Grid>
+        SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Width="300" >
+                <chart:PieChart.Series>
+                    <chart:ChartSeries
+            		SeriesTitle="Sales/Category"
+            		DisplayMember="SellerChart"
+            		ValueMember="SalesPerSeller"
+            		ItemsSource="{Binding salesChartData}" />
+                </chart:PieChart.Series>
+            </chart:PieChart>
+        </StackPanel >
+        <StackPanel Orientation="Horizontal">
+            <StackPanel>
+                <Label Content="Sales This Month" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140"/>
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding AllSales}" IsReadOnly="True" SelectionMode="Single" Grid.ColumnSpan="2" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
+                        <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
+                        <DataGridTextColumn Header="Seller" Binding="{Binding Seller}" />
+                        <DataGridTextColumn Header="Qty" Binding="{Binding OrderItems.Quantity}" />
+                        <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Command="{Binding ExportToPDF}" Content="Export PDF" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+                <Button Command="{Binding SendEmail}" Content="Send via Email" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Top Items this Month" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140"/>
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TopItems}" IsReadOnly="True" SelectionMode="Single" Grid.ColumnSpan="2" >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
+                        <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
+                        <DataGridTextColumn Header="Qty" Binding="{Binding OrderItems.Quantity}" />
+                        <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
 </UserControl>

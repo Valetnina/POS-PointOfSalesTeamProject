@@ -96,6 +96,7 @@ namespace POS_SellersApp
                     try
                     {
                         sellersVm.UserLoggedIn = User;
+                        sellersVm.OrderItems.Clear();
                         CurrentView = sellersVm;
 
                     }

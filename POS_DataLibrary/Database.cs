@@ -18,23 +18,30 @@ namespace POS_DataLibrary
         const string CONN_STRING = "Data Source=posabbott.database.windows.net;Initial Catalog=POS_DB;Integrated Security=False;User ID=posadmin;Password=Pictor12;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         private SqlConnection conn;
 
-        public ObservableCollection<Sales> getSalesPerSeller()
+        public ObservableCollection<Sales> getSalesPerSeller(int month, int year)
         {
             ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
-            SqlCommand cmd = new SqlCommand("SELECT Userid, FirstName, LastName, SUM(Price * Quantity) as TotalSAles FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id GROUP BY UserId, FirstName, LastName", conn);
-            using (SqlDataReader reader = cmd.ExecuteReader())
+            
             {
-                if (reader.HasRows)
-                {
-                    while (reader.Read())
-                    {
-                        string seller = reader.GetString(reader.GetOrdinal("FirstName")) + " " + reader.GetString(reader.GetOrdinal("LastName"));
-                        decimal sales = reader.GetDecimal(reader.GetOrdinal("TotalSAles"));
+                SqlCommand cmd = new SqlCommand("SELECT UserId, FirstName, LastName, SUM(Price * Quantity) as TotalSAles FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id  and  Month(Date) = @Month and Year(Date)=@Year GROUP BY UserId, FirstName, LastName", conn);
+                cmd.Parameters.AddWithValue("@Month", month);
+                cmd.Parameters.AddWithValue("@Year", year);
 
-                        salesList.Add(new Sales() { Seller = seller, ItemTotal = sales });
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            string seller = reader.GetString(reader.GetOrdinal("FirstName")) + " " + reader.GetString(reader.GetOrdinal("LastName"));
+                            decimal sales = reader.GetDecimal(reader.GetOrdinal("TotalSAles"));
+
+                            salesList.Add(new Sales() { Seller = seller, ItemTotal = sales });
+                        }
                     }
                 }
             }
+            
             return salesList;
 
         }
@@ -44,7 +51,25 @@ namespace POS_DataLibrary
             conn = new SqlConnection(CONN_STRING);
             conn.Open();
         }
-
+        public decimal getAllSalesByItem(string categoryName, int month, int year)
+        {
+            decimal sales = 0;
+            SqlCommand cmd = new SqlCommand("SELECT CategoryName, SUM(Price * Quantity) as TotalSales FROM Orders, OrderItems, ProductsCategory where Orders.OrderId = OrderItems.OrderId and OrderItems.ProductCategoryId= ProductsCategory.Id and CategoryName = @CategoryName and  Month(Date) = @Month and Year(Date)=@Year GROUP BY CategoryName", conn);
+            cmd.Parameters.AddWithValue("@categoryName", categoryName);
+            cmd.Parameters.AddWithValue("@Month", month);
+            cmd.Parameters.AddWithValue("@Year", year);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        sales = reader.GetDecimal(reader.GetOrdinal("TotalSales"));
+                    }
+                }
+            }
+            return sales;
+        }
 
         public ObservableCollection<Product> getAllProducts()
         {
@@ -97,16 +122,6 @@ namespace POS_DataLibrary
             return categoryList;
         }
 
-        //public ObservableCollection<ProductCategory> getCategories()
-        //{
-        //    ObservableCollection<ProductCategory> categoriesCollection = new ObservableCollection<ProductCategory>();
-        //    categoriesCollection.Add(new ProductCategory {CategoryName = "Meals" });
-        //    categoriesCollection.Add(new ProductCategory { CategoryName = "Drinks" });
-        //    categoriesCollection.Add(new ProductCategory { CategoryName = "Desserts" });
-        //    //ToDO; Implemenny SQl
-
-        //    return categoriesCollection;
-        //}
         public ObservableCollection<Product> GetProductsByCategory(String category)
         {
             ObservableCollection<Product> productsList = new ObservableCollection<Product>();
@@ -122,11 +137,12 @@ namespace POS_DataLibrary
                         string name = reader.GetString(reader.GetOrdinal("Name"));
                         decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
                         string productCategory = reader.GetString(reader.GetOrdinal("CategoryName"));
+                        int productCategoryId = reader.GetInt32(reader.GetOrdinal("ProductCategoryId"));
 
                         byte[] imgBytes = (byte[])reader.GetSqlBinary(reader.GetOrdinal("Picture"));
                         TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
                         Bitmap picture = (Bitmap)tc.ConvertFrom(imgBytes);
-                        productsList.Add(new Product { Picture=picture, UPCCode = uPCCode, Name = name, Price = price, CategoryName =  productCategory});
+                        productsList.Add(new Product { Picture=picture, UPCCode = uPCCode, Name = name, Price = price, CategoryName =  productCategory, CategoryId=productCategoryId });
                     }
                 }
             }
@@ -223,11 +239,13 @@ namespace POS_DataLibrary
             }
             return modified;
         }
-        public ObservableCollection<Sales> getTodaySales()
+        public ObservableCollection<Sales> getSales(int month, int year)
         {
                 ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
-                SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, SUM(Price * Quantity) as TotalSales FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, SUM(Price * Quantity) as TotalSales FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id and Month(Date) = @Month and Year(Date) = @Year GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
+                cmd.Parameters.AddWithValue("@Month", month);
+                cmd.Parameters.AddWithValue("@Year", year);
+            using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)
                     {
@@ -247,10 +265,12 @@ namespace POS_DataLibrary
                 }
             return salesList;
         }
-        public ObservableCollection<Sales> getTopItemsPerMonth()
+        public ObservableCollection<Sales> getTopItemsPerMonth(int month, int year)
         {
             ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
-            SqlCommand cmd = new SqlCommand("SELECT Top 5 UPCCode, ProductName,Quantity, Price, sum(Quantity) as Sum FROM Orders, OrderItems where Orders.OrderId = OrderItems.OrderId and Month(Date) = Month(CURRENT_TIMESTAMP) GROUP BY UPCCode, ProductName, Quantity, Price Order by sum(Quantity) desc", conn);
+            SqlCommand cmd = new SqlCommand("SELECT Top 5 UPCCode, ProductName,Quantity, Price, sum(Quantity) as Sum FROM Orders, OrderItems where Orders.OrderId = OrderItems.OrderId and Month(Date) = @Month and Year(Date) = @Year GROUP BY UPCCode, ProductName, Quantity, Price Order by sum(Quantity) desc", conn);
+            cmd.Parameters.AddWithValue("@Month", month);
+            cmd.Parameters.AddWithValue("@Year", year);
             using (SqlDataReader reader = cmd.ExecuteReader())
             {
                 if (reader.HasRows)

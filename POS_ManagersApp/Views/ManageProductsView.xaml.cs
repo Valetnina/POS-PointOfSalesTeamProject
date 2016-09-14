@@ -24,7 +24,6 @@ namespace POS_ManagersApp.Views
         public ManageProductsView()
         {
             InitializeComponent();
-            DataContext = new ManageProductsViewModel();
         }
     }
 }

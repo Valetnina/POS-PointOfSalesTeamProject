@@ -51,6 +51,7 @@ namespace POS_SellersApp.ViewModels
             DecreaseQuantity = new ActionCommand(p => OnDecreaseQuantity());
             currentView = ProductsCatalogViewModel;
             OrderNo = string.Format("Order# {0}", (db.getLastOrderNo() + 1).ToString());
+            AmountTendered = "0";
 
             //Set the totals to zero
             //  OrderSubTotal = 0;
@@ -66,7 +67,7 @@ namespace POS_SellersApp.ViewModels
             //Check if the product was already selected
             if (OrderItems.Any(p => p.UPCCode == SelectedOrderItem.UPCCode))
             {
-                if (OrderItems.First(p => p.UPCCode == SelectedOrderItem.UPCCode).Quantity == 0)
+                if (OrderItems.First(p => p.UPCCode == SelectedOrderItem.UPCCode).Quantity <= 1)
                 {
                     if (SelectedOrderItem != null)
                     {
@@ -100,6 +101,11 @@ namespace POS_SellersApp.ViewModels
                     AmountTendered = pvm.Amount;
                     try
                     {
+                        MessageBoxResult result = MessageBox.Show("Order has been sent to processing. Do you want to print the receipt?", "Order Processed", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            OnPrintReceipt();
+                        }
                         if (OrderItems.Count > 0)
                         {
                             int lastOrderId = db.saveOrderAndOrderItems(order, OrderItems.ToList());
@@ -107,11 +113,7 @@ namespace POS_SellersApp.ViewModels
                             CurrentView = ProductsCatalogViewModel;
                             OrderItems.Clear();
                         }
-                        MessageBoxResult result =MessageBox.Show("Order has been sent to processing. Do you want to print the receipt?", "Order Processed", MessageBoxButton.YesNo);
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            OnPrintReceipt();
-                        }
+                        
                     }
                     catch (Exception ex)
                     {
@@ -161,6 +163,7 @@ namespace POS_SellersApp.ViewModels
                 {
                     UPCCode = product.UPCCode,
                     CategoryName = product.CategoryName.ToString(),
+                    CategoryId = product.CategoryId,
                     Quantity = 1,
                     Price = product.Price,
                     Name = product.Name
@@ -374,7 +377,7 @@ namespace POS_SellersApp.ViewModels
             int offset = 40;
 
             graphic.DrawString(" Olya&Valya", new Font("Courier New", 18), new SolidBrush(Color.Black), startX, startY);
-            string top = "Item Name".PadRight(10) + "Price".PadRight(5) + "Qty".PadRight(5) + "Total".PadRight(5);
+            string top = "Item Name".PadRight(15) + "Price".PadRight(10) + "Qty".PadRight(5) + "Total".PadRight(5);
             graphic.DrawString(top, font, new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + (int)fontHeight; //make the spacing consistent
             graphic.DrawString("----------------------------------", font, new SolidBrush(Color.Black), startX, startY + offset);
@@ -387,18 +390,17 @@ namespace POS_SellersApp.ViewModels
                 //create the string to print on the reciept
                 string productDescription = item.Name;
                 string productQty = item.Quantity.ToString();
-                string productPrice = item.Price.ToString();
-                string productTotal = item.Total.ToString();
+                string productPrice = item.Price.ToString("#.##");
+                string productTotal = item.Total.ToString("#.##");
 
-                string productLine = productDescription + productQty + productPrice + productTotal;
-
+                string productLine = productDescription.PadRight(20) + productPrice.PadRight(10) + productQty.PadRight(5) + productTotal.PadRight(5);
                 graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
 
                 offset = offset + (int)fontHeight + 5; //make the spacing consistent
             }
             //TODO: Pass the paiement information
             string paiement = AmountTendered;
-            decimal change = totalprice - decimal.Parse(paiement);
+            decimal change = totalprice + OrderTax - decimal.Parse(paiement);
 
             //when we have draw all of the items add the total
 
@@ -409,7 +411,7 @@ namespace POS_SellersApp.ViewModels
             offset = offset + 30; //make some room so that the total stands out.
             graphic.DrawString("Tax ".PadRight(30) + String.Format("{0:c}", OrderTax), new Font("Courier New", 9, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 15;
-            graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
+            graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", (totalprice + OrderTax)), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 30; //make some room so that the total stands out.
             graphic.DrawString("Payed ".PadRight(30) + String.Format("{0:c}", paiement), font, new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 15;

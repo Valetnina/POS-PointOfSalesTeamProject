@@ -82,7 +82,6 @@ namespace POS_SellersApp.ViewModels
                     EnabledDeserts = true;
                     break;
                 case "Desserts":
-                
                 default:
                     CatalogCollection = db.GetProductsByCategory("Desserts");
                     Category = "Desserts";

@@ -23,7 +23,6 @@ namespace POS_ManagersApp.Views
         public ManagersMainWindow()
         {
             InitializeComponent();
-            DataContext = new ManagersMainWindowViewModel();
         }
     }
 }

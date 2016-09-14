@@ -116,7 +116,7 @@ namespace POS_DataLibrary
             set
             {
                 categoryId = value;
-                RaisePropertyChanged("CategoryName");
+                RaisePropertyChanged("CategoryId");
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
