@@ -89,7 +89,7 @@ namespace POS_SellersApp.ViewModels
         }
 
 
-
+        public string AmountTendered { get; set; } 
         private void RecivedDoneMessage(string message)
         {
             switch (message)
@@ -97,7 +97,7 @@ namespace POS_SellersApp.ViewModels
                 case "Register":
 
                     Order order = new Order { Date = DateTime.Now,  StoreNo = "OV001", UserId = UserLoggedIn.Id, OrderAmount = OrderSubTotal, Tax = OrderTax };
-
+                    AmountTendered = pvm.Amount;
                     try
                     {
                         if (OrderItems.Count > 0)
@@ -107,7 +107,11 @@ namespace POS_SellersApp.ViewModels
                             CurrentView = ProductsCatalogViewModel;
                             OrderItems.Clear();
                         }
-                        MessageBox.Show("Order has been sent to processing");
+                        MessageBoxResult result =MessageBox.Show("Order has been sent to processing. Do you want to print the receipt?", "Order Processed", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            OnPrintReceipt();
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -120,8 +124,6 @@ namespace POS_SellersApp.ViewModels
                     OnSwitchViews("catalog");
                     break;
             }
-
-
         }
 
         public void ContentCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -349,6 +351,11 @@ namespace POS_SellersApp.ViewModels
 
         private void OnPrintReceipt()
         {
+            if (AmountTendered == "0")
+            {
+                MessageBox.Show("The order is not payed yet. You cannot print it!", "Print", MessageBoxButton.OK, MessageBoxImage.Hand);
+                return;
+            }
             var doc = new PrintDocument();
             doc.PrintPage += new PrintPageEventHandler(CreateReceipt);
             doc.Print();
@@ -356,9 +363,7 @@ namespace POS_SellersApp.ViewModels
 
         public void CreateReceipt(object sender, System.Drawing.Printing.PrintPageEventArgs e)
         {
-
             //this prints the reciept
-
             Graphics graphic = e.Graphics;
             Font font = new Font("Courier New", 12); //must use a mono spaced font as the spaces need to line up
 
@@ -369,13 +374,13 @@ namespace POS_SellersApp.ViewModels
             int offset = 40;
 
             graphic.DrawString(" Olya&Valya", new Font("Courier New", 18), new SolidBrush(Color.Black), startX, startY);
-            string top = "Item Name".PadRight(30) + "Price";
+            string top = "Item Name".PadRight(10) + "Price".PadRight(5) + "Qty".PadRight(5) + "Total".PadRight(5);
             graphic.DrawString(top, font, new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + (int)fontHeight; //make the spacing consistent
             graphic.DrawString("----------------------------------", font, new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + (int)fontHeight + 5; //make the spacing consistent
 
-            decimal totalprice = OrderSubTotal + (decimal)TAX;
+            decimal totalprice = OrderSubTotal;
 
             foreach (var item in OrderItems)
             {
@@ -385,29 +390,32 @@ namespace POS_SellersApp.ViewModels
                 string productPrice = item.Price.ToString();
                 string productTotal = item.Total.ToString();
 
-                string productLine = item.CategoryName;
+                string productLine = productDescription + productQty + productPrice + productTotal;
 
                 graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
 
                 offset = offset + (int)fontHeight + 5; //make the spacing consistent
             }
             //TODO: Pass the paiement information
-            decimal change = 0;
-            decimal cash = 0;
-            change = (cash - totalprice);
+            string paiement = AmountTendered;
+            decimal change = totalprice - decimal.Parse(paiement);
 
-            //when we have drawn all of the items add the total
+            //when we have draw all of the items add the total
 
             offset = offset + 20; //make some room so that the total stands out.
 
-            graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
+            graphic.DrawString("Total before tax ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 10, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
 
             offset = offset + 30; //make some room so that the total stands out.
-            graphic.DrawString("CASH ".PadRight(30) + String.Format("{0:c}", cash), font, new SolidBrush(Color.Black), startX, startY + offset);
+            graphic.DrawString("Tax ".PadRight(30) + String.Format("{0:c}", OrderTax), new Font("Courier New", 9, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + 15;
+            graphic.DrawString("Total to pay ".PadRight(30) + String.Format("{0:c}", totalprice), new Font("Courier New", 12, System.Drawing.FontStyle.Bold), new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + 30; //make some room so that the total stands out.
+            graphic.DrawString("Payed ".PadRight(30) + String.Format("{0:c}", paiement), font, new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 15;
             graphic.DrawString("CHANGE ".PadRight(30) + String.Format("{0:c}", change), font, new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 30; //make some room so that the total stands out.
-            graphic.DrawString("     Thank-you for your custom,", font, new SolidBrush(Color.Black), startX, startY + offset);
+            graphic.DrawString("     Thank-you and Enjoy you Meal,", font, new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 15;
             graphic.DrawString("       please come back soon!", font, new SolidBrush(Color.Black), startX, startY + offset);
 
