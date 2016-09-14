@@ -35,20 +35,72 @@ namespace POS_SellersApp.ViewModels
             //Handle command on buttons
             AddAmount = new ActionCommand(p => OnAddAmount(p.ToString()), p=> IsCash);
             PayCash = new ActionCommand(p => OnPayCash());
+            PayCredit = new ActionCommand(p => OnPayCredit());
+            PayGift = new ActionCommand(p => OnPayGift());
             Amount = "0";
             Balance = "0";
+            CashEnabled = true;
+            CardEnabled = true;
+            GiftEnabled = true;
         }
+
+        private bool cashEnabled;
+        public bool CashEnabled
+        {
+            get { return cashEnabled; }
+            set { cashEnabled = value;
+            RaisePropertyChanged("CashEnabled");
+            }
+        }
+
+        private bool cardEnabled;
+        public bool CardEnabled
+        {
+            get { return cardEnabled; }
+            set { cardEnabled = value;
+            RaisePropertyChanged("CardEnabled");
+            }
+        }
+
+        private bool giftEnabled;
+        public bool GiftEnabled
+        {
+            get { return giftEnabled; }
+            set { giftEnabled = value;
+            RaisePropertyChanged("GiftEnabled");
+            }
+        }
+
 
         private void OnPayCash()
         {
             IsCash = true;
+            CashEnabled = false;
+            CardEnabled = true;
+            GiftEnabled = true;
         }
 
+        private void OnPayCredit()
+        {
+            CashEnabled = true;
+            CardEnabled = false;
+            GiftEnabled = true;
+        }
 
+        private void OnPayGift()
+        {
+            CashEnabled = true;
+            CardEnabled = true;
+            GiftEnabled = false;
+        }
         public ActionCommand Done { get; private set; }
 
         public ActionCommand AddAmount { get; private set; }
         public ActionCommand PayCash { get; private set; }
+
+        public ActionCommand PayCredit { get; private set; }
+
+        public ActionCommand PayGift { get; private set; }
 
         private void OnDoneCommand(string message)
         {

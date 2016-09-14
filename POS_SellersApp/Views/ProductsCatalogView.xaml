@@ -8,12 +8,12 @@
              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="450">
- <UserControl.DataContext>
+    <UserControl.DataContext>
         <viewModels:ProductsCatalogViewModel/>
     </UserControl.DataContext>
     <UserControl.Resources>
-        
-        
+
+
         <Style x:Key="WhiteLabel" TargetType="Label">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="14"/>
@@ -48,7 +48,8 @@
                             <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">                                <!--<Setter Property="IsEnabled" Value="False"/>-->
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <!--<Setter Property="IsEnabled" Value="False"/>-->
                                 <Setter Property="Fill" TargetName="GrayEllipse">
                                     <Setter.Value>
                                         <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
@@ -64,7 +65,9 @@
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
-                            <Trigger Property="IsPressed" Value="true">                                <!--<Setter Property="IsEnabled" Value="false"/>-->
+
+                            <Trigger Property="IsPressed" Value="true">
+                                <!--<Setter Property="IsEnabled" Value="false"/>-->
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="Fill" TargetName="GrayEllipse">
                                     <Setter.Value>
@@ -83,8 +86,7 @@
                             </Trigger>
 
 
-                            <DataTrigger Binding ="{Binding IsEnabled}" Value="true">
-                                <Setter Property="IsEnabled" Value="true"/>
+                            <Trigger Property="IsEnabled"  Value="false">
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="Fill" TargetName="GrayEllipse">
                                     <Setter.Value>
@@ -100,48 +102,48 @@
                                         <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
                                     </Setter.Value>
                                 </Setter>
-                            </DataTrigger>
-                        
+                            </Trigger>
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
     </UserControl.Resources>
-    <DockPanel Margin="1,26,1,1">
+    <DockPanel Margin="1,10,1,1">
 
         <Label Foreground="White" FontSize="24" HorizontalContentAlignment="Center" Width="140" DockPanel.Dock="Top" Content = "{Binding Category}" HorizontalAlignment="Center" FontFamily="Constantia" Margin="144,0,164,0"/>
-       
-        <Grid HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="448" Height="159">
-            <Button Content="Meals" IsEnabled="{Binding Path=SwitchViews.IsEnabled}"  Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Meals" Margin="10,64,318,65"/>
-            <Button Content="Drinks"   Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Drinks" Margin="165,9,163,8"/>
-            <Button Content="Deserts" Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Desserts" Margin="318,8,10,9" />
+
+        <Grid HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="448" Height="170">
+            <Button Content="Meals"  IsEnabled="{Binding EnabledMeals}" Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Meals" Margin="10,86,318,43"/>
+            <Button Content="Drinks" IsEnabled="{Binding EnabledDrinks}"  Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Drinks" Margin="165,87,163,42"/>
+            <Button Content="Deserts" IsEnabled="{Binding EnabledDeserts}" Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Desserts" Margin="318,86,10,43" />
         </Grid>
-        <ItemsControl ItemsSource="{Binding CatalogCollection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,25,0,0">
-                <ItemsControl.Resources>
-                    <med:ImageConverter x:Key="imageConverter" />
-                </ItemsControl.Resources>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="446"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
+        <ItemsControl ItemsSource="{Binding CatalogCollection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,25,0,-53">
+            <ItemsControl.Resources>
+                <med:ImageConverter x:Key="imageConverter" />
+            </ItemsControl.Resources>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="446"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
                     <Button Content="{Binding Name}" Command="{Binding Path=DataContext.AddToOrder, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <StackPanel Width="140" Height="120">
-                                    <Image Source="{Binding Picture, Converter={StaticResource imageConverter} }" Height="70" Width="70"/>
+                        <Button.Template>
+                            <ControlTemplate>
+                                <StackPanel Width="140" Height="140">
+                                    <Image Source="{Binding Picture, Converter={StaticResource imageConverter} }" Height="100" Width="100"/>
                                     <Label Content="{Binding Name}" FontFamily = "Constantia" Foreground="White" FontSize="14" HorizontalContentAlignment="Center"></Label>
-                                    </StackPanel>
-                                </ControlTemplate>
-                                
-                            </Button.Template>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-    
+                                </StackPanel>
+                            </ControlTemplate>
+
+                        </Button.Template>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
     </DockPanel>
 </UserControl>

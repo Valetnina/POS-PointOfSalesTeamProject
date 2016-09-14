@@ -44,6 +44,10 @@ namespace POS_SellersApp.ViewModels
                 OnAddToOrder(param as Product);
             });
             Category = "Meals";
+
+            EnabledMeals = false;
+            EnabledDrinks = true;
+            EnabledDeserts = true;
         }
         private string category;
         public string Category
@@ -65,38 +69,68 @@ namespace POS_SellersApp.ViewModels
             {
                 case "Meals":
                     CatalogCollection = db.GetProductsByCategory("Meals");
-                    Category = "Meals";                    
+                    Category = "Meals";
+                    EnabledMeals = false;
+                    EnabledDrinks = true;
+                    EnabledDeserts = true;
                     break;
                 case "Drinks":
                     CatalogCollection = db.GetProductsByCategory("Drinks");
                     Category = "Drinks";
+                    EnabledMeals = true;
+                    EnabledDrinks = false;
+                    EnabledDeserts = true;
                     break;
                 case "Desserts":
                 
                 default:
                     CatalogCollection = db.GetProductsByCategory("Desserts");
                     Category = "Desserts";
-
+                    EnabledMeals = true;
+                    EnabledDrinks = true;
+                    EnabledDeserts = false;
                     break;
             }
 
         }
 
-        private bool isEnabled;
 
-        public bool IsEnabled
+        private bool enabledMeals;
+
+        public bool EnabledMeals
         {
-            get { return isEnabled; }
+            get { return enabledMeals; }
             set
-            {
-                if (value != isEnabled)
-                    isEnabled = value;
-                RaisePropertyChanged("IsEnabled");
+            {                
+                enabledMeals = value;
+                RaisePropertyChanged("EnabledMeals");
             }
         }
 
-       
+        private bool enabledDrinks;
 
+        public bool EnabledDrinks
+        {
+            get { return enabledDrinks; }
+            set
+            {             
+                enabledDrinks = value;
+                RaisePropertyChanged("EnabledDrinks");
+            }
+        }
+
+
+        private bool enabledDeserts;
+
+        public bool EnabledDeserts
+        {
+            get { return enabledDeserts; }
+            set
+            {                                   
+                enabledDeserts = value;
+                RaisePropertyChanged("EnabledDeserts");
+            }
+        }
 
         private void OnAddToOrder(Product product)
         {

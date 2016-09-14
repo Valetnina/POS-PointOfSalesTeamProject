@@ -7,11 +7,10 @@
         xmlns:views = "clr-namespace:POS_SellersApp.Views" 
         xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
         xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
-        xmlns:vml = "clr-namespace:POS_ViewsLibrary"
-           
+        xmlns:vml = "clr-namespace:POS_ViewsLibrary"           
         mc:Ignorable="d"
         Width="900" Height="665" Background="#0085bd">
-<!--    <UserControl.DataContext>
+    <!--    <UserControl.DataContext>
         <viewModels:SellersMainWindowViewModel/>
     </UserControl.DataContext> -->
 
@@ -303,7 +302,7 @@
             </Setter>
         </Style>
 
-        
+
         <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
         <CollectionViewSource x:Key="ProductsGroup"                               
                       Source="{Binding Path=OrderItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -313,14 +312,15 @@
         </CollectionViewSource>
     </UserControl.Resources>
 
-    <DockPanel Height="665" >
+    <DockPanel Height="665" LastChildFill="False" Width="900" >
         <Grid DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#03719f">
             <Image Height="51" Width="70" Source="{Binding DisplayedImagePath}" HorizontalAlignment="Left" Margin="10,0,0,0"/>
             <TextBlock TextAlignment="Left" VerticalAlignment="Center" Width="Auto" Foreground="#f7f6f6"  FontSize="20" Margin="542,12,180,14" Height="Auto" >
                 <Run Text="Welcome,  "/>
                 <Run Text="{Binding UserLoggedIn.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Run Text=" !"/>
             </TextBlock>
-            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login"  Style="{StaticResource RectGrayButton}" Height="35" Width="154" FontSize="16" Margin="736,5,10,5"/>
+            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login"  Style="{StaticResource RectGrayButton}" Height="35" Width="154" FontSize="16" Margin="724,8,22,7"/>
         </Grid>
         <Grid DockPanel.Dock="Left" Width="7" Background="#03719f"/>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
@@ -334,7 +334,7 @@
                     <Run Text="{Binding UserLoggedIn.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Run Text="{Binding UserLoggedIn.LastName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                 </TextBlock>
-                <Label HorizontalAlignment="Center" Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}" Margin="151,0,121,0" Width="148" Grid.RowSpan="2"/>
+                <Label HorizontalAlignment="Center" FontFamily="Times New Roman" Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}" Margin="151,0,121,0" Width="148" Grid.RowSpan="2"/>
                 <Label HorizontalAlignment="Right" Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="116" Grid.RowSpan="2"/>
             </Grid>
             <Grid Background="#ffffff" Height="287">
@@ -380,10 +380,10 @@
             <Grid Height="173">
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
-                <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
+                <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="212,0,113,82" VerticalAlignment="Bottom"/>
                 <Label Height="23" Content="{Binding OrderSubTotal, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" FontSize="12"  Margin="87,0,251,128" />
                 <Label Height="23" Content="{Binding OrderTax, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
-                <Label Height="23" Content="{Binding BalanceDue, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
+                <Label Height="50" VerticalContentAlignment="Center" FontWeight="ExtraBold" FontSize="18" Foreground="Red" Content="{Binding BalanceDue, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="312,0,10,69" VerticalAlignment="Bottom"/>
                 <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource RectGrayButton}" Margin="24,118,306,20" />
                 <Button Content="Cancel Order"  Command="{Binding CancelOrder}"  Style="{StaticResource RectGrayButton}" Margin="168,119,162,19" />
                 <Button Content="Send Order" Style="{StaticResource RectGrayButton}" Margin="306,119,24,19"/>
@@ -395,7 +395,16 @@
             </Grid>
         </StackPanel>
         <Grid DockPanel.Dock="Left" Width="7" Background="#03719f"/>
-        <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="458" />
-        <Grid DockPanel.Dock="Right" Width="7" Background="#03719f" />
+        <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="445" Margin="0,0,0,0" />
+        <Grid DockPanel.Dock="Left" Width="21" Background="#03719f" RenderTransformOrigin="0.5,0.5" >
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+        </Grid>
     </DockPanel>
 </UserControl>

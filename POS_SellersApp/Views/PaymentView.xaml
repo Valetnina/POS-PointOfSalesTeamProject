@@ -8,9 +8,9 @@
              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
              xmlns:vml = "clr-namespace:POS_ViewsLibrary" 
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="900" Width="455" Height="665">
+             d:DesignHeight="700" d:DesignWidth="900" Width="445" Height="625">
 
-   
+
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
@@ -20,7 +20,7 @@
             <Setter Property="MinWidth" Value="70"/>
             <Setter Property="Width" Value="100"/>
             <Setter Property="Height" Value="35"/>
-            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="TextAlignment" Value="Left"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
         </Style>
         <Style x:Key="BlueLabel" TargetType="{x:Type Control}">
@@ -37,8 +37,8 @@
         </Style>
 
         <Style x:Key="CalcButton" TargetType="{x:Type Button}">
-            <Setter Property="Width" Value="85"/>
-            <Setter Property="Height" Value="75"/>
+            <Setter Property="Width" Value="80"/>
+            <Setter Property="Height" Value="80"/>
             <Setter Property="Foreground" Value="#0472a1"/>
             <Setter Property="FontFamily" Value="Constantia"/>
             <Setter Property="FontSize" Value="22"/>
@@ -63,6 +63,24 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#dadada" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#047db1" ShadowDepth="0" BlurRadius="10"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#bcbaba"/>
                                 <Setter Property="Fill" TargetName="GrayEllipse">
                                     <Setter.Value>
                                         <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
@@ -141,6 +159,24 @@
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
+
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#036189" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#979899" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -340,38 +376,38 @@
         </Style>
         <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
     </UserControl.Resources>
-    
-    
-        <StackPanel x:Name="spRightSide" Background="#edeaea" Orientation="Horizontal">
-            <Grid Width="337">
-                <Label Content="Balance Due" HorizontalAlignment="Left" Margin="8,58,0,0" VerticalAlignment="Top" Width="146" Style="{StaticResource BlueLabel}" />
-            <Label Content="Amount tendered" Style="{StaticResource BlueLabel}" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="157,58,0,0" VerticalAlignment="Top" Width="130" />
-            <TextBlock Foreground="#0472a1" FontFamily="Times New Roman"  Text="{Binding Balance, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource customDecimalToStringConverter}}" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Width="175" Background="White" Height="40"/>
-                <Label Content="{Binding Amount}" Foreground="Black" FontFamily="Times New Roman" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="175,84,0,0" VerticalAlignment="Top" Width="146" Background="White" Height="40"/>
-                <Button Content="1" Command="{Binding AddAmount}" CommandParameter="1" Style="{StaticResource CalcButton}" HorizontalAlignment="Left" Margin="16,156,0,0" VerticalAlignment="Top" />
-                <Button Content="2" Command="{Binding AddAmount}" CommandParameter="2" HorizontalAlignment="Left" Margin="132,156,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="3" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="3" Margin="245,156,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="4" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="4" Margin="16,257,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="5" HorizontalAlignment="Left" Command="{Binding AddAmount}"  CommandParameter="5" Margin="132,257,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="6" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="6" Margin="245,257,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="7" HorizontalAlignment="Left"  Command="{Binding AddAmount}" CommandParameter="7" Margin="16,359,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="8" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="8" Margin="132,359,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="9" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="9" Margin="245,359,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="C" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="c" Margin="16,464,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="0" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="0" Margin="132,464,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-                <Button Content="." HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="." Margin="245,464,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
-            <Button Content="&lt;&lt; Back" FontSize="24" Command="{Binding Done}" CommandParameter="Back" Style="{StaticResource RectBlueButton}" FontWeight="ExtraBold" Width="Auto" Height="40" Margin="10,582,7,43" />
-            </Grid>
-            <Grid  Width="119">
-            <Label Content="Change" Style="{StaticResource BlueLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="26,59,0,0" RenderTransformOrigin="0.459,1.115" />
-                <Label Content="{Binding Change}" FontFamily="Times New Roman" Foreground="Red" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Background="White" Margin="15,85,0,0" RenderTransformOrigin="0.432,0.462" Height="40"/>
-                <Button Content="Cash" Command="{Binding PayCash}" Style="{StaticResource RectBlueButton}" Margin="15,178,9,457" />
-                <Button Content="Credit" Style="{StaticResource RectBlueButton}" Margin="15,278,9,357" />
-                <Button Content="Gift Card" Style="{StaticResource RectBlueButton}" Margin="15,381,9,254" />
-                <Button Command="{Binding Done}" CommandParameter="Register" Style="{StaticResource RoundBlueButton}" Content="Done" FontSize="20" Margin="26,463,18,127" />
-            </Grid>
+
+
+    <StackPanel x:Name="spRightSide" Background="#edeaea" Height="625" Orientation="Horizontal">
+        <Grid Width="330" Height="610">
+            <Label Content="Balance Due" HorizontalAlignment="Left" Margin="8,21,0,0" VerticalAlignment="Top" Width="146" Style="{StaticResource BlueLabel}" />
+            <Label Content="Amount tendered"  HorizontalContentAlignment="Right" HorizontalAlignment="Left" Style="{StaticResource BlueLabel}" Margin="192,21,0,0" VerticalAlignment="Top" Width="130" />
+            <TextBlock Text="{Binding Balance, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource customDecimalToStringConverter}}" Foreground="#0472a1" FontSize="20" FontFamily="Times New Roman"  TextAlignment="Left" Padding="7,7,0,0" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Width="179" Background="White" Height="40"/>
+            <Label Content="{Binding Amount}" Padding="0,7,7,0" Foreground="Black" FontSize="20" FontFamily="Times New Roman" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Margin="175,47,0,0" VerticalAlignment="Top" Width="146" Background="White" Height="40" />
+            <Button Content="1" Command="{Binding AddAmount}" CommandParameter="1" Style="{StaticResource CalcButton}" HorizontalAlignment="Left" Margin="12,106,0,0" VerticalAlignment="Top" />
+            <Button Content="2" Command="{Binding AddAmount}" CommandParameter="2" HorizontalAlignment="Left" Margin="128,106,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="3" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="3" Margin="241,106,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="4" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="4" Margin="12,207,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="5" HorizontalAlignment="Left" Command="{Binding AddAmount}"  CommandParameter="5" Margin="128,207,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="6" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="6" Margin="241,207,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="7" HorizontalAlignment="Left"  Command="{Binding AddAmount}" CommandParameter="7" Margin="12,309,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="8" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="8" Margin="128,309,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="9" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="9" Margin="241,309,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="C" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="c" Margin="12,414,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="0" HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="0" Margin="128,414,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="." HorizontalAlignment="Left" Command="{Binding AddAmount}" CommandParameter="." Margin="241,414,0,0" VerticalAlignment="Top" Style="{StaticResource CalcButton}"/>
+            <Button Content="&lt;&lt; Back" FontSize="24" Command="{Binding Done}" CommandParameter="Back" Style="{StaticResource RectBlueButton}" FontWeight="ExtraBold" Width="Auto" Height="40" Margin="12,529,16,31" />
+        </Grid>
+        <Grid  Width="115" Height="610">
+            <Label Content="Change" Style="{StaticResource BlueLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="74" Margin="28,20,0,0" RenderTransformOrigin="0.459,1.115" />
+            <Label Content="{Binding Change}" Padding="7,7,0,0" FontSize="20" FontFamily="Times New Roman" Foreground="Red" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Background="White" Margin="9,47,0,0" RenderTransformOrigin="0.432,0.462" Height="40"/>
+            <Button Content="Cash" IsEnabled="{Binding CashEnabled}" Command="{Binding PayCash}" Style="{StaticResource RectBlueButton}" Margin="3,130,12,440" />
+            <Button Content="Credit" IsEnabled="{Binding CardEnabled}" Command="{Binding PayCredit}" Style="{StaticResource RectBlueButton}" Margin="3,230,12,340" />
+            <Button Content="Gift Card" IsEnabled="{Binding GiftEnabled}" Command="{Binding PayGift}" Style="{StaticResource RectBlueButton}" Margin="3,334,12,236" />
+            <Button Command="{Binding Done}" CommandParameter="Register" Style="{StaticResource RoundBlueButton}" Content="Done" FontSize="20" Margin="14,416,21,109" />
+        </Grid>
     </StackPanel>
-        <!--<StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
+    <!--<StackPanel  x:Name="spMiddle" VerticalAlignment="Top"  Width="890" Orientation="Horizontal">
         </StackPanel>-->
-   
+
 </UserControl>
