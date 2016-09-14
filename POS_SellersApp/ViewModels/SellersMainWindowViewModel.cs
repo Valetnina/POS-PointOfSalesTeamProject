@@ -319,6 +319,7 @@ namespace POS_SellersApp.ViewModels
                         return;
                     }
                     pvm.Balance = BalanceDue.ToString("#.##");
+                    pvm.Amount = "0";
                     CurrentView = pvm;
                     break;
 

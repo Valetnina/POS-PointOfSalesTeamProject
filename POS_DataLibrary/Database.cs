@@ -17,6 +17,28 @@ namespace POS_DataLibrary
     {
         const string CONN_STRING = "Data Source=posabbott.database.windows.net;Initial Catalog=POS_DB;Integrated Security=False;User ID=posadmin;Password=Pictor12;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         private SqlConnection conn;
+
+        public ObservableCollection<Sales> getSalesPerSeller()
+        {
+            ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
+            SqlCommand cmd = new SqlCommand("SELECT Userid, FirstName, LastName, SUM(Price * Quantity) as TotalSAles FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id GROUP BY UserId, FirstName, LastName", conn);
+            using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        string seller = reader.GetString(reader.GetOrdinal("FirstName")) + " " + reader.GetString(reader.GetOrdinal("LastName"));
+                        decimal sales = reader.GetDecimal(reader.GetOrdinal("TotalSAles"));
+
+                        salesList.Add(new Sales() { Seller = seller, ItemTotal = sales });
+                    }
+                }
+            }
+            return salesList;
+
+        }
+
         public Database()
         {
             conn = new SqlConnection(CONN_STRING);
@@ -75,16 +97,16 @@ namespace POS_DataLibrary
             return categoryList;
         }
 
-        public ObservableCollection<ProductCategory> getCategories()
-        {
-            ObservableCollection<ProductCategory> categoriesCollection = new ObservableCollection<ProductCategory>();
-            categoriesCollection.Add(new ProductCategory {CategoryName = "Meals" });
-            categoriesCollection.Add(new ProductCategory { CategoryName = "Drinks" });
-            categoriesCollection.Add(new ProductCategory { CategoryName = "Desserts" });
-            //ToDO; Implemenny SQl
+        //public ObservableCollection<ProductCategory> getCategories()
+        //{
+        //    ObservableCollection<ProductCategory> categoriesCollection = new ObservableCollection<ProductCategory>();
+        //    categoriesCollection.Add(new ProductCategory {CategoryName = "Meals" });
+        //    categoriesCollection.Add(new ProductCategory { CategoryName = "Drinks" });
+        //    categoriesCollection.Add(new ProductCategory { CategoryName = "Desserts" });
+        //    //ToDO; Implemenny SQl
 
-            return categoriesCollection;
-        }
+        //    return categoriesCollection;
+        //}
         public ObservableCollection<Product> GetProductsByCategory(String category)
         {
             ObservableCollection<Product> productsList = new ObservableCollection<Product>();
@@ -128,8 +150,9 @@ namespace POS_DataLibrary
                         string userId = reader.GetString(reader.GetOrdinal("Id"));
                         string firstName = reader.GetString(reader.GetOrdinal("FirstName"));
                         string lastName = reader.GetString(reader.GetOrdinal("LastName"));
+                        bool isManager = reader.GetBoolean(reader.GetOrdinal("IsManager"));
 
-                        return new User { UserName = userName, Password = password, Id = userId, FirstName = firstName, LastName = lastName };
+                        return new User { UserName = userName, Password = password, Id = userId, FirstName = firstName, LastName = lastName, IsManager = isManager };
                     }
                 }
             }
@@ -203,7 +226,7 @@ namespace POS_DataLibrary
         public ObservableCollection<Sales> getTodaySales()
         {
                 ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
-                SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, SUM(Price * Quantity) FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
+                SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, SUM(Price * Quantity) as TotalSales FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     if (reader.HasRows)
@@ -216,9 +239,9 @@ namespace POS_DataLibrary
                             string productName = reader.GetString(reader.GetOrdinal("ProductName"));
                             int qty = reader.GetInt32(reader.GetOrdinal("Quantity"));
                             decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
-                            decimal sales = qty * price;
+                            decimal sales = reader.GetDecimal(reader.GetOrdinal("TotalSales"));
 
-                            salesList.Add(new Sales() { Seller = seller, OrderItems = new OrderItems() { UPCCode = upcCode, Name = productName, Quantity = qty }, ItemTotal = sales });
+                        salesList.Add(new Sales() { Seller = seller, OrderItems = new OrderItems() { UPCCode = upcCode, Name = productName, Quantity = qty }, ItemTotal = sales });
                         }
                     }
                 }
@@ -249,26 +272,6 @@ namespace POS_DataLibrary
             return salesList;
         }
         
-        public void saveProduct(Product product)
-        {
- //byte[] rawData = File.ReadAllBytes(@"C:\Users\Valentina\Documents\POS-PointOfSalesTeamProject\Images\Drinks\Fanta.jpg");
-
-          ////  SqlCommand cmd = new SqlCommand("INSERT INTO Product (UPCCode, ProductCategoryId, Name, Price, Picture) VALUES (@UPCCode, @ProductCategoryId, @Name, @Price, @Picture)", conn);
-
-       
-          //  cmd.Parameters.AddWithValue("@UPCCode", "DRK03");
-          //  //cmd.Parameters.AddWithValue("@ProductCategoryId", 2);
-          //  //cmd.Parameters.AddWithValue("@Name", "Sprite");
-          //  //cmd.Parameters.AddWithValue("@Price", 1.5);
-          //  //cmd.Parameters.AddWithValue("@Picture", rawData);
-
-
-          //  cmd.ExecuteNonQuery();
-
-            //  SqlCommand cmd = new SqlCommand("Update Product set  Picture = @Picture where UPCCode = @UPCCode", conn);
-
-        }
-
 
         public void addProduct(Product p, string path)
         {
@@ -287,14 +290,15 @@ namespace POS_DataLibrary
 
         }
 
-        public void updateProduct(Product p)
+        public void updateProduct(Product p, string path)
         {
-            SqlCommand cmd = new SqlCommand("UPDATE Product SET  Name = @Name, Price = @Price WHERE UPCCode = @UPCCode )", conn);
+            byte[] rawData = File.ReadAllBytes(path);
+            SqlCommand cmd = new SqlCommand("UPDATE Product SET  Name = @Name, Price = @Price, Picture=@Picture WHERE UPCCode = @UPCCode )", conn);
             
             cmd.Parameters.AddWithValue("@UPCCode", p.UPCCode);
             cmd.Parameters.AddWithValue("@Name", p.Name);
             cmd.Parameters.AddWithValue("@Price", p.Price);
-            // cmd.Parameters.AddWithValue("@Picture", rawData);
+             cmd.Parameters.AddWithValue("@Picture", rawData);
 
 
             cmd.ExecuteNonQuery();

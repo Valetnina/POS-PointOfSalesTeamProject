@@ -11,7 +11,8 @@ using System.Runtime.Remoting.Contexts;
 using System.Windows.Threading;
 using POS_ManagersApp.ViewModels;
 
-namespace POS_SellersApp
+namespace POS_ManagersApp
+
 {
    public class ManagersStartupViewModel: ViewModel
     {
@@ -27,18 +28,15 @@ namespace POS_SellersApp
             }
         }
 
-        private static readonly LoginViewModel loginView = new LoginViewModel();
+        private LoginViewModel loginViewManager = new LoginViewModel();
 
 
         public ManagersStartupViewModel()
         {
-            User = new User();
             SwitchViews = new ActionCommand(p => OnSwitchViews("dashboard"));
             MessengerUser.Default.Register<User>(this, (user) =>
             {
-                User.FirstName = user.FirstName;
-                User.Id = user.Id;
-                User.LastName = user.LastName;
+                User = user;
                 OnSwitchViews("dashboard");
 
             });
@@ -47,15 +45,15 @@ namespace POS_SellersApp
                 OnSwitchViews(message);
 
             });
-            currentView = loginView;
+            currentView = loginViewManager;
 
-            _timer = new DispatcherTimer(DispatcherPriority.Render);
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += (sender, args) =>
+            timer = new DispatcherTimer(DispatcherPriority.Render);
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (sender, args) =>
             {
                 CurrentTime = DateTime.Now.ToLongTimeString();
             };
-            _timer.Start();
+            timer.Start();
         }
 
                 //CurrentDateText();
@@ -108,28 +106,28 @@ namespace POS_SellersApp
                    break;
                case "login":
                default:
-                  CurrentView = loginView;
+                  CurrentView = loginViewManager;
                    break;
            }
 
        }
         #region CurrentTime
 
-        private string _currentTime;
+        private string currentTime;
 
-        public DispatcherTimer _timer;
+        public DispatcherTimer timer;
 
         public string CurrentTime
         {
             get
             {
-                return this._currentTime;
+                return this.currentTime;
             }
             set
             {
-                if (_currentTime == value)
+                if (currentTime == value)
                     return;
-                _currentTime = value;
+                currentTime = value;
                 RaisePropertyChanged("CurrentTime");
             }
         }

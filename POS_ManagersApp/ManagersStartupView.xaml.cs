@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace POS_SellersApp
+namespace POS_ManagersApp
 {
     /// <summary>
     /// Interaction logic for SellersStartypView.xaml

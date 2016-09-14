@@ -171,7 +171,7 @@ namespace POS_ManagersApp.ViewModels
             decimal price = Price;
             Product p = new Product() { UPCCode = UPCCode, CategoryId = id, Name = ProductName, Price = Price};
 
-            db.updateProduct(p);  
+            db.updateProduct(p, Path);  
 
         }
 

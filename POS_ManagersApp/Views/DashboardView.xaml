@@ -8,15 +8,26 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="700" Width="600" Height="600">
     <Grid Margin="0,0,91,0" >
-        <chart:PieChart ChartTitle="Sales Per Seller"  SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" >
+        <chart:PieChart
+        ChartTitle="Sales Per Register/User"
+        ChartSubTitle="Chart for tracking performance"
+        SelectedItem="{Binding Path=SelectedItem, Mode=TwoWay}" Margin="143,0,-51,160" >
             <chart:PieChart.Series>
                 <chart:ChartSeries
-                SeriesTitle="Errors"
-                DisplayMember="Category"
-                ValueMember="Number"
-                ItemsSource="{Binding Path=Errors}" />
+                SeriesTitle="Sales/Register"
+                DisplayMember="SellerChart"
+                ValueMember="SalesPerSeller"
+                ItemsSource="{Binding Path=salesChartData}" />
             </chart:PieChart.Series>
         </chart:PieChart>
+        <chart:ClusteredBarChart ChartTitle="{Binding AreaChartTitle}" 
+    ChartSubTitle="{Binding AreaChartSubTitle}" 
+    SelectedItem="{Binding SelectedArea, Mode=TwoWay}" Grid.Column="3" Grid.RowSpan="10">
+            <chart:ClusteredBarChart.Series>
+                <chart:ChartSeries SeriesTitle="Areas" DisplayMember="Key"
+            ValueMember="Count" ItemsSource="{Binding Areas}"/>
+            </chart:ClusteredBarChart.Series>
+        </chart:ClusteredBarChart>
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TodaySales}" Margin="0,343,252,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
@@ -36,6 +47,8 @@
         </DataGrid>
         <Label Content="Sales This Month" HorizontalAlignment="Left" Margin="37,309,0,0" VerticalAlignment="Top" Width="140"/>
         <Label Content="Top Items this Month" HorizontalAlignment="Left" Margin="390,309,-21,0" VerticalAlignment="Top" Width="140"/>
-        
+        <Button Command="{Binding ExportToPDF}" Content="Export PDF" HorizontalAlignment="Left" Margin="271,445,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Command="{Binding SendEmail}" Content="Send via Email" HorizontalAlignment="Left" Margin="271,495,0,0" VerticalAlignment="Top" Width="75"/>
+
     </Grid>
 </UserControl>

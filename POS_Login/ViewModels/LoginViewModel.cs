@@ -17,7 +17,7 @@ namespace POS_PointOfSales.ViewModels
 {
    public class LoginViewModel:ViewModel
     {
-      
+     
         private Database db;
 
         
@@ -81,9 +81,7 @@ namespace POS_PointOfSales.ViewModels
                 var user = db.getUserByUserName(userN, pass);
                 if (user != null)
                 {
-                    User.Id = user.Id;
-                    User.FirstName = user.FirstName;
-                    User.LastName = user.LastName;
+                    User = user;
                     MessengerUser.Default.Send(User);
                     UserName = null;
                     Password = null;
