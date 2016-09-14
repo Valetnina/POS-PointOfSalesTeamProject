@@ -9,6 +9,7 @@
              xmlns:vml = "clr-namespace:POS_ViewsLibrary" 
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900" Width="500" Height="650">
+
    
     <UserControl.Resources>
         <Style TargetType="TextBlock">
