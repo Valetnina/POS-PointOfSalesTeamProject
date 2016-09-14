@@ -24,10 +24,10 @@
         </DataTemplate>
     </Window.Resources>
     <DockPanel>
-        <ContentControl DockPanel.Dock="Top" Content = "{Binding CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ContentControl DockPanel.Dock="Top" Content = "{Binding CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="653"/>
         <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="35" HorizontalAlignment="Stretch" MaxWidth="1200">
             <StatusBarItem HorizontalAlignment="Right" Margin="0,0,0,0">
-                <Label Content="{Binding CurrentTime}" />
+                <Label Foreground="White"  VerticalAlignment="Center" Content="{Binding CurrentTime}" Height="29" />
             </StatusBarItem>
         </StatusBar>
     </DockPanel>
