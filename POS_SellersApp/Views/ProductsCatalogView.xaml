@@ -22,6 +22,7 @@
         </Style>
 
         <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
+            <!--<Setter Property="IsEnabled" Value="False" />-->
             <Setter Property="Width" Value="120"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Foreground" Value="#316379"/>
@@ -47,7 +48,7 @@
                             <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
+                            <Trigger Property="IsMouseOver" Value="true">                                <!--<Setter Property="IsEnabled" Value="False"/>-->
                                 <Setter Property="Fill" TargetName="GrayEllipse">
                                     <Setter.Value>
                                         <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
@@ -63,7 +64,7 @@
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
-                            <Trigger Property="IsPressed" Value="true">
+                            <Trigger Property="IsPressed" Value="true">                                <!--<Setter Property="IsEnabled" Value="false"/>-->
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="Fill" TargetName="GrayEllipse">
                                     <Setter.Value>
@@ -80,6 +81,27 @@
                                     </Setter.Value>
                                 </Setter>
                             </Trigger>
+
+
+                            <DataTrigger Binding ="{Binding IsEnabled}" Value="true">
+                                <Setter Property="IsEnabled" Value="true"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
@@ -91,8 +113,8 @@
         <Label Foreground="White" FontSize="24" HorizontalContentAlignment="Center" Width="140" DockPanel.Dock="Top" Content = "{Binding Category}" HorizontalAlignment="Center" FontFamily="Constantia" Margin="144,0,164,0"/>
        
         <Grid HorizontalAlignment="Center" DockPanel.Dock="Bottom" Width="448" Height="159">
-            <Button Content="Meals"  Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Meals" Margin="10,0,318,0"/>
-            <Button Content="Drinks" Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Drinks" Margin="165,9,163,8"/>
+            <Button Content="Meals" IsEnabled="{Binding Path=SwitchViews.IsEnabled}"  Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Meals" Margin="10,64,318,65"/>
+            <Button Content="Drinks"   Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Drinks" Margin="165,9,163,8"/>
             <Button Content="Deserts" Style="{StaticResource RectGrayButton}" Command="{Binding SwitchViews}" CommandParameter="Desserts" Margin="318,8,10,9" />
         </Grid>
         <ItemsControl ItemsSource="{Binding CatalogCollection, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,25,0,0">
