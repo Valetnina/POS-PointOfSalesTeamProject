@@ -301,10 +301,7 @@ namespace POS_DataLibrary
 
         }
 
-<<<<<<< HEAD
 
-
-=======
         public int getLastOrderNo()
         {
             int orderId = 0;
@@ -320,7 +317,7 @@ namespace POS_DataLibrary
 
                     }
                 }
->>>>>>> origin/master
+
             }
             return orderId;
         }
