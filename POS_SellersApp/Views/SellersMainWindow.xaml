@@ -269,7 +269,7 @@
                 <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
             </Grid>
             <Grid Background="#edeaea" Height="118">
-                <ComboBox x:Name="cbDiscount" Width ="80" ItemsSource="{Binding DiscountButtons}" SelectedItem="{Binding Path=SelectedDiscount, Mode=TwoWay}">
+                <ComboBox x:Name="cbDiscount" Width ="80" ItemsSource="{Binding DiscountButtons}" SelectedItem="{Binding Path=SelectedDiscount, Mode=TwoWay}" Margin="170,45,170,34">
                     <ComboBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel IsItemsHost="True" Orientation="Horizontal" />

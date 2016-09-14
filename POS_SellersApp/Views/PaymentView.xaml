@@ -12,7 +12,7 @@
              d:DesignHeight="700" d:DesignWidth="900" Width="500" Height="650">
     <!--<UserControl.DataContext>
         <viewModels:PaimentViewModel/>
-    </UserControl.DataContext-->>
+    </UserControl.DataContext-->
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Constantia"/>
