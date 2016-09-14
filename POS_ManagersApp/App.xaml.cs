@@ -13,5 +13,31 @@ namespace POS_ManagersApp
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            IDisposable disposableViewModel = null;
+
+            //Create and show window while storing datacontext
+            this.Startup += (sender, args) =>
+            {
+                ManagersStartupView startupView = new ManagersStartupView();
+                // SellersMainWindowViewModel startupView = new SellersMainWindowViewModel();
+                disposableViewModel = MainWindow.DataContext as IDisposable;
+
+                startupView.Show();
+            };
+
+            //Dispose on unhandled exception
+            this.DispatcherUnhandledException += (sender, args) =>
+            {
+                if (disposableViewModel != null) disposableViewModel.Dispose();
+            };
+
+            //Dispose on exit
+            this.Exit += (sender, args) =>
+            {
+                if (disposableViewModel != null) disposableViewModel.Dispose();
+            };
+        }
     }
 }

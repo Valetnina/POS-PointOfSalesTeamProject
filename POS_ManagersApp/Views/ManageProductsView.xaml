@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:POS_ManagersApp.Views"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900">
+   
     <UserControl.Resources>
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="Constantia"/>
@@ -150,25 +151,39 @@
         <Grid DockPanel.Dock="Left" Height="653" Background="#5ab2d9" Width="224" Margin="0,0,0,-1">
             <Button Content="Dashboard" Margin="23,36,33,577" Style="{StaticResource RectGrayButton}"/>
             <Button Content="Products" Margin="23,96,33,517" Style="{StaticResource RectGrayButton}"/>
-            <Button Content="Reports" Margin="23,159,33,454" Style="{StaticResource RectGrayButton}"/>
-            <Button Content="Browse..." Margin="646,449,-582,164" Style="{StaticResource RectGrayButton}"/>
-            <Button Content="Add" Margin="282,553,-228,60" Style="{StaticResource RectBlueButton}"/>
-            <Button Content="Update" Margin="499,553,-445,60" Style="{StaticResource RectBlueButton}"/>
-            <Button Content="Delete" Margin="707,553,-653,60" Style="{StaticResource RectBlueButton}"/>
         </Grid>
-        <Grid DockPanel.Dock="Left" Width="675">
-            <ComboBox BorderBrush="#afacac" BorderThickness="5" Margin="150,59,53,548" ItemsSource="{Binding ProductsList}"></ComboBox>
+        <Grid DockPanel.Dock="Left" Width="675" Background="#edeaea">
+            <ComboBox BorderBrush="#afacac" SelectedItem="{Binding SelectedProduct}" BorderThickness="5" Margin="150,59,53,548" ItemsSource="{Binding ProductsList}">
+                <!--<ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock DataContext="{Binding}">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{} {0} | {1}">
+                                    <Binding Path="UPCCode" />
+                                    <Binding Path="ProductName" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>-->
+            </ComboBox>
             <Label Content="UPC Code :" Margin="98,153,427,464" ></Label>
             <TextBox Text="{Binding UPCCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="249,153,97,465"/>
             <Label Content="Category :" Margin="98,213,427,404" />
             <Label Content="Product Name :" Margin="98,273,427,344" />
             <Label Content="Price :" Margin="98,340,427,277" />
-            <TextBox Text="{Binding Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="248,214,98,404"/>
             <TextBox Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="249,273,97,345"/>
             <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="249,340,97,278"/>
+            <Button Content="Add" Command="{Binding AddProduct}" Margin="30,541,475,71" Style="{StaticResource RectBlueButton}"/>
+            <Button Content="Update" Margin="232,541,273,71" Style="{StaticResource RectBlueButton}"/>
+            <Button Content="Clear" Command="{Binding ClearForm}" Margin="452,541,53,71" Style="{StaticResource RectBlueButton}"/>
+            <Button Content="Browse..." Command="{Binding SelectImage}" Margin="417,451,98,161" Style="{StaticResource RectGrayButton}"/>
             <Label Content="Picture :" Margin="98,407,427,210" />
-            <TextBox Margin="248,407,98,211"/>
+            <TextBox Text="{Binding Path}"  Margin="248,407,98,211"/>
             <Label Content="Products" FontWeight="Bold" FontSize="26" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="132" Foreground="#5ab2d9"/>
+            <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding CategoryList}" IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedCategory}" Margin="249,222,0,0" VerticalAlignment="Top" Width="329" Height="30">
+            </ComboBox>
         </Grid>
     </DockPanel>
+
 </UserControl>

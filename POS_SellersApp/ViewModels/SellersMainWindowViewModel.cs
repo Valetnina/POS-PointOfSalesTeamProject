@@ -18,77 +18,74 @@ namespace POS_SellersApp.ViewModels
 {
 
     public class SellersMainWindowViewModel : ViewModel
-
     {
         private const double TAX = 0.15;
-        private bool IsDoneMessageReceived;
         private Database db;
-        private ObservableCollection<Int32> discountButtons;
-        public ObservableCollection<Int32> DiscountButtons
-        {
-            get
-            {
-                return discountButtons;
-            }
-
-            set
-            {
-                discountButtons = value;
-                RaisePropertyChanged("DiscountButtons");
-            }
-        }
+      
         //   public User UserLoggedIn = new User();
         public SellersMainWindowViewModel()
         {
-
             db = new Database();
             //Register for messages from differnet viewModels
-            MessengerUserLogged.Default.Register<User>(this, (user) =>
-            {
-                this.UserLoggedIn = user;
-            });
+
             MessengerPoduct.Default.Register<Product>(this, (product) =>
             {
                 ReceiveMessage(product);
             });
-            if (!IsDoneMessageReceived)
-            {
-                MessengerDone.Default.Register<String>(this, message =>
-                   {
-                       IsDoneMessageReceived = true;
-                       RecivedDoneMessage(message);
-                   }
-                );
-            }
+            MessengerDone.Default.Register<String>(this, message =>
+                 {
+                     RecivedDoneMessage(message);
+                 });
             SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
             //Initialize comopents with some values
             OrderItems = new ObservableCollection<OrderItems>();
-            DiscountButtons = new ObservableCollection<Int32>();
-            for (int i = 0; i <= 20; i = i + 5)
-            {
-                DiscountButtons.Add(i);
-            }
-            DiscountButtons.Add(50);
-            DiscountButtons.Add(100);
-            SelectedDiscount = 0;
+
             //Register CollectionChangedEvent for the OrderItems
             OrderItems.CollectionChanged += ContentCollectionChanged;
-            //if (OrderItems != null && OrderItems.CanGroup == true)
-            //{
-            //    OrderItems.GroupDescriptions.Clear();
-            //    OrderItems.GroupDescriptions.Add(new PropertyGroupDescription("ProjectName"));
 
-                //Initialize commands
-                RemoveItem = new ActionCommand(p => OnRemoveItem());
+            //Initialize commands
+            RemoveItem = new ActionCommand(p => OnRemoveItem());
             CancelOrder = new ActionCommand(p => OnCancelOrder());
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
             PrintReceipt = new ActionCommand(p => OnPrintReceipt());
+            DecreaseQuantity = new ActionCommand(p => OnDecreaseQuantity());
             currentView = ProductsCatalogViewModel;
-            OrderNo = "1";
-            
+            OrderNo = string.Format("Order# {0}", (db.getLastOrderNo() + 1).ToString());
+
             //Set the totals to zero
             //  OrderSubTotal = 0;
-            db.saveProduct(new Product());
+        }
+
+        private void OnDecreaseQuantity()
+        {
+            if (SelectedOrderItem == null)
+            {
+                MessageBox.Show("Select item to decrease quantity");
+                return;
+            }
+            //Check if the product was already selected
+            if (OrderItems.Any(p => p.UPCCode == SelectedOrderItem.UPCCode))
+            {
+                if (OrderItems.First(p => p.UPCCode == SelectedOrderItem.UPCCode).Quantity == 0)
+                {
+                    if (SelectedOrderItem != null)
+                    {
+                        MessageBoxResult result = MessageBox.Show("You are about to delete an item. Do you want to continue?", "Delete Item", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            OrderItems.Remove(SelectedOrderItem);
+                        };
+                    }
+                }
+                else
+                {
+                    OrderItems.First(p => p.UPCCode == SelectedOrderItem.UPCCode).Quantity -= 1;
+                    RaisePropertyChanged("OrderSubTotal");
+                    RaisePropertyChanged("OrderTax");
+                    RaisePropertyChanged("BalanceDue");
+                }
+                
+            }
         }
 
 
@@ -98,7 +95,8 @@ namespace POS_SellersApp.ViewModels
             switch (message)
             {
                 case "Register":
-                    Order order = new Order { Date = DateTime.Now, StoreNo = "OV001", UserId = "SEL01", OrderAmount = BalanceDue, Tax = OrderTax };
+
+                    Order order = new Order { Date = DateTime.Now,  StoreNo = "OV001", UserId = UserLoggedIn.Id, OrderAmount = OrderSubTotal, Tax = OrderTax };
 
                     try
                     {
@@ -122,7 +120,7 @@ namespace POS_SellersApp.ViewModels
                     OnSwitchViews("catalog");
                     break;
             }
-           
+
 
         }
 
@@ -130,7 +128,6 @@ namespace POS_SellersApp.ViewModels
         {
             RaisePropertyChanged("OrderSubTotal");
             RaisePropertyChanged("OrderTax");
-            RaisePropertyChanged("SelectedDiscount");
             RaisePropertyChanged("BalanceDue");
             RaisePropertyChanged("SelectedOrderItem");
         }
@@ -152,6 +149,9 @@ namespace POS_SellersApp.ViewModels
             if (OrderItems.Any(p => p.UPCCode == product.UPCCode))
             {
                 OrderItems.First(p => p.UPCCode == product.UPCCode).Quantity += 1;
+                RaisePropertyChanged("OrderSubTotal");
+                RaisePropertyChanged("OrderTax");
+                RaisePropertyChanged("BalanceDue");
             }
             else
             {
@@ -165,30 +165,7 @@ namespace POS_SellersApp.ViewModels
                 });
             }
         }
-        private Int32 selectedDiscount;
-        public Int32 SelectedDiscount {
-            get
-            {
-                return selectedDiscount;
-            }
-
-            set
-            {
-                selectedDiscount = value;
-                RaisePropertyChanged("SelectedDiscount");
-                RaisePropertyChanged("Discount");
-                RaisePropertyChanged("Total");
-                RaisePropertyChanged("Tax");
-                RaisePropertyChanged("BalanceDue");
-            }
-        }
-        public string Discount
-        {
-            get
-            {
-                return string.Format("-{0}%",SelectedDiscount);
-            }
-        }
+       
         private OrderItems selectedOrderItem;
         public OrderItems SelectedOrderItem
         {
@@ -213,25 +190,10 @@ namespace POS_SellersApp.ViewModels
             }
 
             set
-
             {
                 userLoggedIn = value;
+
                 RaisePropertyChanged("UserLoggedIn");
-                RaisePropertyChanged("FirstName");
-            }
-        }
-
-
-        public string FirstName
-        {
-            get
-            {
-                if (UserLoggedIn != null)
-                {
-                    // Messenger.Default.Unregister(this);
-                    return UserLoggedIn.FirstName;
-                }
-                return "NOT SET";
             }
         }
         public decimal OrderSubTotal
@@ -255,7 +217,7 @@ namespace POS_SellersApp.ViewModels
             get
             {
 
-                return (OrderSubTotal - SelectedDiscount) * (decimal)TAX;
+                return OrderSubTotal * (decimal)TAX;
             }
 
         }
@@ -263,7 +225,7 @@ namespace POS_SellersApp.ViewModels
         {
             get
             {
-                return (OrderSubTotal - SelectedDiscount + OrderTax);
+                return OrderSubTotal + OrderTax;
             }
 
         }
@@ -282,7 +244,7 @@ namespace POS_SellersApp.ViewModels
             }
         }
 
-        private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();
+      readonly static  private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();
 
         //    private PaimentViewModel payiementViewModel = new PaimentViewModel();
 
@@ -292,14 +254,26 @@ namespace POS_SellersApp.ViewModels
         public ViewModel CurrentView
         {
             get { return currentView; }
-            set {
+            set
+            {
                 currentView = value;
-                RaisePropertyChanged("CurrentView"); }
+                RaisePropertyChanged("CurrentView");
+            }
         }
         public string DisplayedImagePath
         {
-            get { return "/POS-PointOfSales;component/Logo_Small.png"; }
+            get { return "/POS_SellersApp;component/Logo_Small.png"; }
         }
+        private string payed;
+
+        public string Payed
+        {
+            get { return payed; }
+            set { payed = value;
+            RaisePropertyChanged("Paied");
+            }
+        }
+
         #region Commands
         private void OnSendLogoutMessage(string v)
         {
@@ -333,15 +307,19 @@ namespace POS_SellersApp.ViewModels
             }
         }
         public ActionCommand SwitchViews { get; private set; }
-       readonly static PaimentViewModel pvm = new PaimentViewModel();
+        readonly static PaimentViewModel pvm = new PaimentViewModel();
         private void OnSwitchViews(string destination)
         {
             switch (destination)
             {
                 case "pay":
-                    pvm.Balance = BalanceDue.ToString();
+                    if (OrderItems.Count < 1)
+                    {
+                        MessageBox.Show("You cannot pay an empty order", "Paiement Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    pvm.Balance = BalanceDue.ToString("#.##");
                     CurrentView = pvm;
-                    MessengerBalance.Default.Send(BalanceDue);
                     break;
 
                 case "catalog":
@@ -364,17 +342,56 @@ namespace POS_SellersApp.ViewModels
 
         //}
 
+        #region PrintReceipt
+        public ActionCommand PrintReceipt { get; private set; }
 
 
-                    string productLine = item.CategoryName;
+        private void OnPrintReceipt()
+        {
+            var doc = new PrintDocument();
+            doc.PrintPage += new PrintPageEventHandler(CreateReceipt);
+            doc.Print();
+        }
 
-                    graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
+        public void CreateReceipt(object sender, System.Drawing.Printing.PrintPageEventArgs e)
+        {
 
-                    offset = offset + (int)fontHeight + 5; //make the spacing consistent
+            //this prints the reciept
+
+            Graphics graphic = e.Graphics;
+            Font font = new Font("Courier New", 12); //must use a mono spaced font as the spaces need to line up
+
+            float fontHeight = font.GetHeight();
+
+            int startX = 10;
+            int startY = 10;
+            int offset = 40;
+
+            graphic.DrawString(" Olya&Valya", new Font("Courier New", 18), new SolidBrush(Color.Black), startX, startY);
+            string top = "Item Name".PadRight(30) + "Price";
+            graphic.DrawString(top, font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + (int)fontHeight; //make the spacing consistent
+            graphic.DrawString("----------------------------------", font, new SolidBrush(Color.Black), startX, startY + offset);
+            offset = offset + (int)fontHeight + 5; //make the spacing consistent
+
+            decimal totalprice = OrderSubTotal + (decimal)TAX;
+
+            foreach (var item in OrderItems)
+            {
+                //create the string to print on the reciept
+                string productDescription = item.Name;
+                string productQty = item.Quantity.ToString();
+                string productPrice = item.Price.ToString();
+                string productTotal = item.Total.ToString();
+
+                string productLine = item.CategoryName;
+
+                graphic.DrawString(productLine, font, new SolidBrush(Color.Black), startX, startY + offset);
+
+                offset = offset + (int)fontHeight + 5; //make the spacing consistent
             }
             //TODO: Pass the paiement information
             decimal change = 0;
-            decimal totalPrice = 0;
             decimal cash = 0;
             change = (cash - totalprice);
 
@@ -392,7 +409,6 @@ namespace POS_SellersApp.ViewModels
             graphic.DrawString("     Thank-you for your custom,", font, new SolidBrush(Color.Black), startX, startY + offset);
             offset = offset + 15;
             graphic.DrawString("       please come back soon!", font, new SolidBrush(Color.Black), startX, startY + offset);
-
 
         }
         #endregion
@@ -418,6 +434,8 @@ namespace POS_SellersApp.ViewModels
         }
 
 
+
+        public ActionCommand DecreaseQuantity { get; set; }
     }
 
 }

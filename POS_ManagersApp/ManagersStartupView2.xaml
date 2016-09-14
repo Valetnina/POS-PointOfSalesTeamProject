@@ -1,0 +1,35 @@
+﻿<Window x:Class="POS_ManagersApp.ManagersStartupView"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:POS_ManagersApp"
+           xmlns:views = "clr-namespace:POS_ManagersApp.Views" 
+           xmlns:viewModels = "clr-namespace:POS_ManagersApp.ViewModels" 
+         xmlns:viewsRef = "clr-namespace:POS_PointOfSales.Views;assembly=POS-PointOfSales" 
+         xmlns:viewModelsRef = "clr-namespace:POS_PointOfSales.ViewModels;assembly=POS-PointOfSales" 
+        mc:Ignorable="d"
+       Width="900" Height="700" WindowStyle="None" WindowStartupLocation="CenterScreen">
+
+    <Window.DataContext>
+        <local:ManagersStartupViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType = "{x:Type viewModelsRef:LoginViewModel}">
+            <viewsRef:LoginView/>
+        </DataTemplate>
+
+        <DataTemplate DataType = "{x:Type viewModels:ManagersMainWindowViewModel}">
+            <views:ManagersMainWindow/>
+        </DataTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <ContentControl DockPanel.Dock="Top" Content = "{Binding CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <StatusBar DockPanel.Dock="Bottom" Background="#047db1" Height="35" HorizontalAlignment="Stretch" MaxWidth="1200">
+            <StatusBarItem HorizontalAlignment="Right" Margin="0,0,0,0">
+                <Label Content="{Binding CurrentTime}" />
+            </StatusBarItem>
+        </StatusBar>
+    </DockPanel>
+</Window>
+

@@ -75,3 +75,13 @@ Create Model for Products, Products Categories.
 1. Implemented triggers for buttons.. Designed The paiement view. Researched images
 2 Started logic paiement view but nott finished
 3. Finish logic paiement view. Start dashboard ManagersApp
+
+
+--Day07 Tina
+1. Implemented paiement view
+2 Still didn;t find the messenfer bud. Need teacher's assistance
+3.TODo: Implement the dashboard in Managers App
+
+--Day07 Olga
+1.Finished login paiement view, started Manage products view
+2 TODO: Finish Manage products view and fix the appearance issue

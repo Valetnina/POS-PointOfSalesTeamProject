@@ -36,12 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OxyPlot, Version=1.0.0.0, Culture=neutral, PublicKeyToken=638079a8f0bd61e9, processorArchitecture=MSIL">
-      <HintPath>..\packages\OxyPlot.Core.1.0.0\lib\net45\OxyPlot.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="OxyPlot.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=75e952ba404cdbb0, processorArchitecture=MSIL">
-      <HintPath>..\packages\OxyPlot.Wpf.1.0.0\lib\net45\OxyPlot.Wpf.dll</HintPath>
+    <Reference Include="De.TorstenMandelkow.MetroChart, Version=0.9.5818.20693, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ModernUICharts.WPF.Beta.0.9.1\lib\De.TorstenMandelkow.MetroChart.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -70,6 +66,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ManagersStartupView.xaml.cs">
+      <DependentUpon>ManagersStartupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ManagersStartupViewModel.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="ViewModels\ManageProductsViewModel.cs" />
     <Compile Include="ViewModels\ManagersMainWindowViewModel.cs" />
@@ -112,6 +112,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ManagersStartupView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\DashboardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,6 +133,10 @@
     <ProjectReference Include="..\POS_DataLibrary\POS_DataLibrary.csproj">
       <Project>{c0873047-8453-4fe7-9bc1-6629c9e3d9f8}</Project>
       <Name>POS_DataLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\POS_Login\POS-Login.csproj">
+      <Project>{603beec0-fc88-4893-8121-c8e5d67220eb}</Project>
+      <Name>POS-Login</Name>
     </ProjectReference>
     <ProjectReference Include="..\POS_ViewsLibrary\POS_ViewsLibrary.csproj">
       <Project>{359f19f0-2a62-468e-9e74-674b0da83999}</Project>

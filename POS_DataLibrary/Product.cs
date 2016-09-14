@@ -48,6 +48,19 @@ namespace POS_DataLibrary
             RaisePropertyChanged("CategoryName");
             }
         }
+
+        private int categoryId;
+
+        public int CategoryId
+        {
+            get { return categoryId; }
+            set
+            {
+                categoryId = value;
+                RaisePropertyChanged("CategoryId");
+            }
+        }
+
         private Image picture;
 
         public Image Picture
@@ -66,6 +79,10 @@ namespace POS_DataLibrary
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
-        } 
+        }
+        public override string ToString()
+        {
+            return string.Format("{0} | {1}", UPCCode, Name);
+        }
     }
 }

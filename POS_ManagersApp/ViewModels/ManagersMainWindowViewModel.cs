@@ -1,4 +1,5 @@
-﻿using POS_ViewsLibrary;
+﻿using POS_DataLibrary;
+using POS_ViewsLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,15 @@ namespace POS_ManagersApp.ViewModels
 {
 public class ManagersMainWindowViewModel: ViewModel
     {
+        private User userLoggedIn;
+        public User UserLoggedIn
+        {
+            get { return userLoggedIn; }
+            set { userLoggedIn = value;
+            RaisePropertyChanged("User");
+            }
+        }
+
         public ManagersMainWindowViewModel()
         {
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));

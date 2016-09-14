@@ -7,14 +7,13 @@
         xmlns:views = "clr-namespace:POS_SellersApp.Views" 
         xmlns:viewModels = "clr-namespace:POS_SellersApp.ViewModels" 
         xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
-             xmlns:vml = "clr-namespace:POS_ViewsLibrary"
-            vml:ViewModelLocator.AutoHookedUpViewModel = "True"
+        xmlns:vml = "clr-namespace:POS_ViewsLibrary"
+           
         mc:Ignorable="d"
         Width="900" Height="700" Background="#0085bd">
-    <!--<UserControl.DataContext>
+<!--    <UserControl.DataContext>
         <viewModels:SellersMainWindowViewModel/>
-    </UserControl.DataContext>-->
-
+    </UserControl.DataContext> -->
 
     <UserControl.Resources>
         <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
@@ -207,14 +206,17 @@
             <Image Height="51" Width="70" Source="{Binding DisplayedImagePath}" HorizontalAlignment="Left" Margin="10,0,0,0"/>
             <TextBlock  Width="636" Foreground="#f7f6f6" FontSize="20">
                 <Run Text="Welcome,  "/>
-                <Run Text="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Run Text="{Binding UserLoggedIn.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
             </TextBlock>
             <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
 
             <StackPanel Orientation="Horizontal" Height="31">
-                <Label Content="{Binding FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"  Style="{StaticResource BlueLabel}" Width="146"/>
+                <TextBlock Foreground="#0472a1" Width="146">
+                    <Run Text="{Binding UserLoggedIn.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Run Text="{Binding UserLoggedIn.LastName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                </TextBlock>
                 <Label Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}"  Width="176"/>
                 <Label Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
             </StackPanel>
@@ -224,7 +226,6 @@
                         <DataGridTextColumn Width="200" Header="Item" Binding="{Binding Name}" Foreground="Black" />
                         <DataGridTextColumn Width ="60" Header="Qty" Binding="{Binding Quantity}" Foreground="Black" />
                         <DataGridTextColumn  Width ="60" Header="Each" Binding="{Binding Price, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
-                        <DataGridTextColumn  Width ="60" Header="Discount" Binding="{Binding Discount, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
                         <DataGridTextColumn  Width ="60" Header="Total" Binding="{Binding Total, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
 
                     </DataGrid.Columns>
@@ -257,11 +258,9 @@
             </Grid>
             <Grid Height="168">
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
-                <Label Height="23" Content="Discounts  :" Style="{StaticResource BlackLabel}" Margin="0,29,338,99" />
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
                 <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
                 <Label Height="23" Content="{Binding OrderSubTotal, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" FontSize="12"  Margin="87,0,251,128" />
-                <Label Content="{Binding Discount, UpdateSourceTrigger=PropertyChanged,Converter={StaticResource customDecimalToStringConverter}}" Margin="87,28,251,99" />
                 <Label Height="23" Content="{Binding OrderTax, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
                 <Label Height="23" Content="{Binding BalanceDue, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
                 <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource SmallButton}" Margin="22,101,303,20" />
@@ -269,23 +268,9 @@
                 <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
             </Grid>
             <Grid Background="#edeaea" Height="118">
-                <ComboBox x:Name="cbDiscount" Width ="80" ItemsSource="{Binding DiscountButtons}" SelectedItem="{Binding Path=SelectedDiscount, Mode=TwoWay}" Margin="170,45,170,34">
-                    <ComboBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel IsItemsHost="True" Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ComboBox.ItemsPanel>
-                    <!--<ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Label  Panel.ZIndex="1000" FontSize="42" Foreground="#f7f6f6" Margin="0,0" />
-                                <Button  Style="{StaticResource RoundBlueButton}" Margin="0,0"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>-->
-                </ComboBox>
 
-                <Label Content="Pay"  Panel.ZIndex="1000" FontSize="30" Margin="375,12,-10,13" Foreground="#047db1" />
+                <Button  Command="{Binding DecreaseQuantity}" Style="{StaticResource RoundGrayButton}" Margin="0,0"/>
+
                 <Button Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundGrayButton}" Margin="320,10,45,14"/>
                 <Button Command="{Binding PrintReceipt}" Style="{StaticResource RoundGrayButton}" Margin="24,10,341,14" Content="Print" Foreground="Black" FontSize="8">
                 </Button>

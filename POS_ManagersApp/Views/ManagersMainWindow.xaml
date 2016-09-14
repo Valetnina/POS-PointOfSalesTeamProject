@@ -8,7 +8,7 @@
            xmlns:viewModels = "clr-namespace:POS_ManagersApp.ViewModels" 
               xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
         mc:Ignorable="d"
-        Width="900" Background="#0085bd">
+        Width="900" Height="700" Background="#0085bd">
     <UserControl.Resources>
         <DataTemplate DataType = "{x:Type viewModels:DashboardViewModel}">
             <views:DashboardView/>
@@ -24,7 +24,7 @@
     <Grid>
         <Button Command="{Binding SwitchViews}" CommandParameter="dashboard" Content="Dashboard" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
         <Button Command="{Binding SwitchViews}" CommandParameter="manage" x:Name="button_Copy" Content="Manage Products" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="0,22,0,0"/>
-        <ContentControl  Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" Height="269" Width="825"/>
+        <ContentControl  Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" />
 
     </Grid>
 </UserControl>
