@@ -65,7 +65,7 @@ namespace POS_SellersApp.ViewModels
             {
                 case "Meals":
                     CatalogCollection = db.GetProductsByCategory("Meals");
-                    Category = "Meals";
+                    Category = "Meals";                    
                     break;
                 case "Drinks":
                     CatalogCollection = db.GetProductsByCategory("Drinks");
@@ -81,6 +81,23 @@ namespace POS_SellersApp.ViewModels
             }
 
         }
+
+        private bool isEnabled;
+
+        public bool IsEnabled
+        {
+            get { return isEnabled; }
+            set
+            {
+                if (value != isEnabled)
+                    isEnabled = value;
+                RaisePropertyChanged("IsEnabled");
+            }
+        }
+
+       
+
+
         private void OnAddToOrder(Product product)
         {
             if(product != null)

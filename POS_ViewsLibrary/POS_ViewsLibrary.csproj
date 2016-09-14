@@ -50,8 +50,6 @@
     <Compile Include="ActionComand.cs" />
     <Compile Include="DecimalStringConverter.cs" />
     <Compile Include="ImageConverter.cs" />
-    <Compile Include="MessengerBalance.cs" />
-    <Compile Include="MessengerUserLogged.cs" />
     <Compile Include="MessengerLogout.cs" />
     <Compile Include="MessengerDone.cs" />
     <Compile Include="MessengerUser.cs" />

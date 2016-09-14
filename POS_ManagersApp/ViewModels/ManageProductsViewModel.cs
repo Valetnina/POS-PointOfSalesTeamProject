@@ -18,8 +18,6 @@ namespace POS_ManagersApp.ViewModels
     {
         private ObservableCollection<Product> productsList = new ObservableCollection<Product>();
         private ObservableCollection<Product> topItems = new ObservableCollection<Product>();
-
-
         private ObservableCollection<ProductCategory> categoryList = new ObservableCollection<ProductCategory>();
 
         public ObservableCollection<ProductCategory> CategoryList
@@ -173,7 +171,7 @@ namespace POS_ManagersApp.ViewModels
             decimal price = Price;
             Product p = new Product() { UPCCode = UPCCode, CategoryId = id, Name = ProductName, Price = Price};
 
-            db.updateProduct(p);  
+            db.updateProduct(p, Path);  
 
         }
 

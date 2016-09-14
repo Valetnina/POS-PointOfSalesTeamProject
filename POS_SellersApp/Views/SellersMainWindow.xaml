@@ -10,7 +10,7 @@
         xmlns:vml = "clr-namespace:POS_ViewsLibrary"
            
         mc:Ignorable="d"
-        Width="900" Height="700" Background="#0085bd">
+        Width="900" Height="665" Background="#0085bd">
 <!--    <UserControl.DataContext>
         <viewModels:SellersMainWindowViewModel/>
     </UserControl.DataContext> -->
@@ -42,64 +42,138 @@
         </Style>
         <Style x:Key="BlackLabel" TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
-        <Style BasedOn="{StaticResource BlueLabel}" TargetType="Label"/>
-        <Style x:Key="BigButton" TargetType="{x:Type Button}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="30" 
-                                Background="#e9e9e9" 
-                                BorderBrush="#b9b6b6" 
-                                BorderThickness="0,1,1,0">
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="SmallButton" TargetType="{x:Type Button}">
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="FontFamily" Value="Constantia"/>
-            <Setter Property="Width" Value="95"/>
-            <Setter Property="Foreground" Value="#0472a1"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="20" 
-                                Background="#e9e9e9" 
-                                BorderBrush="#b9b6b6" 
-                                BorderThickness="0,1,1,0">
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="MedButton" TargetType="{x:Type Button}">
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Width" Value="95"/>
-            <Setter Property="FontFamily" Value="Constantia"/>
-            <Setter Property="Foreground" Value="#0472a1"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="20" 
-                                Background="#e9e9e9" 
-                                BorderBrush="#b9b6b6" 
-                                BorderThickness="0,1,1,0">
-                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
+        <Style x:Key="RectBlueButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="95"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Blue" ShadowDepth="0" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle Name="BlueEllipse" Opacity="1" RadiusX="20" RadiusY="20">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                        <GradientStop Color="#0587be" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#06a0e1" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#979899" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Foreground" Value="#316379"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle Name="GrayEllipse" Opacity="1" RadiusX="20" RadiusY="20">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                        <GradientStop Color="#dadada" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#d2d0d0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="RoundBlueButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="65"/>
             <Setter Property="Height" Value="65"/>
@@ -164,33 +238,72 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <Style x:Key="RoundGrayButton" TargetType="{x:Type Control}">
-            <Setter Property="Width" Value="55"/>
-            <Setter Property="Height" Value="55"/>
+        <Style x:Key="RoundGrayButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="65"/>
+            <Setter Property="Height" Value="65"/>
+            <Setter Property="Foreground" Value="#0472a1"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="10"/>
+                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Grid>
-                            <Ellipse>
+                            <Ellipse Name="GrayEllipse">
                                 <Ellipse.Fill>
                                     <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
                                                          GradientOrigin="0.6, 0.3">
                                         <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                        <GradientStop Color="#a2a2a2" Offset="0.8"/>
+                                        <GradientStop Color="#dadada" Offset="0.8"/>
                                     </RadialGradientBrush>
                                 </Ellipse.Fill>
                             </Ellipse>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#d2d0d0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
+        
         <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
         <CollectionViewSource x:Key="ProductsGroup"                               
                       Source="{Binding Path=OrderItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -200,33 +313,41 @@
         </CollectionViewSource>
     </UserControl.Resources>
 
-    <DockPanel Height="700" Background="#0472a1">
-        <StackPanel DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#0085bd" Orientation="Horizontal">
-            <Label Width="400"></Label>
+    <DockPanel Height="665" >
+        <Grid DockPanel.Dock="Top" x:Name="spTitleBar" Height="50" Background="#03719f">
             <Image Height="51" Width="70" Source="{Binding DisplayedImagePath}" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-            <TextBlock  Width="636" Foreground="#f7f6f6" FontSize="20">
+            <TextBlock TextAlignment="Left" VerticalAlignment="Center" Width="Auto" Foreground="#f7f6f6"  FontSize="20" Margin="542,12,180,14" Height="Auto" >
                 <Run Text="Welcome,  "/>
                 <Run Text="{Binding UserLoggedIn.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
             </TextBlock>
-            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login" Style="{StaticResource BigButton}" Width="154" Margin="15,5,5,5"/>
-        </StackPanel>
+            <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login"  Style="{StaticResource RectGrayButton}" Height="35" Width="154" FontSize="16" Margin="736,5,10,5"/>
+        </Grid>
+        <Grid DockPanel.Dock="Left" Width="7" Background="#03719f"/>
         <StackPanel DockPanel.Dock="Left" x:Name="spLeftSide" Width="420" Background="#f7f6f6" >
 
-            <StackPanel Orientation="Horizontal" Height="31">
-                <TextBlock Foreground="#0472a1" Width="146">
+            <Grid Height="38">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Padding="5,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Left" Foreground="#0472a1" Width="146" FontSize="14" Height="18" Margin="0,10" Grid.RowSpan="2">
                     <Run Text="{Binding UserLoggedIn.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Run Text="{Binding UserLoggedIn.LastName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                 </TextBlock>
-                <Label Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}"  Width="176"/>
-                <Label Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="97"/>
-            </StackPanel>
-            <Grid Background="#ffffff" Height="249">
-                <DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource ProductsGroup}}" SelectedItem="{Binding SelectedOrderItem}" IsReadOnly="True" SelectionMode="Single">
+                <Label HorizontalAlignment="Center" Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}" Margin="151,0,121,0" Width="148" Grid.RowSpan="2"/>
+                <Label HorizontalAlignment="Right" Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="116" Grid.RowSpan="2"/>
+            </Grid>
+            <Grid Background="#ffffff" Height="287">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="13*"/>
+                    <ColumnDefinition Width="92*"/>
+                </Grid.ColumnDefinitions>
+                <DataGrid  AutoGenerateColumns="False" ItemsSource="{Binding Source={StaticResource ProductsGroup}}" SelectedItem="{Binding SelectedOrderItem}" IsReadOnly="True" SelectionMode="Single" Grid.ColumnSpan="2">
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="200" Header="Item" Binding="{Binding Name}" Foreground="Black" />
-                        <DataGridTextColumn Width ="60" Header="Qty" Binding="{Binding Quantity}" Foreground="Black" />
-                        <DataGridTextColumn  Width ="60" Header="Each" Binding="{Binding Price, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
-                        <DataGridTextColumn  Width ="60" Header="Total" Binding="{Binding Total, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
+                        <DataGridTextColumn Width ="70" Header="Qty" Binding="{Binding Quantity}" Foreground="Black" />
+                        <DataGridTextColumn  Width ="70" Header="Each" Binding="{Binding Price, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
+                        <DataGridTextColumn  Width ="90" Header="Total" Binding="{Binding Total, Converter={StaticResource customDecimalToStringConverter}}" Foreground="Black" />
 
                     </DataGrid.Columns>
                     <DataGrid.GroupStyle>
@@ -256,25 +377,25 @@
                     </DataGrid.GroupStyle>
                 </DataGrid>
             </Grid>
-            <Grid Height="168">
+            <Grid Height="173">
                 <Label Height="23" Content="Sub total  :" Style="{StaticResource BlackLabel}" Margin="0,1,338,127" />
-                <Label Height="23" Content="Discounts  :" Style="{StaticResource BlackLabel}" Margin="0,29,338,99" />
                 <Label Height="23" Content="Tax  :" Style="{StaticResource BlackLabel}" Margin="0,57,338,71" />
                 <Label Height="23" Content="Balance Due  :" Style="{StaticResource BlackLabel}" Margin="209,0,127,71" VerticalAlignment="Bottom"/>
                 <Label Height="23" Content="{Binding OrderSubTotal, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" FontSize="12"  Margin="87,0,251,128" />
                 <Label Height="23" Content="{Binding OrderTax, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="87,57,251,71" />
                 <Label Height="23" Content="{Binding BalanceDue, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="326,0,10,71" VerticalAlignment="Bottom"/>
-                <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource SmallButton}" Margin="22,101,303,20" />
-                <Button Content="Cancel Order"  Command="{Binding CancelOrder}"  Style="{StaticResource SmallButton}" Margin="165,101,160,20" />
-                <Button Content="Send Order" Style="{StaticResource SmallButton}" Margin="304,101,21,20"/>
+                <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource RectGrayButton}" Margin="24,118,306,20" />
+                <Button Content="Cancel Order"  Command="{Binding CancelOrder}"  Style="{StaticResource RectGrayButton}" Margin="168,119,162,19" />
+                <Button Content="Send Order" Style="{StaticResource RectGrayButton}" Margin="306,119,24,19"/>
             </Grid>
-            <Grid Background="#edeaea" Height="118">
-                <Button  Command="{Binding DecreaseQuantity}" Style="{StaticResource RoundGrayButton}" Margin="0,0"/>
-                <Button Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundGrayButton}" Margin="320,10,45,14"/>
-                <Button Command="{Binding PrintReceipt}" Style="{StaticResource RoundGrayButton}" Margin="24,10,341,14" Content="Print" Foreground="Black" FontSize="8">
-                </Button>
+            <Grid Background="#edeaea" Height="117">
+                <Button Content="&#8211;"  FontWeight="ExtraBold" VerticalContentAlignment="Stretch" FontSize="30" Command="{Binding DecreaseQuantity}" Style="{StaticResource RoundGrayButton}" Margin="0,1,0,0" HorizontalContentAlignment="Stretch" FlowDirection="RightToLeft" TextOptions.TextFormattingMode="Display"/>
+                <Button Content="Pay" Command="{Binding SwitchViews}" CommandParameter="pay" Style="{StaticResource RoundBlueButton}" Margin="320,24,35,28"/>
+                <Button Command="{Binding PrintReceipt}" Style="{StaticResource RoundGrayButton}" Margin="25,24,330,28" Content="Print"/>
             </Grid>
         </StackPanel>
-        <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid DockPanel.Dock="Left" Width="7" Background="#03719f"/>
+        <ContentControl DockPanel.Dock="Left" Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="458" />
+        <Grid DockPanel.Dock="Right" Width="7" Background="#03719f" />
     </DockPanel>
 </UserControl>

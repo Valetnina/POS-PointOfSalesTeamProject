@@ -1,5 +1,4 @@
-﻿using POS_SellersApp.ViewModels;
-using POS_ViewsLibrary;
+﻿using POS_ViewsLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +9,12 @@ using System.Windows;
 using POS_DataLibrary;
 using System.Runtime.Remoting.Contexts;
 using System.Windows.Threading;
+using POS_ManagersApp.ViewModels;
 
-namespace POS_SellersApp
+namespace POS_ManagersApp
+
 {
-   public class SellersStartupViewModel: ViewModel
+   public class ManagersStartupViewModel: ViewModel
     {
         private User userLoggedIn;
 
@@ -27,19 +28,16 @@ namespace POS_SellersApp
             }
         }
 
-        private LoginViewModel loginView = new LoginViewModel();
+        private LoginViewModel loginViewManager = new LoginViewModel();
 
 
-        public SellersStartupViewModel()
+        public ManagersStartupViewModel()
         {
-            User = new User();
-            SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
+            SwitchViews = new ActionCommand(p => OnSwitchViews("dashboard"));
             MessengerUser.Default.Register<User>(this, (user) =>
             {
-                User.FirstName = user.FirstName;
-                User.Id = user.Id;
-                User.LastName = user.LastName;
-                OnSwitchViews("catalog");
+                User = user;
+                OnSwitchViews("dashboard");
 
             });
             MessengerLogout.Default.Register<string>(this, (message) =>
@@ -47,15 +45,15 @@ namespace POS_SellersApp
                 OnSwitchViews(message);
 
             });
-            currentView = loginView;
+            currentView = loginViewManager;
 
-            _timer = new DispatcherTimer(DispatcherPriority.Render);
-            _timer.Interval = TimeSpan.FromSeconds(1);
-            _timer.Tick += (sender, args) =>
+            timer = new DispatcherTimer(DispatcherPriority.Render);
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (sender, args) =>
             {
                 CurrentTime = DateTime.Now.ToLongTimeString();
             };
-            _timer.Start();
+            timer.Start();
         }
 
                 //CurrentDateText();
@@ -77,7 +75,7 @@ namespace POS_SellersApp
 
        public ActionCommand SwitchViews { get; private set; }
 
-       readonly static SellersMainWindowViewModel sellersVm = new SellersMainWindowViewModel();
+       readonly static ManagersMainWindowViewModel managersVm = new ManagersMainWindowViewModel();
 
         private void OnSwitchViews(string destination)
        {
@@ -87,16 +85,16 @@ namespace POS_SellersApp
            }
            switch (destination)
            {
-               case "catalog":
-                   if (User.IsManager)
+               case "dashboard":
+                   if (!User.IsManager)
                    {
                        MessageBox.Show("You don't have acces from this location") ;
                        return;
                    }
                     try
                     {
-                        sellersVm.UserLoggedIn = User;
-                        CurrentView = sellersVm;
+                        managersVm.UserLoggedIn = User;
+                        CurrentView = managersVm;
 
                     }
                     catch(Exception ex)
@@ -108,28 +106,28 @@ namespace POS_SellersApp
                    break;
                case "login":
                default:
-                  CurrentView = loginView;
+                  CurrentView = loginViewManager;
                    break;
            }
 
        }
         #region CurrentTime
 
-        private string _currentTime;
+        private string currentTime;
 
-        public DispatcherTimer _timer;
+        public DispatcherTimer timer;
 
         public string CurrentTime
         {
             get
             {
-                return this._currentTime;
+                return this.currentTime;
             }
             set
             {
-                if (_currentTime == value)
+                if (currentTime == value)
                     return;
-                _currentTime = value;
+                currentTime = value;
                 RaisePropertyChanged("CurrentTime");
             }
         }

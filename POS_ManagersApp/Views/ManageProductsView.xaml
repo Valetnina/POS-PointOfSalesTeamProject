@@ -175,7 +175,7 @@
             <TextBox Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="249,273,97,345"/>
             <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="249,340,97,278"/>
             <Button Content="Add" Command="{Binding AddProduct}" Margin="30,541,475,71" Style="{StaticResource RectBlueButton}"/>
-            <Button Content="Update" Margin="232,541,273,71" Style="{StaticResource RectBlueButton}"/>
+            <Button Content="Update" Margin="242,541,263,71" Style="{StaticResource RectBlueButton}"/>
             <Button Content="Clear" Command="{Binding ClearForm}" Margin="452,541,53,71" Style="{StaticResource RectBlueButton}"/>
             <Button Content="Browse..." Command="{Binding SelectImage}" Margin="417,451,98,161" Style="{StaticResource RectGrayButton}"/>
             <Label Content="Picture :" Margin="98,407,427,210" />
