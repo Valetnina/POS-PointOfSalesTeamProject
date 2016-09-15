@@ -177,10 +177,6 @@
     </UserControl.Resources>
 
     <Grid Width="680" Background="#edeaea">
-        <!--<Grid.ColumnDefinitions>
-            <ColumnDefinition Width="17*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>-->
         <ComboBox BorderBrush="#afacac" SelectedItem="{Binding SelectedProduct}" BorderThickness="5" Margin="207,54,93,518" ItemsSource="{Binding ProductsList}"  Height="40"/>
         <Label Content="UPC Code :" Margin="42,118,488,452" ></Label>
         <TextBox Text="{Binding UPCCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,118,93,452" />

@@ -7,32 +7,197 @@
               xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
              xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
-             d:DesignHeight="900" d:DesignWidth="700" Width="600" Height="600">
+             d:DesignHeight="900" d:DesignWidth="700" Width="700" Height="600">
     <UserControl.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="#316379"/>
+            <Setter Property="MaxWidth" Value="170"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="MaxWidth" Value="450"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="Width" Value="380"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="MaxWidth" Value="450"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="Width" Value="380"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="160"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Foreground" Value="#316379"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle Name="GrayEllipse" Opacity="1" RadiusX="20" RadiusY="20">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                        <GradientStop Color="#dadada" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#d2d0d0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Fill" TargetName="GrayEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RectBlueButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="170"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="Blue" ShadowDepth="0" BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle Name="BlueEllipse" Opacity="1" RadiusX="5" RadiusY="5">
+                                <Rectangle.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                        <GradientStop Color="#0587be" Offset="0.6"/>
+                                    </LinearGradientBrush>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#06a0e1" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Fill" TargetName="BlueEllipse">
+                                    <Setter.Value>
+                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                            <GradientStop Color="#0371a0" Offset="0.8"/>
+                                        </RadialGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="#979899" ShadowDepth="0" BlurRadius="20"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
     </UserControl.Resources>
-    <StackPanel Height="700">
-        <StackPanel Orientation="Horizontal">
-            <ComboBox ItemsSource="{Binding CalendarMonths}"  SelectedItem="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="179" Height="39" >
+    <StackPanel Height="700" Background="#edeaea">
+        <StackPanel Orientation="Horizontal" Margin="10, 10">
+            <ComboBox ItemsSource="{Binding CalendarMonths}" FontSize="32" FontWeight="Bold" SelectedItem="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="296" Height="39" >
             </ComboBox>
-            <TextBlock>
+            <TextBlock FontSize="32" Foreground="#5ab2d9">
+                <Run Text="Total Sales: $"></Run>
                 <Run Text="{Binding TotalSalesPerMonth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource customDecimalToStringConverter}}"></Run>
-                <Run Text="$"></Run>
+                
             </TextBlock>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="0,0,-67,0">
-            <chart:ClusteredBarChart  Width="317" ChartSubTitle="Sales" ChartTitle="Sales By month" RenderTransformOrigin="0.509,0.57">
+        <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
+            <chart:ClusteredBarChart  Margin="0,0,20,0" Width="317" ChartSubTitle="Sales" ChartTitle="Sales Per Category" RenderTransformOrigin="0.509,0.57">
                 <chart:ClusteredBarChart.Series>
                     <chart:ChartSeries DisplayMember="Name"
             		ItemsSource="{Binding ColumnChartSales}"
-            		SeriesTitle="Sales By categories"
+            		SeriesTitle="Sales Per Category"
             		ValueMember="TotalSales" />
                 </chart:ClusteredBarChart.Series>
             </chart:ClusteredBarChart>
             <chart:PieChart
         ChartTitle="Sales Per Register/User"
         ChartSubTitle="Chart for tracking performance"
-        SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Width="300" >
+        SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Width="317" >
                 <chart:PieChart.Series>
                     <chart:ChartSeries
             		SeriesTitle="Sales/Category"
@@ -42,29 +207,29 @@
                 </chart:PieChart.Series>
             </chart:PieChart>
         </StackPanel >
-        <StackPanel Orientation="Horizontal">
-            <Grid Height="250">
-                <Label Content="Sales This Month" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140"/>
+        <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
+            <Grid Height="250" Margin="0,0,20,0" Width="300">
+                <Label Content="Sales This Month" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="203"/>
                 <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding AllSales}" IsReadOnly="True" SelectionMode="Single" Margin="0,31,0,61">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
-                        <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
-                        <DataGridTextColumn Header="Seller" Binding="{Binding Seller}" />
-                        <DataGridTextColumn Header="Qty" Binding="{Binding OrderItems.Quantity}" />
-                        <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
+                        <DataGridTextColumn Width="15*" Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
+                        <DataGridTextColumn Width="30*" Header="Product" Binding="{Binding OrderItems.Name}" />
+                        <DataGridTextColumn Width="25*" Header="Seller" Binding="{Binding Seller}" />
+                        <DataGridTextColumn Width="10*" Header="Qty" Binding="{Binding OrderItems.Quantity}" />
+                        <DataGridTextColumn Width="15*" Header="Sales" Binding="{Binding ItemTotal,  Converter={StaticResource customDecimalToStringConverter}}" />
                     </DataGrid.Columns>
                 </DataGrid>
-                <Button Command="{Binding ExportToPDF}" Content="Export PDF" Margin="0,189,0,19"  />
-                <Button Command="{Binding SendEmail}" Content="Send via Email" Height="66" VerticalAlignment="Bottom" Margin="0,0,0,-47" />
+                <Button Command="{Binding ExportToPDF}" Style="{StaticResource RectBlueButton}" Content="Export PDF" Margin="0,190,0,20" Width="Auto"  />
+                <Button Command="{Binding SendEmail}"  Style="{StaticResource RectBlueButton}" Content="Send via Email" Height="42" VerticalAlignment="Bottom" Margin="0,0,0,-23" Width="Auto" />
             </Grid>
-            <StackPanel>
-                <Label Content="Top Items this Month" HorizontalAlignment="Left" VerticalAlignment="Top" Width="140"/>
+            <StackPanel Width="317" Margin="20,0,0,0">
+                <Label Content="Top Items This Month" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="270"/>
                 <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TopItems}" IsReadOnly="True" SelectionMode="Single" Grid.ColumnSpan="2" >
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
-                        <DataGridTextColumn Header="Product" Binding="{Binding OrderItems.Name}" />
-                        <DataGridTextColumn Header="Qty" Binding="{Binding OrderItems.Quantity}" />
-                        <DataGridTextColumn Header="Total Sales" Binding="{Binding ItemTotal}" />
+                        <DataGridTextColumn Width="20*" Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
+                        <DataGridTextColumn Width="45*" Header="Product" Binding="{Binding OrderItems.Name}" />
+                        <DataGridTextColumn Width="10*" Header="Qty" Binding="{Binding OrderItems.Quantity}" />
+                        <DataGridTextColumn Width="25*" Header="Sales" Binding="{Binding ItemTotal,  Converter={StaticResource customDecimalToStringConverter}}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
