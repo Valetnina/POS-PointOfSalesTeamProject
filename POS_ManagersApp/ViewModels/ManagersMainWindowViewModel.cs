@@ -23,7 +23,7 @@ public class ManagersMainWindowViewModel: ViewModel
         {
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
 
-            EnabledDashboard = true;
+            EnabledDashboard = false;
             EnabledManageProducts = true;
         }
 
