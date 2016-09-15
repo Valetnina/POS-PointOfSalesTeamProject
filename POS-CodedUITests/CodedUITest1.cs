@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UITest.Extension;
 using Keyboard = Microsoft.VisualStudio.TestTools.UITesting.Keyboard;
 
 
-namespace POS_Coded_UITests
+namespace POS_CodedUITests
 {
     /// <summary>
     /// Summary description for CodedUITest1
@@ -64,6 +64,5 @@ namespace POS_Coded_UITests
             }
         }
         private TestContext testContextInstance;
-
     }
 }

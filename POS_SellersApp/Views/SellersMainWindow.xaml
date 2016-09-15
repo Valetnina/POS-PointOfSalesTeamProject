@@ -387,7 +387,7 @@
                 <Label Height="50" VerticalContentAlignment="Center" FontWeight="ExtraBold" FontSize="18" Foreground="Red" Content="{Binding BalanceDue, UpdateSourceTrigger=PropertyChanged,  Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlackLabel}" Margin="312,0,10,69" VerticalAlignment="Bottom"/>
                 <Button Content="Remove Item" Command="{Binding RemoveItem}" Style="{StaticResource RectGrayButton}" Margin="24,118,306,20" />
                 <Button Content="Cancel Order"  Command="{Binding CancelOrder}"  Style="{StaticResource RectGrayButton}" Margin="168,119,162,19" />
-                <Button Content="Send Order" Style="{StaticResource RectGrayButton}" Margin="306,119,24,19"/>
+                <Button Content="Send Order"  Command="{Binding SendOrder}" Style="{StaticResource RectGrayButton}" Margin="306,119,24,19"/>
             </Grid>
             <Grid Background="#edeaea" Height="117">
                 <Button Content="&#8211;"  FontWeight="ExtraBold" VerticalContentAlignment="Stretch" FontSize="30" Command="{Binding DecreaseQuantity}" Style="{StaticResource RoundGrayButton}" Margin="0,1,0,0" HorizontalContentAlignment="Stretch" FlowDirection="RightToLeft" TextOptions.TextFormattingMode="Display"/>

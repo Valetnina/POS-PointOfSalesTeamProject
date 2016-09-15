@@ -33,6 +33,7 @@ namespace POS_SellersApp
         public SellersStartupViewModel()
         {
             SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
+            Exit = new ActionCommand(p => OnExit());
             MessengerUser.Default.Register<User>(this, (user) =>
             {
                 User = user;
@@ -65,6 +66,14 @@ namespace POS_SellersApp
                RaisePropertyChanged("CurrentView");
            }
           
+       }
+       private void OnExit()
+       {
+           MessageBoxResult result = MessageBox.Show("You are about to close the application", "Close Application", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+           if (result == MessageBoxResult.Yes)
+           {
+               Application.Current.Shutdown();
+           }
        }
 
        public ActionCommand SwitchViews { get; private set; }
@@ -127,5 +136,7 @@ namespace POS_SellersApp
             }
         }
         #endregion
+
+        public ActionCommand Exit { get; set; }
     }
 }
