@@ -177,13 +177,9 @@
     </UserControl.Resources>
     <StackPanel Height="700" Background="#edeaea">
         <StackPanel Orientation="Horizontal" Margin="10, 10">
-            <ComboBox ItemsSource="{Binding CalendarMonths}" FontSize="32" FontWeight="Bold" SelectedItem="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="296" Height="39" >
+            <ComboBox ItemsSource="{Binding CalendarMonths}" FontSize="26" FontWeight="Bold" SelectedItem="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="297" Height="39" >
             </ComboBox>
-            <TextBlock FontSize="32" Foreground="#5ab2d9">
-                <Run Text="Total Sales: $"></Run>
-                <Run Text="{Binding TotalSalesPerMonth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource customDecimalToStringConverter}}"></Run>
-                
-            </TextBlock>
+            <TextBlock FontSize="32" Foreground="#5ab2d9" Margin="30,0,0,0" Width="317"><Run Text="Total Sales: $"/><Run Text=" "/><Run Text="{Binding TotalSalesPerMonth, Converter={StaticResource customDecimalToStringConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/></TextBlock>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="10,0,10,10">
             <chart:ClusteredBarChart  Margin="0,0,20,0" Width="317" ChartSubTitle="Sales" ChartTitle="Sales Per Category" RenderTransformOrigin="0.509,0.57">
@@ -220,16 +216,16 @@
                     </DataGrid.Columns>
                 </DataGrid>
                 <Button Command="{Binding ExportToPDF}" Style="{StaticResource RectBlueButton}" Content="Export PDF" Margin="0,190,0,20" Width="Auto"  />
-                <Button Command="{Binding SendEmail}"  Style="{StaticResource RectBlueButton}" Content="Send via Email" Height="42" VerticalAlignment="Bottom" Margin="0,0,0,-23" Width="Auto" />
+                <Button Command="{Binding SendEmail}" Style="{StaticResource RectBlueButton}" Content="Send via Email" Height="42" VerticalAlignment="Bottom" Margin="0,0,0,-23" Width="Auto" />
             </Grid>
             <StackPanel Width="317" Margin="20,0,0,0">
-                <Label Content="Top Items This Month" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="270"/>
-                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TopItems}" IsReadOnly="True" SelectionMode="Single" Grid.ColumnSpan="2" >
+                <Label Content="Top Items This Month" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="270" Height="31" Margin="0"/>
+                <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding TopItems}" IsReadOnly="True" SelectionMode="Single" Height="25" >
                     <DataGrid.Columns>
                         <DataGridTextColumn Width="20*" Header="UPCCode" Binding="{Binding OrderItems.UPCCode}" />
                         <DataGridTextColumn Width="45*" Header="Product" Binding="{Binding OrderItems.Name}" />
                         <DataGridTextColumn Width="10*" Header="Qty" Binding="{Binding OrderItems.Quantity}" />
-                        <DataGridTextColumn Width="25*" Header="Sales" Binding="{Binding ItemTotal,  Converter={StaticResource customDecimalToStringConverter}}" />
+                        <DataGridTextColumn Width="25*" Header="Sales" Binding="{Binding ItemTotal, Converter={StaticResource customDecimalToStringConverter}}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
