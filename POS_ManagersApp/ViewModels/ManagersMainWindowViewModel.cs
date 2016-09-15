@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace POS_ManagersApp.ViewModels
 {
@@ -22,9 +23,20 @@ public class ManagersMainWindowViewModel: ViewModel
         public ManagersMainWindowViewModel()
         {
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
-
+            SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
+            Exit = new ActionCommand(p => OnExit());
+            CurrentView = dash;
             EnabledDashboard = false;
             EnabledManageProducts = true;
+        }
+
+        private void OnExit()
+        {
+            MessageBoxResult result = MessageBox.Show("You are about to close the application. Do you want to continue", "Close Application", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private bool enabledDashboard;
@@ -43,10 +55,11 @@ public class ManagersMainWindowViewModel: ViewModel
             set { enabledManageProducts = value; }
         }
 
+      readonly static   DashboardViewModel dash = new DashboardViewModel();
+      readonly static ManageProductsViewModel manage = new ManageProductsViewModel();
              private void OnSwitchViews(string destination)
         {
-            DashboardViewModel dash = new DashboardViewModel();
-            ManageProductsViewModel manage = new ManageProductsViewModel();
+         
 
             switch (destination)
             {
@@ -64,7 +77,13 @@ public class ManagersMainWindowViewModel: ViewModel
                     break;
             }
 
-    }
+        }
+             private void OnSendLogoutMessage(string v)
+             {
+                 MessengerLogout.Default.Send(v);
+             }
+
+             public ActionCommand SendLogoutMessage { get; private set; }
         private ViewModel currentView;
 
         public ViewModel CurrentView
@@ -77,5 +96,7 @@ public class ManagersMainWindowViewModel: ViewModel
             }
         }
         public ActionCommand SwitchViews { get; private set; }
+
+        public ActionCommand Exit { get; set; }
     }
 }

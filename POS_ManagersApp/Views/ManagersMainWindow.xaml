@@ -186,7 +186,7 @@
                 <Run Text="{Binding UserLoggedIn.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
             <Run Text=" !"/>
             </TextBlock>
-            <Button Content="X" Style="{StaticResource CloseButton}" Margin="837,4,23,6"/>
+            <Button Content="X" Command="{Binding Exit}"  Style="{StaticResource CloseButton}" Margin="837,4,23,6"/>
             <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login"  Style="{StaticResource RectGrayButton}" Height="35" Width="154" FontSize="16" Margin="674,5,72,10"/>
         </Grid>
         <Grid DockPanel.Dock="Left" Height="650" Background="#5ab2d9" Width="220" Margin="600,0,0,0">
