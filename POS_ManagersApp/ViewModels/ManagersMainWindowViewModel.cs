@@ -24,27 +24,21 @@ public class ManagersMainWindowViewModel: ViewModel
         {
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
             SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
-            Exit = new ActionCommand(p => OnExit());
-            CurrentView = dash;
-            EnabledDashboard = false;
+            
+            EnabledDashboard = true;
             EnabledManageProducts = true;
+            OnSwitchViews("dashboard");
         }
 
-        private void OnExit()
-        {
-            MessageBoxResult result = MessageBox.Show("You are about to close the application. Do you want to continue", "Close Application", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
-            if (result == MessageBoxResult.Yes)
-            {
-                Application.Current.Shutdown();
-            }
-        }
-
+       
         private bool enabledDashboard;
 
         public bool EnabledDashboard
         {
             get { return enabledDashboard; }
-            set { enabledDashboard = value; }
+            set { enabledDashboard = value;
+            RaisePropertyChanged("EnabledDashboard");
+            }
         }
 
         private bool enabledManageProducts;
@@ -52,7 +46,9 @@ public class ManagersMainWindowViewModel: ViewModel
         public bool EnabledManageProducts
         {
             get { return enabledManageProducts; }
-            set { enabledManageProducts = value; }
+            set { enabledManageProducts = value;
+            RaisePropertyChanged("EnabledManageProducts");
+            }
         }
 
       readonly static   DashboardViewModel dash = new DashboardViewModel();
@@ -76,7 +72,6 @@ public class ManagersMainWindowViewModel: ViewModel
                     EnabledDashboard = true;
                     break;
             }
-
         }
              private void OnSendLogoutMessage(string v)
              {
@@ -97,6 +92,5 @@ public class ManagersMainWindowViewModel: ViewModel
         }
         public ActionCommand SwitchViews { get; private set; }
 
-        public ActionCommand Exit { get; set; }
     }
 }

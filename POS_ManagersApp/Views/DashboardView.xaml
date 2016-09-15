@@ -4,15 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:POS_ManagersApp.Views"
+              xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
              xmlns:chart="clr-namespace:De.TorstenMandelkow.MetroChart;assembly=De.TorstenMandelkow.MetroChart"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="700" Width="600" Height="600">
+    <UserControl.Resources>
+        <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
+    </UserControl.Resources>
     <StackPanel Height="700">
         <StackPanel Orientation="Horizontal">
-            <ComboBox ItemsSource="{Binding CalendarMonths}"  SelectedItem="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" Height="100" >
+            <ComboBox ItemsSource="{Binding CalendarMonths}"  SelectedItem="{Binding SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="179" Height="39" >
             </ComboBox>
             <TextBlock>
-                <Run Text="{Binding TotalSalesPerMonth, Mode=OneWay}"></Run>
+                <Run Text="{Binding TotalSalesPerMonth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource customDecimalToStringConverter}}"></Run>
                 <Run Text="$"></Run>
             </TextBlock>
         </StackPanel>

@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:POS_ManagersApp.Views"
+             xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
              mc:Ignorable="d" 
              d:DesignHeight="700" d:DesignWidth="900" Width="680" Height="610">
 
@@ -172,6 +173,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <med:NumericalStringConverter x:Key="customDecimalToStringConverter" EmptyStringValue="0" />
     </UserControl.Resources>
 
     <Grid Width="680" Background="#edeaea">
@@ -186,7 +188,7 @@
         <Label Content="Product Name :" Margin="42,250,488,320" />
         <Label Content="Price :" Margin="42,316,488,254" />
         <TextBox Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,250,93,320" />
-        <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,316,93,254" />
+        <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue='', Delay=350, Converter={StaticResource customDecimalToStringConverter}}" Margin="207,316,93,254" />
         <Button Content="Add" Command="{Binding AddProduct}" Margin="32,518,478,52" Style="{StaticResource RectBlueButton}" />
         <Button Content="Update" Command="{Binding UpdateProduct}" Margin="252,518,258,52" Style="{StaticResource RectBlueButton}" />
         <Button Content="Clear" Command="{Binding ClearForm}" Margin="469,518,41,52" Style="{StaticResource RectBlueButton}" />
