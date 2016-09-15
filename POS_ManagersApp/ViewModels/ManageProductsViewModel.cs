@@ -13,57 +13,72 @@ using System.ComponentModel.DataAnnotations;
 
 namespace POS_ManagersApp.ViewModels
 {
-    
-    
-    class ManageProductsViewModel:ViewModel
+    class ManageProductsViewModel : ViewModel
     {
+        //Declare properties and fields
+        private Database db;
+        private bool IsValid;
         private ObservableCollection<Product> productsList = new ObservableCollection<Product>();
         private ObservableCollection<Product> topItems = new ObservableCollection<Product>();
+
         private ObservableCollection<ProductCategory> categoryList = new ObservableCollection<ProductCategory>();
 
         public ObservableCollection<ProductCategory> CategoryList
         {
             get { return categoryList; }
-            set { categoryList = value; 
-            RaisePropertyChanged("CategoryList"); }
+            set
+            {
+                categoryList = value;
+                RaisePropertyChanged("CategoryList");
+            }
         }
 
- 
-        private Database db = new Database();
-
-       public ObservableCollection<Product> ProductsList
+        public ObservableCollection<Product> ProductsList
         {
             get { return productsList; }
-            set { productsList = value; 
-                RaisePropertyChanged("ProductsList"); }
+            set
+            {
+                productsList = value;
+                RaisePropertyChanged("ProductsList");
+            }
         }
 
+        public ManageProductsViewModel()
+        {
+            //Initialize
+            db = new Database();
+            ProductsList = db.getAllProducts();
+            CategoryList = db.getAllCategories();
+            //Register Commands
+            AddProduct = new ActionCommand(p => OnAddProduct(), p => CanAddProduct());
+            UpdateProduct = new ActionCommand(p => OnUpdateProduct());
+            SelectImage = new ActionCommand(p => OnSelectImage());
+            ClearForm = new ActionCommand(p => OnClearForm());
+            //Populate by default the combobox Item Source
+            productsList = db.getAllProducts();
+        }
 
+        private bool CanAddProduct()
+        {
+            return true;
+            //return !String.IsNullOrWhiteSpace(UPCCode) &&
+            //             !String.IsNullOrWhiteSpace(ProductName) &&
+            //             Price != 0 && !String.IsNullOrWhiteSpace(Path);
+        }
 
-       public ManageProductsViewModel()
-       {
-           ProductsList = db.getAllProducts();
-           CategoryList = db.getAllCategories();
-           AddProduct = new ActionCommand(p => OnAddProduct());
-           UpdateProduct = new ActionCommand(p => OnUpdateProduct());
-           SelectImage = new ActionCommand(p => OnSelectImage());
-           ClearForm = new ActionCommand(p => OnClearForm());
-           productsList = db.getAllProducts();
-       }
-
-              
         private string upcCode;
 
-
-    [Required]
+        [Required]
         [StringLength(5)]
         public string UPCCode
         {
             get { return upcCode; }
             set
             {
-                upcCode = value;
-                RaisePropertyChanged("UPCCode");
+                
+                    upcCode = value;
+                    RaisePropertyChanged("UPCCode");
+
             }
         }
 
@@ -72,18 +87,24 @@ namespace POS_ManagersApp.ViewModels
         public string Category
         {
             get { return category; }
-            set { category = value; 
-                RaisePropertyChanged("Category"); }
+            set
+            {
+                category = value;
+                RaisePropertyChanged("Category");
+            }
         }
 
         private string productName;
         [Required]
-        [StringLength(50, MinimumLength=4)]
+        [StringLength(50, MinimumLength = 4)]
         public string ProductName
         {
             get { return productName; }
-            set { productName = value; 
-                RaisePropertyChanged("ProductName"); }
+            set
+            {
+                productName = value;
+                RaisePropertyChanged("ProductName");
+            }
         }
 
         private decimal price;
@@ -91,8 +112,11 @@ namespace POS_ManagersApp.ViewModels
         public decimal Price
         {
             get { return price; }
-            set { price = value; 
-                RaisePropertyChanged("Price"); }
+            set
+            {
+                price = value;
+                RaisePropertyChanged("Price");
+            }
         }
 
 
@@ -116,7 +140,7 @@ namespace POS_ManagersApp.ViewModels
             SelectedCategory = null;
             ProductName = "";
             Price = 0;
-            Path = ""; 
+            Path = "";
         }
 
 
@@ -125,15 +149,46 @@ namespace POS_ManagersApp.ViewModels
 
         private void OnAddProduct()
         {
+            if (UPCCode == null || UPCCode.Length != 5)
+            {
+                MessageBox.Show("UPCCode must be 5 characters long", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
             string upcCode = UPCCode;
+            if (SelectedCategory == null)
+            {
+                MessageBox.Show("You mut choose a Category", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
             int id = SelectedCategory.Id;
+            if (ProductName == null || ProductName.Length <2 || ProductName.Length > 50)
+            {
+                MessageBox.Show("Product Name must contain between 2 and 50 characters", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
             string productName = ProductName;
+            if(Price <= 0 )
+            {
+                MessageBox.Show("Price cannot be less than zero", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
             decimal price = Price;
-
+            if(Path == null)
+            {
+                MessageBox.Show("You must choose a valid path of an image", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
 
             Product p = new Product() { UPCCode = UPCCode, CategoryId = id, Name = ProductName, Price = Price };
+            try
+            {
+                db.addProduct(p, Path);
 
-            db.addProduct(p, Path);            
+            }catch(Exception ex)
+            {
+                MessageBox.Show("Could not insert record in the database", "Insert error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw(ex);
+            }
         }
 
         private Product selectedProduct;
@@ -141,7 +196,9 @@ namespace POS_ManagersApp.ViewModels
         public Product SelectedProduct
         {
             get { return selectedProduct; }
-            set { selectedProduct = value; 
+            set
+            {
+                selectedProduct = value;
                 RaisePropertyChanged("SelectedProduct");
                 UPCCode = SelectedProduct.UPCCode;
                 SelectedCategory = CategoryList.First(p => p.CategoryName == SelectedProduct.CategoryName);
@@ -152,7 +209,7 @@ namespace POS_ManagersApp.ViewModels
 
 
         public ActionCommand UpdateProduct { get; set; }
-        
+
         int currentProductId = 0;
         private void OnUpdateProduct()
         {
@@ -166,9 +223,9 @@ namespace POS_ManagersApp.ViewModels
             int id = SelectedCategory.Id;
             string productName = ProductName;
             decimal price = Price;
-            Product p = new Product() { UPCCode = UPCCode, CategoryId = id, Name = ProductName, Price = Price};
+            Product p = new Product() { UPCCode = UPCCode, CategoryId = id, Name = ProductName, Price = Price };
 
-            db.updateProduct(p, Path);  
+            db.updateProduct(p, Path);
 
         }
 

@@ -32,13 +32,10 @@ namespace POS_SellersApp
 
         public SellersStartupViewModel()
         {
-            User = new User();
             SwitchViews = new ActionCommand(p => OnSwitchViews("catalog"));
             MessengerUser.Default.Register<User>(this, (user) =>
             {
-                User.FirstName = user.FirstName;
-                User.Id = user.Id;
-                User.LastName = user.LastName;
+                User = user;
                 OnSwitchViews("catalog");
 
             });
@@ -57,11 +54,6 @@ namespace POS_SellersApp
             };
             _timer.Start();
         }
-
-                //CurrentDateText();
-                //DispatcherTimerSetup();
-            
-
         private ViewModel currentView;
 
        public ViewModel CurrentView
@@ -134,50 +126,6 @@ namespace POS_SellersApp
                 RaisePropertyChanged("CurrentTime");
             }
         }
-
-
-        //private string _currentTime, _currentDate;
-
-        //private void DispatcherTimerSetup()
-        //{
-        //    DispatcherTimer dispatcherTimer = new DispatcherTimer();
-        //    dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-        //    dispatcherTimer.Tick += new EventHandler(CurrentTimeText);
-        //    dispatcherTimer.Start();
-        //}
-
-        //private void CurrentDateText()
-        //{
-        //    CurrentDate = DateTime.Now.ToString("g");
-        //}
-
-        //private void CurrentTimeText(object sender, EventArgs e)
-        //{
-        //    CurrentTime = DateTime.Now.ToString("HH:mm");
-        //}
-
-        //public string CurrentTime
-        //{
-        //    get { return _currentTime; }
-        //    set
-        //    {
-        //        if (_currentTime != null)
-        //            _currentTime = value;
-
-        //        RaisePropertyChanged("CurrentTime");
-        //    }
-        //}
-
-        //public string CurrentDate
-        //{
-        //    get { return _currentDate; }
-        //    set
-        //    {
-        //        if (_currentDate != value)
-        //            _currentDate = value;
-        //        RaisePropertyChanged("CurrentDate");
-        //    }
-        //}
         #endregion
     }
 }

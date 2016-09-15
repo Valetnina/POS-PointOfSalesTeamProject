@@ -99,6 +99,7 @@ namespace POS_SellersApp.ViewModels
 
                     Order order = new Order { Date = DateTime.Now,  StoreNo = "OV001", UserId = UserLoggedIn.Id, OrderAmount = OrderSubTotal, Tax = OrderTax };
                     AmountTendered = pvm.Amount;
+                    
                     try
                     {
                         MessageBoxResult result = MessageBox.Show("Order has been sent to processing. Do you want to print the receipt?", "Order Processed", MessageBoxButton.YesNo);
@@ -312,6 +313,7 @@ namespace POS_SellersApp.ViewModels
             }
         }
         public ActionCommand SwitchViews { get; private set; }
+        public ActionCommand DecreaseQuantity { get; set; }
         readonly static PaimentViewModel pvm = new PaimentViewModel();
         private void OnSwitchViews(string destination)
         {
@@ -325,6 +327,7 @@ namespace POS_SellersApp.ViewModels
                     }
                     pvm.Balance = BalanceDue.ToString("#.##");
                     pvm.Amount = "0";
+                    pvm.IsCash = false;
                     CurrentView = pvm;
                     break;
 
@@ -423,30 +426,7 @@ namespace POS_SellersApp.ViewModels
 
         }
         #endregion
-        private ICommand _closeCommand;
-        public ICommand CloseCommand
-        {
-            get
-            {
-                if (_closeCommand == null)
-                    _closeCommand = new ActionCommand(param => this.OnRequestClose());
 
-                return _closeCommand;
-            }
-        }
-
-        public event EventHandler RequestClose;
-
-        void OnRequestClose()
-        {
-            EventHandler handler = this.RequestClose;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
-
-
-
-        public ActionCommand DecreaseQuantity { get; set; }
     }
 
 }

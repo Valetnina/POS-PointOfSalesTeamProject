@@ -11,7 +11,7 @@ namespace POS_SellersApp.ViewModels
 {
     public class PaimentViewModel : ViewModel
     {
-        private bool IsCash;
+        public bool IsCash;
        
        private string balance;
        private bool IsDotClicked;
@@ -82,16 +82,28 @@ namespace POS_SellersApp.ViewModels
 
         private void OnPayCredit()
         {
-            CashEnabled = true;
-            CardEnabled = false;
-            GiftEnabled = true;
+           MessageBoxResult result =  MessageBox.Show("Wait for the payment and press OK", "Card Paiement", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            if (result == MessageBoxResult.OK)
+            {
+                Amount = Balance;
+                IsCash = false;
+                CashEnabled = true;
+                CardEnabled = false;
+                GiftEnabled = true;
+            }
         }
 
         private void OnPayGift()
         {
-            CashEnabled = true;
-            CardEnabled = true;
-            GiftEnabled = false;
+            MessageBoxResult result = MessageBox.Show("Scan the Gift card and press ok", "Card Paiement", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            if (result == MessageBoxResult.OK)
+            {
+                Amount = Balance;
+                IsCash = false;
+                CashEnabled = true;
+                CardEnabled = true;
+                GiftEnabled = false;
+            }
         }
         public ActionCommand Done { get; private set; }
 

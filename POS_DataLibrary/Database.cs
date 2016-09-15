@@ -17,6 +17,7 @@ namespace POS_DataLibrary
     {
         const string CONN_STRING = "Data Source=posabbott.database.windows.net;Initial Catalog=POS_DB;Integrated Security=False;User ID=posadmin;Password=Pictor12;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         private SqlConnection conn;
+        public Product product;
 
         public ObservableCollection<Sales> getSalesPerSeller(int month, int year)
         {
