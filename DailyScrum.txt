@@ -85,3 +85,26 @@ Create Model for Products, Products Categories.
 --Day07 Olga
 1.Finished login paiement view, started Manage products view
 2 TODO: Finish Manage products view and fix the appearance issue
+
+
+
+--Day08 Tina
+1. Started Dashboard ManagersView. Implemented PDf and Email
+3.TODo: Finish dashboard, validate products view, Implement all buttons and correct bugs on paiement view. Finish print receipt.Create tests
+
+--Day08 Olga
+1.Finished Manage products view and fixed the appearance issue
+2 TODO: Finish the images updates, all the design issues.
+
+
+--Day09 Tina
+1. Finish dashboard,Finished print receipt started validate products view, Implemented all buttons and corrected bugs on paiement view. Created tests
+2 Didn't do: CodedUI tests , validation
+3.TODo: Presentation, Exception Handling
+
+--Day09 Olga
+1.Finished the images updates, all the design issues.
+2 TODO: Presentation
+
+
+
