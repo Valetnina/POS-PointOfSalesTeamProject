@@ -183,6 +183,8 @@ namespace POS_ManagersApp.ViewModels
             try
             {
                 db.addProduct(p, Path);
+                MessageBox.Show("Product was added succesfully", "Add product", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                OnClearForm();
 
             }catch(Exception ex)
             {
@@ -226,6 +228,10 @@ namespace POS_ManagersApp.ViewModels
             Product p = new Product() { UPCCode = UPCCode, CategoryId = id, Name = ProductName, Price = Price };
 
             db.updateProduct(p, Path);
+
+            MessageBox.Show("Product was updated succesfully", "Update product", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            OnClearForm();
 
         }
 

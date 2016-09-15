@@ -293,7 +293,7 @@ namespace POS_DataLibrary
             return salesList;
         }
         
-
+        
         public void addProduct(Product p, string path)
         {
             byte[] rawData = File.ReadAllBytes(path);
@@ -304,7 +304,7 @@ namespace POS_DataLibrary
             cmd.Parameters.AddWithValue("@ProductCategoryId", p.CategoryId);
             cmd.Parameters.AddWithValue("@Name", p.Name);
             cmd.Parameters.AddWithValue("@Price", p.Price);
-           cmd.Parameters.AddWithValue("@Picture", rawData);
+            cmd.Parameters.AddWithValue("@Picture", rawData);
 
 
             cmd.ExecuteNonQuery();

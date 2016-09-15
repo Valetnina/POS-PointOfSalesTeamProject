@@ -20,15 +20,29 @@
         </Style>
 
         <Style TargetType="TextBox">
-            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontFamily" Value="Times New Roman"/>
             <Setter Property="FontSize" Value="20"/>
-            <Setter Property="Foreground" Value="#e9e9e9"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="MaxWidth" Value="450"/>
             <Setter Property="MinWidth" Value="70"/>
             <Setter Property="Width" Value="380"/>
             <Setter Property="Height" Value="40"/>
-            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="TextAlignment" Value="Left"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="FontFamily" Value="Times New Roman"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="MaxWidth" Value="450"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="Width" Value="380"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
 
         <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
@@ -165,7 +179,7 @@
             <ColumnDefinition Width="17*"/>
             <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>-->
-        <ComboBox BorderBrush="#afacac" SelectedItem="{Binding SelectedProduct}" BorderThickness="5" Margin="207,54,93,518" ItemsSource="{Binding ProductsList}"/>
+        <ComboBox BorderBrush="#afacac" SelectedItem="{Binding SelectedProduct}" BorderThickness="5" Margin="207,54,93,518" ItemsSource="{Binding ProductsList}"  Height="40"/>
         <Label Content="UPC Code :" Margin="42,118,488,452" ></Label>
         <TextBox Text="{Binding UPCCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,118,93,452" />
         <Label Content="Category :" Margin="42,183,488,387"/>
@@ -174,7 +188,7 @@
         <TextBox Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,250,93,320" />
         <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,316,93,254" />
         <Button Content="Add" Command="{Binding AddProduct}" Margin="32,518,478,52" Style="{StaticResource RectBlueButton}" />
-        <Button Content="Update" Margin="252,518,258,52" Style="{StaticResource RectBlueButton}" />
+        <Button Content="Update" Command="{Binding UpdateProduct}" Margin="252,518,258,52" Style="{StaticResource RectBlueButton}" />
         <Button Content="Clear" Command="{Binding ClearForm}" Margin="469,518,41,52" Style="{StaticResource RectBlueButton}" />
         <Button Content="Browse..." Command="{Binding SelectImage}" Margin="427,438,93,132" Style="{StaticResource RectGrayButton}" />
         <Label Content="Picture :" Margin="42,382,488,188" />
