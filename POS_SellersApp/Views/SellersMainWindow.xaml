@@ -109,6 +109,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="90"/>
             <Setter Property="Height" Value="25"/>
@@ -173,6 +174,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="RoundBlueButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="65"/>
             <Setter Property="Height" Value="65"/>

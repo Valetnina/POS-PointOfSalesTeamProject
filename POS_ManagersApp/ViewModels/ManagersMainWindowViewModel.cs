@@ -22,6 +22,25 @@ public class ManagersMainWindowViewModel: ViewModel
         public ManagersMainWindowViewModel()
         {
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
+
+            EnabledDashboard = true;
+            EnabledManageProducts = true;
+        }
+
+        private bool enabledDashboard;
+
+        public bool EnabledDashboard
+        {
+            get { return enabledDashboard; }
+            set { enabledDashboard = value; }
+        }
+
+        private bool enabledManageProducts;
+
+        public bool EnabledManageProducts
+        {
+            get { return enabledManageProducts; }
+            set { enabledManageProducts = value; }
         }
 
              private void OnSwitchViews(string destination)
@@ -33,11 +52,15 @@ public class ManagersMainWindowViewModel: ViewModel
             {
                 case "dashboard":
                     CurrentView = dash;
+                    EnabledDashboard = false;
+                    EnabledManageProducts = true;
                     break;
 
                 case "manage":
                 default:
                     CurrentView = manage;
+                    EnabledManageProducts = false;
+                    EnabledDashboard = true;
                     break;
             }
 

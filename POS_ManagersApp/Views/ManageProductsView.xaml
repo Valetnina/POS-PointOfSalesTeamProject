@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:POS_ManagersApp.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="900">
-   
+             d:DesignHeight="700" d:DesignWidth="900" Width="680" Height="610">
+
     <UserControl.Resources>
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="Constantia"/>
@@ -15,9 +15,22 @@
             <Setter Property="MaxWidth" Value="170"/>
             <Setter Property="MinWidth" Value="70"/>
             <Setter Property="Width" Value="150"/>
-            <Setter Property="Height" Value="35"/>
+            <Setter Property="Height" Value="40"/>
             <Setter Property="Margin" Value="0,0,10,0"/>
         </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Constantia"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Foreground" Value="#e9e9e9"/>
+            <Setter Property="MaxWidth" Value="450"/>
+            <Setter Property="MinWidth" Value="70"/>
+            <Setter Property="Width" Value="380"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="0,0,10,0"/>
+        </Style>
+
         <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
             <Setter Property="Width" Value="160"/>
             <Setter Property="Height" Value="40"/>
@@ -146,44 +159,29 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <DockPanel Height="700" Width="900" LastChildFill="False">
-        <Grid DockPanel.Dock="Top" Height="48" Background="#036792"/>
-        <Grid DockPanel.Dock="Left" Height="653" Background="#5ab2d9" Width="224" Margin="0,0,0,-1">
-            <Button Content="Dashboard" Margin="23,36,33,577" Style="{StaticResource RectGrayButton}"/>
-            <Button Content="Products" Margin="23,96,33,517" Style="{StaticResource RectGrayButton}"/>
-        </Grid>
-        <Grid DockPanel.Dock="Left" Width="675" Background="#edeaea">
-            <ComboBox BorderBrush="#afacac" SelectedItem="{Binding SelectedProduct}" BorderThickness="5" Margin="150,59,53,548" ItemsSource="{Binding ProductsList}">
-                <!--<ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock DataContext="{Binding}">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{} {0} | {1}">
-                                    <Binding Path="UPCCode" />
-                                    <Binding Path="ProductName" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>-->
-            </ComboBox>
-            <Label Content="UPC Code :" Margin="98,153,427,464" ></Label>
-            <TextBox Text="{Binding UPCCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="249,153,97,465"/>
-            <Label Content="Category :" Margin="98,213,427,404" />
-            <Label Content="Product Name :" Margin="98,273,427,344" />
-            <Label Content="Price :" Margin="98,340,427,277" />
-            <TextBox Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="249,273,97,345"/>
-            <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="249,340,97,278"/>
-            <Button Content="Add" Command="{Binding AddProduct}" Margin="30,541,475,71" Style="{StaticResource RectBlueButton}"/>
-            <Button Content="Update" Margin="242,541,263,71" Style="{StaticResource RectBlueButton}"/>
-            <Button Content="Clear" Command="{Binding ClearForm}" Margin="452,541,53,71" Style="{StaticResource RectBlueButton}"/>
-            <Button Content="Browse..." Command="{Binding SelectImage}" Margin="417,451,98,161" Style="{StaticResource RectGrayButton}"/>
-            <Label Content="Picture :" Margin="98,407,427,210" />
-            <TextBox Text="{Binding Path}"  Margin="248,407,98,211"/>
-            <Label Content="Products" FontWeight="Bold" FontSize="26" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="132" Foreground="#5ab2d9"/>
-            <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding CategoryList}" IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedCategory}" Margin="249,222,0,0" VerticalAlignment="Top" Width="329" Height="30">
-            </ComboBox>
-        </Grid>
-    </DockPanel>
+
+    <Grid Width="680" Background="#edeaea">
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>-->
+        <ComboBox BorderBrush="#afacac" SelectedItem="{Binding SelectedProduct}" BorderThickness="5" Margin="207,54,93,518" ItemsSource="{Binding ProductsList}"/>
+        <Label Content="UPC Code :" Margin="42,118,488,452" ></Label>
+        <TextBox Text="{Binding UPCCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,118,93,452" />
+        <Label Content="Category :" Margin="42,183,488,387"/>
+        <Label Content="Product Name :" Margin="42,250,488,320" />
+        <Label Content="Price :" Margin="42,316,488,254" />
+        <TextBox Text="{Binding ProductName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,250,93,320" />
+        <TextBox Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="207,316,93,254" />
+        <Button Content="Add" Command="{Binding AddProduct}" Margin="32,518,478,52" Style="{StaticResource RectBlueButton}" />
+        <Button Content="Update" Margin="252,518,258,52" Style="{StaticResource RectBlueButton}" />
+        <Button Content="Clear" Command="{Binding ClearForm}" Margin="469,518,41,52" Style="{StaticResource RectBlueButton}" />
+        <Button Content="Browse..." Command="{Binding SelectImage}" Margin="427,438,93,132" Style="{StaticResource RectGrayButton}" />
+        <Label Content="Picture :" Margin="42,382,488,188" />
+        <TextBox Text="{Binding Path}"  Margin="207,382,93,188"/>
+        <Label Content="Products" FontWeight="Bold" FontSize="26" HorizontalAlignment="Left" Margin="10,7,0,0" VerticalAlignment="Top" Width="132" Foreground="#5ab2d9"/>
+        <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding CategoryList}" IsSynchronizedWithCurrentItem="True" SelectedItem="{Binding SelectedCategory}" Margin="207,183,0,0" VerticalAlignment="Top" Width="380" Height="40"/>
+    </Grid>
+
 
 </UserControl>
