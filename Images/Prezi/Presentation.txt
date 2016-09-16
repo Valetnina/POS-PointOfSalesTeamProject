@@ -1,15 +1,13 @@
 Olga
 1. We decided to develop a modern application for registering daily operations in a fast-food restaurant. I, for example didn't really know till now what a Point of Sales really is and what it should do.
 
-2. We tried to illustrate how a POS works and what problem it solves. Basically, when a customer places an order, the seller interacts with an interface to choose the right products, register the payement and process the order. So, In our application we tried to implement features that would meet those needs and even more...
+2. We tried to illustrate how a POS works and what problem it solves. Basically, when a customer places an order, the seller interacts with an interface to choose the right products, register the payement and process the order. The application must be interactive and offer maximum felcibility. So, In our application we tried to implement features that would meet those needs and even more...
 
 Tina
 3. So, in order to achieve this goal, we created a modern, flexible application, wich could be easily extended to a chain of restaurants. So, we started by enhancing application security with a login view. Following the authentification the seller has user-friendly interface which is mainly designed toward using buttons on the screen rather than keyboard input. So we tried to provide functionality from the screen for all the needs. So the seller chooses the products, it has navigation betwwen different cetegories of products and (zoom orders) populates the order view, in here the application computes the amount to be paied and (zoom pay) and registers the paiement. (zoom Done) an dprints the receipt. Ok, so This application solves one big problem - registering daily sales operations. But how about statistics? So we decided to develop a second part of the application which would responf to basic managers needs. It has a customized view to track statictics by month in a nice graphical way and generate pdf to watch on the screen or send it by email. Also we developed a view for updating the products in the database. This way we provide functionality to mantain usual fluctuations in prices and menus.
 
 
 4. 
-
-
 -Another technology we used was the printing functionality. We didn't  use any libraries.  We managed to achieve a nice receipt by using a Graphics object, wich would have Drawing methods, offset properties and styling
 
 
@@ -26,12 +24,12 @@ Tina
 
 
 Olga
--One of the biggest challanges for me was to implement the register/payement view. I had to handle the button clicks with MVVM binding. Although I was scared at the beginning, after all i found that the solution MVVM offers was very elegant. I din't need to name my ui controls, and I used a single command to handle all the buttons.
+-One of the biggest challanges for me was to implement the register/payement view. I had to handle the button clicks with MVVM binding. Although I was scared at the beginning, after all i found that the solution MVVM offers was very elegant. I din't need to name my ui controls, and I used a single command to handle all the buttons. I had to bind my buttons to commands that would know the content of the button was clicked and add the number to the Amount textbox. We also had to make validation to make sure the fot cannot be pressed at the beginning and it can be pressed only once, to receve the loo of a calculator with decimal points.
 
 
--I really wanted to achieve the effect of a pressed button. It was not easy to find a solution.Finally the triggers provided the functionality we needed. We bound the style of the button to a boolean property in our Viewmodel, wich would make the button disabled when it's pressed So We could use one the triggers porperty - mouse disabled
+-I really wanted to achieve the effect of a pressed button. It was not easy to find a solution.Finally the triggers provided the functionality we needed. We bound the style of the button to a boolean property in our Viewmodel, wich would make the button disabled when it's pressed So We could use one the triggers porperty - mouse disabled.
 
-- We have a form to add and update products. There we must bind the selected item in one combobox to what another combobox shous as a selected Item. We  used lambda expressions to achieve that.
+- We have a form to add and update products. There we must bind the selected item in one combobox so that another combobox shows as a selected Item. We  used lambda expressions to achieve that. We check if the second combo box has the id of the item selected in the second combo box, id it finds it it shows it.
 
 
 6. To be honest we implemented pretty much all we planned in our project proposal. But to be continued, We think we could provide additional modules, such as giving to the customer an interface to make orders and not stay in line, as we see now more and more in fast-food stores. Also we could provide managers with new functionalities, such as viewing inventory, vendors and complex reports
