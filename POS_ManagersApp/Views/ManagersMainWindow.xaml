@@ -8,7 +8,7 @@
            xmlns:viewModels = "clr-namespace:POS_ManagersApp.ViewModels" 
               xmlns:med="clr-namespace:POS_ViewsLibrary;assembly=POS_ViewsLibrary"
         mc:Ignorable="d"
-        Width="900" Height="700" Background="#0085bd">
+        Width="900" Height="660" Background="#0085bd">
     <UserControl.Resources>
         <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
             <!--<Setter Property="IsEnabled" Value="False" />-->
@@ -99,75 +99,6 @@
             </Setter>
         </Style>
 
-        <Style x:Key="CloseButton" TargetType="{x:Type Button}">            
-            <Setter Property="Width" Value="40"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="FontFamily" Value="Times New Roman"/>
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Rectangle Name="GrayEllipse" Opacity="1" RadiusX="2" RadiusY="2">
-                                <Rectangle.Fill>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                        <GradientStop Color="Red" Offset="0.6"/>
-                                    </LinearGradientBrush>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <!--<Setter Property="IsEnabled" Value="False"/>-->
-                                <Setter Property="Fill" TargetName="GrayEllipse">
-                                    <Setter.Value>
-                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
-                                                         GradientOrigin="0.6, 0.3">
-                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                            <GradientStop Color="#e10905" Offset="0.8"/>
-                                        </RadialGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-
-                            <Trigger Property="IsPressed" Value="true">
-               
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="Fill" TargetName="GrayEllipse">
-                                    <Setter.Value>
-                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
-                                                         GradientOrigin="0.6, 0.3">
-                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                            <GradientStop Color="#af0805" Offset="0.8"/>
-                                        </RadialGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                           
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <DataTemplate DataType = "{x:Type viewModels:DashboardViewModel}">
             <views:DashboardView/>
         </DataTemplate>
@@ -186,14 +117,17 @@
                 <Run Text="{Binding UserLoggedIn.FirstName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
             <Run Text=" !"/>
             </TextBlock>
-            <Button Content="X" Style="{StaticResource CloseButton}" Margin="837,4,23,6"/>
+           
             <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login"  Style="{StaticResource RectGrayButton}" Height="35" Width="154" FontSize="16" Margin="674,5,72,10"/>
         </Grid>
-        <Grid DockPanel.Dock="Left" Height="650" Background="#5ab2d9" Width="220">
-            <Button Command="{Binding SwitchViews}" CommandParameter="dashboard" IsEnabled="{Binding EnabledDashboard}" Style="{StaticResource RectGrayButton}" Content="Dashboard" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22,38,0,0"/>
-            <Button Command="{Binding SwitchViews}" CommandParameter="manage" IsEnabled="{Binding EnabledManageProducts}" Style="{StaticResource RectGrayButton}" x:Name="button_Copy" Content="Manage Products" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="22,101,0,0" />
+
+        <Grid DockPanel.Dock="Left" Height="650" Background="#5ab2d9" Width="200" Margin="0,0,0,0">
+            <Button Command="{Binding SwitchViews}" CommandParameter="dashboard" IsEnabled="{Binding EnabledDashboard}" Style="{StaticResource RectGrayButton}" Content="Dashboard" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,41,0,0"/>
+            <Button Command="{Binding SwitchViews}" CommandParameter="manage" IsEnabled="{Binding EnabledManageProducts}" Style="{StaticResource RectGrayButton}" x:Name="button_Copy" Content="Manage Products" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,108,0,0" />            
+        </Grid>
+        <Grid DockPanel.Dock="Left" Background="#ecebe9" Width="700">
             <ContentControl  Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" />
         </Grid>
-        <Grid DockPanel.Dock="Left" Width="680" Height="650"/>
+        
     </DockPanel>
 </UserControl>

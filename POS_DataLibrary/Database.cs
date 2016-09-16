@@ -293,7 +293,7 @@ namespace POS_DataLibrary
             return salesList;
         }
         
-
+        
         public void addProduct(Product p, string path)
         {
             byte[] rawData = File.ReadAllBytes(path);
@@ -304,7 +304,7 @@ namespace POS_DataLibrary
             cmd.Parameters.AddWithValue("@ProductCategoryId", p.CategoryId);
             cmd.Parameters.AddWithValue("@Name", p.Name);
             cmd.Parameters.AddWithValue("@Price", p.Price);
-           cmd.Parameters.AddWithValue("@Picture", rawData);
+            cmd.Parameters.AddWithValue("@Picture", rawData);
 
 
             cmd.ExecuteNonQuery();
@@ -314,7 +314,7 @@ namespace POS_DataLibrary
         public void updateProduct(Product p, string path)
         {
             byte[] rawData = File.ReadAllBytes(path);
-            SqlCommand cmd = new SqlCommand("UPDATE Product SET  Name = @Name, Price = @Price, Picture=@Picture WHERE UPCCode = @UPCCode )", conn);
+            SqlCommand cmd = new SqlCommand("UPDATE Product SET  Name = @Name, Price = @Price, Picture=@Picture WHERE UPCCode = @UPCCode", conn);
             
             cmd.Parameters.AddWithValue("@UPCCode", p.UPCCode);
             cmd.Parameters.AddWithValue("@Name", p.Name);
@@ -345,6 +345,16 @@ namespace POS_DataLibrary
 
             }
             return orderId;
+        }
+
+        public void updateProductWithoutImage(Product p)
+        {
+            SqlCommand cmd = new SqlCommand("UPDATE Product SET  Name = @Name, Price = @Price WHERE UPCCode = @UPCCode", conn);
+
+            cmd.Parameters.AddWithValue("@UPCCode", p.UPCCode);
+            cmd.Parameters.AddWithValue("@Name", p.Name);
+            cmd.Parameters.AddWithValue("@Price", p.Price);
+            cmd.ExecuteNonQuery();
         }
     }
 }

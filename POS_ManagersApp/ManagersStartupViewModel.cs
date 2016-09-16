@@ -34,6 +34,7 @@ namespace POS_ManagersApp
         public ManagersStartupViewModel()
         {
             SwitchViews = new ActionCommand(p => OnSwitchViews("dashboard"));
+            Exit = new ActionCommand(p => OnExit());
             MessengerUser.Default.Register<User>(this, (user) =>
             {
                 User = user;
@@ -55,10 +56,6 @@ namespace POS_ManagersApp
             };
             timer.Start();
         }
-
-                //CurrentDateText();
-                //DispatcherTimerSetup();
-            
 
         private ViewModel currentView;
 
@@ -176,5 +173,17 @@ namespace POS_ManagersApp
         //    }
         //}
         #endregion
+
+        public ActionCommand Exit { get; set; }
+
+        private void OnExit()
+        {
+            MessageBoxResult result = MessageBox.Show("You are about to close the application.Are you sure?", "Close Application", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+
     }
 }

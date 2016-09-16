@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using POS_ViewsLibrary;
 using System.Collections.ObjectModel;
 using POS_DataLibrary;
-using System.Windows.Forms;
 using System.IO;
 using System.ComponentModel.DataAnnotations;
+using System.Data.SqlClient;
+using System.Windows;
+using Microsoft.Win32;
 
 
 namespace POS_ManagersApp.ViewModels
@@ -35,19 +37,15 @@ namespace POS_ManagersApp.ViewModels
 
         public ObservableCollection<Product> ProductsList
         {
-            get { return productsList; }
-            set
-            {
-                productsList = value;
-                RaisePropertyChanged("ProductsList");
-            }
+
+            get { return db.getAllProducts(); }
         }
 
         public ManageProductsViewModel()
         {
             //Initialize
             db = new Database();
-            ProductsList = db.getAllProducts();
+
             CategoryList = db.getAllCategories();
             //Register Commands
             AddProduct = new ActionCommand(p => OnAddProduct(), p => CanAddProduct());
@@ -56,6 +54,7 @@ namespace POS_ManagersApp.ViewModels
             ClearForm = new ActionCommand(p => OnClearForm());
             //Populate by default the combobox Item Source
             productsList = db.getAllProducts();
+
         }
 
         private bool CanAddProduct()
@@ -75,9 +74,8 @@ namespace POS_ManagersApp.ViewModels
             get { return upcCode; }
             set
             {
-                
-                    upcCode = value;
-                    RaisePropertyChanged("UPCCode");
+                upcCode = value;
+                RaisePropertyChanged("UPCCode");
 
             }
         }
@@ -107,7 +105,7 @@ namespace POS_ManagersApp.ViewModels
             }
         }
 
-        private decimal price;
+        private  decimal price;
         [Required]
         public decimal Price
         {
@@ -141,53 +139,64 @@ namespace POS_ManagersApp.ViewModels
             ProductName = "";
             Price = 0;
             Path = "";
+            SelectedProduct = null;
         }
 
-
+        private bool ValidateInput()
+        {
+            if (UPCCode == null || UPCCode.Length != 5)
+            {
+                MessageBox.Show("UPCCode must be 5 characters long", "Error inserting data", MessageBoxButton.OK, MessageBoxImage.Hand);
+                return false;
+            }
+            string upcCode = UPCCode;
+            if (SelectedCategory == null)
+            {
+                MessageBox.Show("You mut choose a Category", "Error inserting data", MessageBoxButton.OK, MessageBoxImage.Hand);
+                return false;
+            }
+            int id = SelectedCategory.Id;
+            if (ProductName == null || ProductName.Length < 2 || ProductName.Length > 50)
+            {
+                MessageBox.Show("Product Name must contain between 2 and 50 characters", "Error inserting data", MessageBoxButton.OK, MessageBoxImage.Hand);
+                return false;
+            }
+            string productName = ProductName;
+            if (Price <= 0)
+            {
+                MessageBox.Show("Price cannot be less than zero", "Error inserting data", MessageBoxButton.OK, MessageBoxImage.Hand);
+                return false;
+            }
+            decimal price = Price;
+            if (Path == null)
+            {
+                MessageBox.Show("You must choose a valid path of an image", "Error inserting data", MessageBoxButton.OK, MessageBoxImage.Hand);
+                return false;
+            }
+            return true;
+        }
 
         public ActionCommand AddProduct { get; set; }
 
         private void OnAddProduct()
         {
-            if (UPCCode == null || UPCCode.Length != 5)
+            if (!ValidateInput())
             {
-                MessageBox.Show("UPCCode must be 5 characters long", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 return;
             }
-            string upcCode = UPCCode;
-            if (SelectedCategory == null)
-            {
-                MessageBox.Show("You mut choose a Category", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
-            }
-            int id = SelectedCategory.Id;
-            if (ProductName == null || ProductName.Length <2 || ProductName.Length > 50)
-            {
-                MessageBox.Show("Product Name must contain between 2 and 50 characters", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
-            }
-            string productName = ProductName;
-            if(Price <= 0 )
-            {
-                MessageBox.Show("Price cannot be less than zero", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
-            }
-            decimal price = Price;
-            if(Path == null)
-            {
-                MessageBox.Show("You must choose a valid path of an image", "Error inserting data", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
-            }
-
-            Product p = new Product() { UPCCode = UPCCode, CategoryId = id, Name = ProductName, Price = Price };
+            Product p = new Product() { UPCCode = UPCCode, CategoryId = SelectedCategory.Id, Name = ProductName, Price = Price };
             try
             {
                 db.addProduct(p, Path);
+                MessageBox.Show("Product was added succesfully", "Add product", MessageBoxButton.OK, MessageBoxImage.Information);
+                OnClearForm();
+                RaisePropertyChanged("ProductsList");
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("Could not insert record in the database", "Insert error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw(ex);
+                MessageBox.Show("Could not insert record in the database", "Insert error", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw (ex);
             }
         }
 
@@ -198,35 +207,71 @@ namespace POS_ManagersApp.ViewModels
             get { return selectedProduct; }
             set
             {
-                selectedProduct = value;
-                RaisePropertyChanged("SelectedProduct");
-                UPCCode = SelectedProduct.UPCCode;
-                SelectedCategory = CategoryList.First(p => p.CategoryName == SelectedProduct.CategoryName);
-                ProductName = SelectedProduct.Name;
-                Price = SelectedProduct.Price;
+                if (value != null)
+                {
+                    selectedProduct = value;
+                    RaisePropertyChanged("SelectedProduct");
+                    UPCCode = SelectedProduct.UPCCode;
+                    SelectedCategory = CategoryList.First(p => p.CategoryName == SelectedProduct.CategoryName);
+                    ProductName = SelectedProduct.Name;
+                    Price = SelectedProduct.Price;
+                    Path = "If you want to update image than browse...";
+                }
+                else
+                {
+                    selectedProduct = value;
+                    RaisePropertyChanged("SelectedProduct");
+                }
+
+
             }
         }
 
 
         public ActionCommand UpdateProduct { get; set; }
 
-        int currentProductId = 0;
         private void OnUpdateProduct()
         {
-            if (currentProductId == 0)
+            if (SelectedProduct == null)
             {
-                //MessageBox.Show("Please select an item for update", "Invalid action", MessageBoxButton.OK, MessageBoxImage.Stop);
+                MessageBox.Show("Please select an item for update", "Invalid action", MessageBoxButton.OK, MessageBoxImage.Stop);
                 return;
             }
-
+            if (!ValidateInput())
+            {
+                return;
+            }
             string upcCode = UPCCode;
             int id = SelectedCategory.Id;
             string productName = ProductName;
             decimal price = Price;
             Product p = new Product() { UPCCode = UPCCode, CategoryId = id, Name = ProductName, Price = Price };
+            try
+            {
+                if (Path == "If you want to update image than browse...")
+                {
+                    db.updateProductWithoutImage(p);
 
-            db.updateProduct(p, Path);
-
+                }
+                else
+                {
+                    db.updateProduct(p, Path);
+                    
+                }
+                MessageBox.Show("Product was updated succesfully", "Update product", MessageBoxButton.OK, MessageBoxImage.Information);
+                    OnClearForm();
+                RaisePropertyChanged("ProductsList");
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Could not update record.", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw ex;
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("Could not update record. Probably the Image path it nis not a valid one", "IO Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                throw ex;
+            }
         }
 
         private string path;
@@ -243,11 +288,10 @@ namespace POS_ManagersApp.ViewModels
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Png files (*.png)|*.png|Jpg files (*.jpg)|*.jpg";
-            if (ofd.ShowDialog() == DialogResult.OK)
+            if (ofd.ShowDialog() == true)
             {
                 Path = ofd.FileName;
             }
-
         }
 
 

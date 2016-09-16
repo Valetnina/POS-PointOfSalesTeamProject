@@ -47,7 +47,8 @@ namespace POS_SellersApp.ViewModels
             RemoveItem = new ActionCommand(p => OnRemoveItem());
             CancelOrder = new ActionCommand(p => OnCancelOrder());
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
-            PrintReceipt = new ActionCommand(p => OnPrintReceipt());
+            PrintReceipt = new ActionCommand(p => OnPrintReceipt()); 
+            SendOrder = new ActionCommand(p => OnSendOrder());
             DecreaseQuantity = new ActionCommand(p => OnDecreaseQuantity());
             currentView = ProductsCatalogViewModel;
             OrderNo = string.Format("Order# {0}", (db.getLastOrderNo() + 1).ToString());
@@ -55,6 +56,24 @@ namespace POS_SellersApp.ViewModels
 
             //Set the totals to zero
             //  OrderSubTotal = 0;
+        }
+
+        private void OnSendOrder()
+        {
+            if (CurrentView != pvm && OrderItems.Count >0)
+            {
+               MessageBoxResult result =  MessageBox.Show("You cannot send an order that has not been paied. Do you want to go to paiement page?", "Send Order", MessageBoxButton.OKCancel, MessageBoxImage.Hand);
+               if (result == MessageBoxResult.OK)
+               {
+                   CurrentView = pvm;
+               }
+            }
+            else if (OrderItems.Count ==  0)
+            {
+                MessageBox.Show("You cannot send an empty order");
+            } else {
+                MessageBox.Show("Register paiement and click Done. The order will be registered and sent to the kitchen");
+            }
         }
 
         private void OnDecreaseQuantity()
@@ -427,6 +446,8 @@ namespace POS_SellersApp.ViewModels
         }
         #endregion
 
+
+        public ActionCommand SendOrder { get; set; }
     }
 
 }

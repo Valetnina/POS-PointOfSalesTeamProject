@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace POS_ManagersApp.ViewModels
 {
@@ -22,17 +23,22 @@ public class ManagersMainWindowViewModel: ViewModel
         public ManagersMainWindowViewModel()
         {
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
-
-            EnabledDashboard = false;
+            SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
+            
+            EnabledDashboard = true;
             EnabledManageProducts = true;
+            OnSwitchViews("dashboard");
         }
 
+       
         private bool enabledDashboard;
 
         public bool EnabledDashboard
         {
             get { return enabledDashboard; }
-            set { enabledDashboard = value; }
+            set { enabledDashboard = value;
+            RaisePropertyChanged("EnabledDashboard");
+            }
         }
 
         private bool enabledManageProducts;
@@ -40,13 +46,16 @@ public class ManagersMainWindowViewModel: ViewModel
         public bool EnabledManageProducts
         {
             get { return enabledManageProducts; }
-            set { enabledManageProducts = value; }
+            set { enabledManageProducts = value;
+            RaisePropertyChanged("EnabledManageProducts");
+            }
         }
 
+      readonly static   DashboardViewModel dash = new DashboardViewModel();
+      readonly static ManageProductsViewModel manage = new ManageProductsViewModel();
              private void OnSwitchViews(string destination)
         {
-            DashboardViewModel dash = new DashboardViewModel();
-            ManageProductsViewModel manage = new ManageProductsViewModel();
+         
 
             switch (destination)
             {
@@ -63,8 +72,13 @@ public class ManagersMainWindowViewModel: ViewModel
                     EnabledDashboard = true;
                     break;
             }
+        }
+             private void OnSendLogoutMessage(string v)
+             {
+                 MessengerLogout.Default.Send(v);
+             }
 
-    }
+             public ActionCommand SendLogoutMessage { get; private set; }
         private ViewModel currentView;
 
         public ViewModel CurrentView
@@ -77,5 +91,6 @@ public class ManagersMainWindowViewModel: ViewModel
             }
         }
         public ActionCommand SwitchViews { get; private set; }
+
     }
 }
