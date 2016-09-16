@@ -25,7 +25,16 @@ namespace POS_SellersApp.ViewModels
         //   public User UserLoggedIn = new User();
         public SellersMainWindowViewModel()
         {
-            db = new Database();
+            try
+            {
+                db = new Database();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Fatal Error: Unable to connect to database", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw e;
+            }
+
             //Register for messages from differnet viewModels
 
             MessengerPoduct.Default.Register<Product>(this, (product) =>
@@ -381,9 +390,16 @@ namespace POS_SellersApp.ViewModels
                 MessageBox.Show("The order is not payed yet. You cannot print it!", "Print", MessageBoxButton.OK, MessageBoxImage.Hand);
                 return;
             }
-            var doc = new PrintDocument();
-            doc.PrintPage += new PrintPageEventHandler(CreateReceipt);
-            doc.Print();
+            try
+            {
+                var doc = new PrintDocument();
+                doc.PrintPage += new PrintPageEventHandler(CreateReceipt);
+                doc.Print();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not locate an available printing device", "Printing error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void CreateReceipt(object sender, System.Drawing.Printing.PrintPageEventArgs e)

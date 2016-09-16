@@ -33,7 +33,16 @@ namespace POS_SellersApp.ViewModels
 
         public ProductsCatalogViewModel()
         {
-            db = new Database();
+            try
+            {
+                db = new Database();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("fatal Error: Unable to connect to database", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw e;
+            }
+
             CatalogCollection = db.GetProductsByCategory("Meals");
             SwitchViews = new ActionCommand((param) =>
             {
@@ -65,32 +74,38 @@ namespace POS_SellersApp.ViewModels
         }
         private void OnSwitchViews(string destination)
         {
-            switch (destination)
+            try
             {
-                case "Meals":
-                    CatalogCollection = db.GetProductsByCategory("Meals");
-                    Category = "Meals";
-                    EnabledMeals = false;
-                    EnabledDrinks = true;
-                    EnabledDeserts = true;
-                    break;
-                case "Drinks":
-                    CatalogCollection = db.GetProductsByCategory("Drinks");
-                    Category = "Drinks";
-                    EnabledMeals = true;
-                    EnabledDrinks = false;
-                    EnabledDeserts = true;
-                    break;
-                case "Desserts":
-                default:
-                    CatalogCollection = db.GetProductsByCategory("Desserts");
-                    Category = "Desserts";
-                    EnabledMeals = true;
-                    EnabledDrinks = true;
-                    EnabledDeserts = false;
-                    break;
+                switch (destination)
+                {
+                    case "Meals":
+                        CatalogCollection = db.GetProductsByCategory("Meals");
+                        Category = "Meals";
+                        EnabledMeals = false;
+                        EnabledDrinks = true;
+                        EnabledDeserts = true;
+                        break;
+                    case "Drinks":
+                        CatalogCollection = db.GetProductsByCategory("Drinks");
+                        Category = "Drinks";
+                        EnabledMeals = true;
+                        EnabledDrinks = false;
+                        EnabledDeserts = true;
+                        break;
+                    case "Desserts":
+                    default:
+                        CatalogCollection = db.GetProductsByCategory("Desserts");
+                        Category = "Desserts";
+                        EnabledMeals = true;
+                        EnabledDrinks = true;
+                        EnabledDeserts = false;
+                        break;
+                }
             }
-
+            catch (Exception)
+            {
+                MessageBox.Show("Could not fetch product categories feom the database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 

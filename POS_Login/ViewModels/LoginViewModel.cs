@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.Remoting.Contexts;
 using System.ComponentModel;
 using System.Windows.Threading;
+using System.Data.SqlClient;
 
 namespace POS_PointOfSales.ViewModels
 {
@@ -37,7 +38,16 @@ namespace POS_PointOfSales.ViewModels
         {
             User = new User();
             //TODO handle Exceptions
-            db = new Database();
+
+            try
+            {
+                db = new Database();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("fatal Error: Unable to connect to database", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw e;
+            }
             Login = new ActionCommand(p=>OnLogin(UserName, Password),
                 p=>CanLogin);
         }
@@ -78,19 +88,27 @@ namespace POS_PointOfSales.ViewModels
         {
             if (userN != null)
             {
-                var user = db.getUserByUserName(userN, pass);
-                if (user != null)
+                try
                 {
-                    User = user;
-                    MessengerUser.Default.Send(User);
-                    UserName = null;
-                    Password = null;
+                    var user = db.getUserByUserName(userN, pass);
+                    if (user != null)
+                    {
+                        User = user;
+                        MessengerUser.Default.Send(User);
+                        UserName = null;
+                        Password = null;
 
-                }
-                else
+                    }
+                    else
                     {
                         MessageBox.Show("Could not authenticate user " + UserName);
                     }
+                }
+                catch(SqlException ex)
+                {
+                    MessageBox.Show("Unable to fetch records from database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    throw ex;
+                }
             } else
             {
                 MessageBox.Show("You didn't provide an username");

@@ -1,0 +1,45 @@
+Olga
+1. We decided to develop a modern application for registering daily operations in a fast-food restaurant. I, for example didn't really know till now what a Point of Sales really is and what it should do.
+
+2. We tried to illustrate how a POS works and what problem it solves. Basically, when a customer places an order, the seller interacts with an interface to choose the right products, register the payement and process the order. So, In our application we tried to implement features that would meet those needs and even more...
+
+Tina
+3. So, in order to achieve this goal, we created a modern, flexible application, wich could be easily extended to a chain of restaurants. So, we started by enhancing application security with a login view. Following the authentification the seller has user-friendly interface which is mainly designed toward using buttons on the screen rather than keyboard input. So we tried to provide functionality from the screen for all the needs. So the seller chooses the products, it has navigation betwwen different cetegories of products and (zoom orders) populates the order view, in here the application computes the amount to be paied and (zoom pay) and registers the paiement. (zoom Done) an dprints the receipt. Ok, so This application solves one big problem - registering daily sales operations. But how about statistics? So we decided to develop a second part of the application which would responf to basic managers needs. It has a customized view to track statictics by month in a nice graphical way and generate pdf to watch on the screen or send it by email. Also we developed a view for updating the products in the database. This way we provide functionality to mantain usual fluctuations in prices and menus.
+
+
+4. 
+
+
+-Another technology we used was the printing functionality. We didn't  use any libraries.  We managed to achieve a nice receipt by using a Graphics object, wich would have Drawing methods, offset properties and styling
+
+
+-Generate PDF for Datagrid. There are a lot of libraries  there to implement this functionality. We tried a few, but either they were difficult to implement or lacking documentation. The one that suited us most was the ItextSharp, found in the Nuget package. it requires to accept their licence but it has good documentation and a lot of discussions on the forum to help you use it.
+
+- We really wanted to offer data visualisation to the use when reading statistics. We wanted to use a pie chart wich are an efficient and easy to read way to represent data in percentages or portions and a column bar chart wich clarify trends better than do tables. The Wpf doesn't provide out of the box controls for that. So, we found a nice free library called Modern Ui for WPF Library. The author of the librarty was kind enough to offer some documentation, but still, for one of the chart we used we had to figure out on our own how to implement it.
+
+-In terms of Challanges and technologies we have used. Of course the biggest challange was to understand and implement the MVVM Pattern. So Basiccally what it means is that we designed our application in three layers. The Views(meaning the windows or what the user sees and interacts with), the second layer is the model which represents the actual data and/or information we are dealing with. and finally the viewmodel wich is the key piece of the triad because it introduces Presentation Separation, or the concept of keeping the view separate from the model. So it implies more work and sometimes boileplate code but it gives you the separation between design and logic. It is easier to test and provides reusable components. So if you need to change the user interface, you won't need to change your logic.
+
+5. Tina
+- The biggest problem we faced was to figure out how to make two viewModels communicate. In terms of MVVM we cannot  pass commands or data from a viewModel to a different one. Or solution was to use a special communication system called generically subscribe-publish pattern. It Basically means that on ViewModel sends a Message and other viewModel, or multiple ViewModels register for that message. The Messenger class wich acts like a mediator in this case must be a static clas, so only one instance could be created, and carry out messages betwwen different view models. To keep it simple it's as I am not allowed to talk to Nathalie, But I send the message to Domenic and Domenic will send the message to Nathalie.
+
+-Also when we faced the problem of adding data at once to more than one table in a database. So for example, we have the tabl Orders and the table OrderItems. And when the user registers a paiemnt for an order the application should add record to both tables. But, we must make sure that if for some reason one of the sql queries  fails, we should not have records int the other table, wich otherwise would succeed. So the solution is to use the SQL Transactions. It means to wrap the sql commands ito a transaction, which will ensure that if one of the commands throws an exception the other commands id succeded will roll-back. Also, to use transaction, apparently we cannot use a pool of connections, as we are used to do in our applications. We had to provide it's own connection to make it work.
+
+
+Olga
+-One of the biggest challanges for me was to implement the register/payement view. I had to handle the button clicks with MVVM binding. Although I was scared at the beginning, after all i found that the solution MVVM offers was very elegant. I din't need to name my ui controls, and I used a single command to handle all the buttons.
+
+
+-I really wanted to achieve the effect of a pressed button. It was not easy to find a solution.Finally the triggers provided the functionality we needed. We bound the style of the button to a boolean property in our Viewmodel, wich would make the button disabled when it's pressed So We could use one the triggers porperty - mouse disabled
+
+- We have a form to add and update products. There we must bind the selected item in one combobox to what another combobox shous as a selected Item. We  used lambda expressions to achieve that.
+
+
+6. To be honest we implemented pretty much all we planned in our project proposal. But to be continued, We think we could provide additional modules, such as giving to the customer an interface to make orders and not stay in line, as we see now more and more in fast-food stores. Also we could provide managers with new functionalities, such as viewing inventory, vendors and complex reports
+
+7. Summary. For our project proposal we designed the mockups of our interfaces in photoshop, and it was hard to believe that we could translate that fully in WPF. We are pretty proud of our work. We succesfully implemented the mvvm pattern, we provided a very nice, modern and easy to use interface. We succesfully integrated in our code additional libraries. 
+
+
+
+
+
+

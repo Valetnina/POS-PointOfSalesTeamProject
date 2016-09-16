@@ -208,26 +208,5 @@ namespace POS_SellersApp.ViewModels
                 else return "0";
             }
         }
-        //private ICommand _closeCommand;
-        //public ICommand CloseCommand
-        //{
-        //    get
-        //    {
-        //        if (_closeCommand == null)
-        //            _closeCommand = new ActionCommand(param => this.OnRequestClose());
-
-        //        return _closeCommand;
-        //    }
-        //}
-
-        //public event EventHandler RequestClose;
-
-        //void OnRequestClose()
-        //{
-        //    EventHandler handler = this.RequestClose;
-        //    if (handler != null)
-        //        handler(this, EventArgs.Empty);
-        //}
-
-    }
+     }
 }
