@@ -120,10 +120,10 @@
            
             <Button Content="Sign Out" Command="{Binding SendLogoutMessage}" CommandParameter="login"  Style="{StaticResource RectGrayButton}" Height="35" Width="154" FontSize="16" Margin="674,5,72,10"/>
         </Grid>
+
         <Grid DockPanel.Dock="Left" Height="650" Background="#5ab2d9" Width="200" Margin="0,0,0,0">
             <Button Command="{Binding SwitchViews}" CommandParameter="dashboard" IsEnabled="{Binding EnabledDashboard}" Style="{StaticResource RectGrayButton}" Content="Dashboard" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,41,0,0"/>
-            <Button Command="{Binding SwitchViews}" CommandParameter="manage" IsEnabled="{Binding EnabledManageProducts}" Style="{StaticResource RectGrayButton}" x:Name="button_Copy" Content="Manage Products" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,108,0,0" />
-            
+            <Button Command="{Binding SwitchViews}" CommandParameter="manage" IsEnabled="{Binding EnabledManageProducts}" Style="{StaticResource RectGrayButton}" x:Name="button_Copy" Content="Manage Products" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="14,108,0,0" />            
         </Grid>
         <Grid DockPanel.Dock="Left" Background="#ecebe9" Width="700">
             <ContentControl  Content="{Binding Path=CurrentView, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" />
