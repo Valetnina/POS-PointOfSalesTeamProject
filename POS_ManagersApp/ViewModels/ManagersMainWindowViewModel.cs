@@ -9,14 +9,16 @@ using System.Windows;
 
 namespace POS_ManagersApp.ViewModels
 {
-public class ManagersMainWindowViewModel: ViewModel
+    public class ManagersMainWindowViewModel : ViewModel
     {
         private User userLoggedIn;
         public User UserLoggedIn
         {
             get { return userLoggedIn; }
-            set { userLoggedIn = value;
-            RaisePropertyChanged("User");
+            set
+            {
+                userLoggedIn = value;
+                RaisePropertyChanged("User");
             }
         }
 
@@ -24,20 +26,22 @@ public class ManagersMainWindowViewModel: ViewModel
         {
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
             SendLogoutMessage = new ActionCommand(p => OnSendLogoutMessage("login"));
-            
+
             EnabledDashboard = true;
             EnabledManageProducts = true;
             OnSwitchViews("dashboard");
         }
 
-       
+
         private bool enabledDashboard;
 
         public bool EnabledDashboard
         {
             get { return enabledDashboard; }
-            set { enabledDashboard = value;
-            RaisePropertyChanged("EnabledDashboard");
+            set
+            {
+                enabledDashboard = value;
+                RaisePropertyChanged("EnabledDashboard");
             }
         }
 
@@ -46,16 +50,18 @@ public class ManagersMainWindowViewModel: ViewModel
         public bool EnabledManageProducts
         {
             get { return enabledManageProducts; }
-            set { enabledManageProducts = value;
-            RaisePropertyChanged("EnabledManageProducts");
+            set
+            {
+                enabledManageProducts = value;
+                RaisePropertyChanged("EnabledManageProducts");
             }
         }
 
-      readonly static   DashboardViewModel dash = new DashboardViewModel();
-      readonly static ManageProductsViewModel manage = new ManageProductsViewModel();
-             private void OnSwitchViews(string destination)
+        readonly static DashboardViewModel dash = new DashboardViewModel();
+        readonly static ManageProductsViewModel manage = new ManageProductsViewModel();
+        private void OnSwitchViews(string destination)
         {
-         
+
 
             switch (destination)
             {
@@ -73,12 +79,12 @@ public class ManagersMainWindowViewModel: ViewModel
                     break;
             }
         }
-             private void OnSendLogoutMessage(string v)
-             {
-                 MessengerLogout.Default.Send(v);
-             }
+        private void OnSendLogoutMessage(string v)
+        {
+            MessengerLogout.Default.Send(v);
+        }
 
-             public ActionCommand SendLogoutMessage { get; private set; }
+        public ActionCommand SendLogoutMessage { get; private set; }
         private ViewModel currentView;
 
         public ViewModel CurrentView

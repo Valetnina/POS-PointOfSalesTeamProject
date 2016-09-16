@@ -59,15 +59,5 @@ namespace POS_ViewsLibrary.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap Logo_Big {
-            get {
-                object obj = ResourceManager.GetObject("Logo_Big", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

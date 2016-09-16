@@ -54,7 +54,6 @@
     <Compile Include="MessengerDone.cs" />
     <Compile Include="MessengerUser.cs" />
     <Compile Include="MessengerProduct.cs" />
-    <Compile Include="Messenger\MessageBase.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PasswordBoxAssistant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,9 +77,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Logo_Big.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

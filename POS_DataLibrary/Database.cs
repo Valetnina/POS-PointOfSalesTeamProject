@@ -19,10 +19,16 @@ namespace POS_DataLibrary
         private SqlConnection conn;
         public Product product;
 
+        public Database()
+        {
+            conn = new SqlConnection(CONN_STRING);
+            conn.Open();
+        }
+        
         public ObservableCollection<Sales> getSalesPerSeller(int month, int year)
         {
             ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
-            
+
             {
                 SqlCommand cmd = new SqlCommand("SELECT UserId, FirstName, LastName, SUM(Price * Quantity) as TotalSAles FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id  and  Month(Date) = @Month and Year(Date)=@Year GROUP BY UserId, FirstName, LastName", conn);
                 cmd.Parameters.AddWithValue("@Month", month);
@@ -42,16 +48,11 @@ namespace POS_DataLibrary
                     }
                 }
             }
-            
+
             return salesList;
 
         }
 
-        public Database()
-        {
-            conn = new SqlConnection(CONN_STRING);
-            conn.Open();
-        }
         public decimal getAllSalesByItem(string categoryName, int month, int year)
         {
             decimal sales = 0;
@@ -84,16 +85,13 @@ namespace POS_DataLibrary
                     {
                         string uPCCode = reader.GetString(reader.GetOrdinal("UPCCode"));
                         string name = reader.GetString(reader.GetOrdinal("Name"));
-                        decimal  price = reader.GetDecimal(reader.GetOrdinal("Price"));
+                        decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
                         string productCategory = reader.GetString(reader.GetOrdinal("CategoryName"));
 
                         byte[] imgBytes = (byte[])reader.GetSqlBinary(reader.GetOrdinal("Picture"));
                         TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
-                       Bitmap picture = (Bitmap)tc.ConvertFrom(imgBytes);
-
-
-
-                        productsList.Add(new Product {UPCCode=uPCCode, Name=name, Price=price, CategoryName= productCategory, Picture = picture  });
+                        Bitmap picture = (Bitmap)tc.ConvertFrom(imgBytes);
+                        productsList.Add(new Product { UPCCode = uPCCode, Name = name, Price = price, CategoryName = productCategory, Picture = picture });
                     }
                 }
             }
@@ -112,11 +110,11 @@ namespace POS_DataLibrary
                     {
                         int id = reader.GetInt32(reader.GetOrdinal("Id"));
                         string categoryName = reader.GetString(reader.GetOrdinal("CategoryName"));
-                        
 
 
 
-                        categoryList.Add(new ProductCategory { Id = id, CategoryName = categoryName});
+
+                        categoryList.Add(new ProductCategory { Id = id, CategoryName = categoryName });
                     }
                 }
             }
@@ -143,7 +141,7 @@ namespace POS_DataLibrary
                         byte[] imgBytes = (byte[])reader.GetSqlBinary(reader.GetOrdinal("Picture"));
                         TypeConverter tc = TypeDescriptor.GetConverter(typeof(Bitmap));
                         Bitmap picture = (Bitmap)tc.ConvertFrom(imgBytes);
-                        productsList.Add(new Product { Picture=picture, UPCCode = uPCCode, Name = name, Price = price, CategoryName =  productCategory, CategoryId=productCategoryId });
+                        productsList.Add(new Product { Picture = picture, UPCCode = uPCCode, Name = name, Price = price, CategoryName = productCategory, CategoryId = productCategoryId });
                     }
                 }
             }
@@ -152,9 +150,9 @@ namespace POS_DataLibrary
 
         public User getUserByUserName(string userName, string password)
         {
-            
+
             SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[USERS] WHERE UserName = @UserName and Password=@Password", conn);
-            cmd.Parameters.AddWithValue("@UserName",userName);
+            cmd.Parameters.AddWithValue("@UserName", userName);
             cmd.Parameters.AddWithValue("@Password", password);
 
 
@@ -199,8 +197,6 @@ namespace POS_DataLibrary
                     command.Parameters.AddWithValue("@OrderTax", order.Tax);
                     modified = (int)command.ExecuteScalar();
 
-
-
                     foreach (var item in orderItems)
                     {
                         command.CommandText =
@@ -242,28 +238,28 @@ namespace POS_DataLibrary
         }
         public ObservableCollection<Sales> getSales(int month, int year)
         {
-                ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
-                SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, SUM(Price * Quantity) as TotalSales FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id and Month(Date) = @Month and Year(Date) = @Year GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
-                cmd.Parameters.AddWithValue("@Month", month);
-                cmd.Parameters.AddWithValue("@Year", year);
+            ObservableCollection<Sales> salesList = new ObservableCollection<Sales>();
+            SqlCommand cmd = new SqlCommand("SELECT UPCCode, FirstName, LastName, ProductName,Quantity, Price, SUM(Price * Quantity) as TotalSales FROM Orders, OrderItems, Users  where Orders.OrderId = OrderItems.OrderId and Orders.UserId= Users.Id and Month(Date) = @Month and Year(Date) = @Year GROUP BY ProductName, UPCCode, UserId, Quantity, Price,FirstName, LastName", conn);
+            cmd.Parameters.AddWithValue("@Month", month);
+            cmd.Parameters.AddWithValue("@Year", year);
             using (SqlDataReader reader = cmd.ExecuteReader())
+            {
+                if (reader.HasRows)
                 {
-                    if (reader.HasRows)
+                    while (reader.Read())
                     {
-                        while (reader.Read())
-                        {
-                            //TODO
-                            string upcCode = reader.GetString(reader.GetOrdinal("UpcCode"));
-                            string seller = reader.GetString(reader.GetOrdinal("FirstName")) + " " + reader.GetString(reader.GetOrdinal("LastName"));
-                            string productName = reader.GetString(reader.GetOrdinal("ProductName"));
-                            int qty = reader.GetInt32(reader.GetOrdinal("Quantity"));
-                            decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
-                            decimal sales = reader.GetDecimal(reader.GetOrdinal("TotalSales"));
+                        //TODO
+                        string upcCode = reader.GetString(reader.GetOrdinal("UpcCode"));
+                        string seller = reader.GetString(reader.GetOrdinal("FirstName")) + " " + reader.GetString(reader.GetOrdinal("LastName"));
+                        string productName = reader.GetString(reader.GetOrdinal("ProductName"));
+                        int qty = reader.GetInt32(reader.GetOrdinal("Quantity"));
+                        decimal price = reader.GetDecimal(reader.GetOrdinal("Price"));
+                        decimal sales = reader.GetDecimal(reader.GetOrdinal("TotalSales"));
 
-                        salesList.Add(new Sales() { Seller = seller, OrderItems = new OrderItems() { UPCCode = upcCode, Name = productName, Quantity = qty}, ItemTotal = sales });
-                        }
+                        salesList.Add(new Sales() { Seller = seller, OrderItems = new OrderItems() { UPCCode = upcCode, Name = productName, Quantity = qty }, ItemTotal = sales });
                     }
                 }
+            }
             return salesList;
         }
         public ObservableCollection<Sales> getTopItemsPerMonth(int month, int year)
@@ -292,8 +288,8 @@ namespace POS_DataLibrary
             }
             return salesList;
         }
-        
-        
+
+
         public void addProduct(Product p, string path)
         {
             byte[] rawData = File.ReadAllBytes(path);
@@ -315,17 +311,16 @@ namespace POS_DataLibrary
         {
             byte[] rawData = File.ReadAllBytes(path);
             SqlCommand cmd = new SqlCommand("UPDATE Product SET  Name = @Name, Price = @Price, Picture=@Picture WHERE UPCCode = @UPCCode", conn);
-            
+
             cmd.Parameters.AddWithValue("@UPCCode", p.UPCCode);
             cmd.Parameters.AddWithValue("@Name", p.Name);
             cmd.Parameters.AddWithValue("@Price", p.Price);
-             cmd.Parameters.AddWithValue("@Picture", rawData);
+            cmd.Parameters.AddWithValue("@Picture", rawData);
 
 
             cmd.ExecuteNonQuery();
 
         }
-
 
         public int getLastOrderNo()
         {
@@ -338,7 +333,7 @@ namespace POS_DataLibrary
                     while (reader.Read())
                     {
                         //TODO
-                       orderId  = reader.GetInt32(reader.GetOrdinal("orderId"));
+                        orderId = reader.GetInt32(reader.GetOrdinal("orderId"));
 
                     }
                 }

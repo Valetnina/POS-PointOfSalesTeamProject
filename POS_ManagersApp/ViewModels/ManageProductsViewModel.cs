@@ -17,14 +17,44 @@ namespace POS_ManagersApp.ViewModels
 {
     class ManageProductsViewModel : ViewModel
     {
-        //Declare properties and fields
+        //Declare fields
         private Database db;
-        private bool IsValid;
         private ObservableCollection<Product> productsList = new ObservableCollection<Product>();
         private ObservableCollection<Product> topItems = new ObservableCollection<Product>();
-
         private ObservableCollection<ProductCategory> categoryList = new ObservableCollection<ProductCategory>();
 
+        //Constructor
+        public ManageProductsViewModel()
+        {
+            //Initialize
+            try
+            {
+                db = new Database();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Fatal Error: Unable to connect to database", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw e;
+            }
+            try
+            {
+                CategoryList = db.getAllCategories();
+                productsList = db.getAllProducts();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Unbale to fetch data from the database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw (ex);
+            }
+
+            //Register Commands
+            AddProduct = new ActionCommand(p => OnAddProduct());
+            UpdateProduct = new ActionCommand(p => OnUpdateProduct());
+            SelectImage = new ActionCommand(p => OnSelectImage());
+            ClearForm = new ActionCommand(p => OnClearForm());
+
+        }
+        //Declare properties
         public ObservableCollection<ProductCategory> CategoryList
         {
             get { return categoryList; }
@@ -37,34 +67,26 @@ namespace POS_ManagersApp.ViewModels
 
         public ObservableCollection<Product> ProductsList
         {
-
-            get { return db.getAllProducts(); }
+            get
+            {
+                return GetAllProducts();
+               
+            }
         }
-
-        public ManageProductsViewModel()
+        private ObservableCollection<Product> GetAllProducts()
         {
-            //Initialize
-            db = new Database();
-
-            CategoryList = db.getAllCategories();
-            //Register Commands
-            AddProduct = new ActionCommand(p => OnAddProduct(), p => CanAddProduct());
-            UpdateProduct = new ActionCommand(p => OnUpdateProduct());
-            SelectImage = new ActionCommand(p => OnSelectImage());
-            ClearForm = new ActionCommand(p => OnClearForm());
-            //Populate by default the combobox Item Source
-            productsList = db.getAllProducts();
-
+            ObservableCollection<Product> productsList = new ObservableCollection<Product>();
+            try
+            {
+                productsList = db.getAllProducts();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Unbale to fetch data from the database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw (ex);
+            }
+            return productsList;
         }
-
-        private bool CanAddProduct()
-        {
-            return true;
-            //return !String.IsNullOrWhiteSpace(UPCCode) &&
-            //             !String.IsNullOrWhiteSpace(ProductName) &&
-            //             Price != 0 && !String.IsNullOrWhiteSpace(Path);
-        }
-
         private string upcCode;
 
         [Required]
@@ -105,7 +127,7 @@ namespace POS_ManagersApp.ViewModels
             }
         }
 
-        private  decimal price;
+        private decimal price;
         [Required]
         public decimal Price
         {
@@ -116,8 +138,6 @@ namespace POS_ManagersApp.ViewModels
                 RaisePropertyChanged("Price");
             }
         }
-
-
         private ProductCategory selectedCategory;
         public ProductCategory SelectedCategory
         {
@@ -129,7 +149,13 @@ namespace POS_ManagersApp.ViewModels
             }
         }
 
+        private string path;
 
+        public string Path
+        {
+            get { return path; }
+            set { path = value; RaisePropertyChanged("Path"); }
+        }
         public ActionCommand ClearForm { get; set; }
 
         private void OnClearForm()
@@ -141,7 +167,39 @@ namespace POS_ManagersApp.ViewModels
             Path = "";
             SelectedProduct = null;
         }
+        private Product selectedProduct;
 
+        public Product SelectedProduct
+        {
+            get { return selectedProduct; }
+            set
+            {
+                if (value != null)
+                {
+                    selectedProduct = value;
+                    RaisePropertyChanged("SelectedProduct");
+                    UPCCode = SelectedProduct.UPCCode;
+                    SelectedCategory = CategoryList.First(p => p.CategoryName == SelectedProduct.CategoryName);
+                    ProductName = SelectedProduct.Name;
+                    Price = SelectedProduct.Price;
+                    Path = "If you want to update image than browse...";
+                }
+                else
+                {
+                    selectedProduct = value;
+                    RaisePropertyChanged("SelectedProduct");
+                }
+
+
+            }
+        }
+
+        //Declare commands
+        public ActionCommand AddProduct { get; set; }
+        public ActionCommand UpdateProduct { get; set; }
+        public ActionCommand SelectImage { get; set; }
+
+        //Method to validate the user input
         private bool ValidateInput()
         {
             if (UPCCode == null || UPCCode.Length != 5)
@@ -175,9 +233,7 @@ namespace POS_ManagersApp.ViewModels
             }
             return true;
         }
-
-        public ActionCommand AddProduct { get; set; }
-
+        //Method to execute when the Add command is called
         private void OnAddProduct()
         {
             if (!ValidateInput())
@@ -200,36 +256,8 @@ namespace POS_ManagersApp.ViewModels
             }
         }
 
-        private Product selectedProduct;
 
-        public Product SelectedProduct
-        {
-            get { return selectedProduct; }
-            set
-            {
-                if (value != null)
-                {
-                    selectedProduct = value;
-                    RaisePropertyChanged("SelectedProduct");
-                    UPCCode = SelectedProduct.UPCCode;
-                    SelectedCategory = CategoryList.First(p => p.CategoryName == SelectedProduct.CategoryName);
-                    ProductName = SelectedProduct.Name;
-                    Price = SelectedProduct.Price;
-                    Path = "If you want to update image than browse...";
-                }
-                else
-                {
-                    selectedProduct = value;
-                    RaisePropertyChanged("SelectedProduct");
-                }
-
-
-            }
-        }
-
-
-        public ActionCommand UpdateProduct { get; set; }
-
+        //Method to execute when the update command is called
         private void OnUpdateProduct()
         {
             if (SelectedProduct == null)
@@ -256,10 +284,10 @@ namespace POS_ManagersApp.ViewModels
                 else
                 {
                     db.updateProduct(p, Path);
-                    
+
                 }
                 MessageBox.Show("Product was updated succesfully", "Update product", MessageBoxButton.OK, MessageBoxImage.Information);
-                    OnClearForm();
+                OnClearForm();
                 RaisePropertyChanged("ProductsList");
             }
             catch (SqlException ex)
@@ -273,17 +301,7 @@ namespace POS_ManagersApp.ViewModels
                 throw ex;
             }
         }
-
-        private string path;
-
-        public string Path
-        {
-            get { return path; }
-            set { path = value; RaisePropertyChanged("Path"); }
-        }
-
-        public ActionCommand SelectImage { get; set; }
-
+        //method to execute the Browse command
         private void OnSelectImage()
         {
             OpenFileDialog ofd = new OpenFileDialog();

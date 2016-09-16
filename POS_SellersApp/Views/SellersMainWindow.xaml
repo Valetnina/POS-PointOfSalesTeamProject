@@ -10,10 +10,7 @@
         xmlns:vml = "clr-namespace:POS_ViewsLibrary"           
         mc:Ignorable="d"
         Width="900" Height="665" Background="#0085bd">
-    <!--    <UserControl.DataContext>
-        <viewModels:SellersMainWindowViewModel/>
-    </UserControl.DataContext> -->
-
+  
     <UserControl.Resources>
         <DataTemplate DataType = "{x:Type viewModels:PaimentViewModel}">
             <views:PaymentView/>
@@ -337,7 +334,6 @@
                 <Run Text="{Binding UserLoggedIn.LastName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                 </TextBlock>
                 <Label HorizontalAlignment="Center" FontFamily="Times New Roman" Content="{Binding OrderNo, Converter={StaticResource customDecimalToStringConverter}}" Style="{StaticResource BlueLabel}" Margin="151,0,121,0" Width="148" Grid.RowSpan="2"/>
-                <Label HorizontalAlignment="Right" Content="{Binding CurrentTime}" HorizontalContentAlignment="Right" Style="{StaticResource BlueLabel}" Width="116" Grid.RowSpan="2"/>
             </Grid>
             <Grid Background="#ffffff" Height="287">
                 <Grid.ColumnDefinitions>

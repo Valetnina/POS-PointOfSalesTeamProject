@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -17,17 +18,33 @@ using System.Windows;
 
 namespace POS_ManagersApp.ViewModels
 {
-  
 
-    class DashboardViewModel:ViewModel
+    class DashboardViewModel : ViewModel
     {
         private Database db;
-
+        //Property to bind to the Pie Chart DataSource
         public ObservableCollection<Sales> SalesChartPerSeller
         {
-            get { 
-                return  db.getSalesPerSeller(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year); 
+            get
+            {
+                return GetPieChartData();
             }
+        }
+        //Method to populate the Pie Chart 
+
+        private ObservableCollection<Sales> GetPieChartData()
+        {
+            ObservableCollection<Sales> allSalesList = new ObservableCollection<Sales>();
+            try
+            {
+                allSalesList = db.getSalesPerSeller(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Unbale to fetch data from the database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw (ex);
+            }
+            return allSalesList;
         }
         public ObservableCollection<SalesChartData> salesChartData
         {
@@ -36,34 +53,74 @@ namespace POS_ManagersApp.ViewModels
                 return getSalesChartData();
             }
         }
-
+        //Property to bind to the dtagrid ItemSource Top Items
         public ObservableCollection<Sales> AllSales
         {
             get
             {
-                return db.getSales(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year);
+                return GetAllSales();
             }
         }
+        //Method to populate the data grid
+        private ObservableCollection<Sales> GetAllSales()
+        {
+            ObservableCollection<Sales> allSalesList = new ObservableCollection<Sales>();
+            try
+            {
+                allSalesList = db.getSales(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Unbale to fetch data from the database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw (ex);
+            }
+            return allSalesList;
+        }
+        //Property to bind to the dtagrid ItemSource Top Items
         public ObservableCollection<Sales> TopItems
         {
             get
             {
-                return db.getTopItemsPerMonth(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year);
+                return GetTopItems();
             }
         }
-
+        //Method to populate the data grid
+        private ObservableCollection<Sales> GetTopItems()
+        {
+            ObservableCollection<Sales> topItemsList = new ObservableCollection<Sales>();
+            try
+            {
+                topItemsList = db.getTopItemsPerMonth(DateTime.Parse(selectedMonth).Month, DateTime.Parse(selectedMonth).Year);
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Unbale to fetch data from the database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw (ex);
+            }
+            return topItemsList;
+        }
         public ObservableCollection<ColumnChartData> ColumnChartSales
         {
             get
             {
-                return getColumnChartData();
+                return GetColumnChartData();
             }
         }
 
         public ObservableCollection<string> CalendarMonths { get; set; }
         public DashboardViewModel()
         {
-            db = new Database();
+            //Initialize
+            try
+            {
+                db = new Database();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Fatal Error: Unable to connect to database", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw e;
+            }
+
             CalendarMonths = new ObservableCollection<string>();
             for (int i = 0; i < 3; i++)
             {
@@ -71,18 +128,28 @@ namespace POS_ManagersApp.ViewModels
             }
 
             SelectedMonth = CalendarMonths[0];
-         
+            //Register commands
             ExportToPDF = new ActionCommand(p => OnExportToPDF());
             SendEmail = new ActionCommand(p => OnSendEmail());
 
-           
-            
+
+
         }
-        private ObservableCollection<ColumnChartData> getColumnChartData()
+        // Method to  fetch data from the database for the Column chart
+        private ObservableCollection<ColumnChartData> GetColumnChartData()
         {
-             ObservableCollection<ColumnChartData> chart = new ObservableCollection<ColumnChartData>();
+            ObservableCollection<ColumnChartData> chart = new ObservableCollection<ColumnChartData>();
             ObservableCollection<ProductCategory> categoriesList = new ObservableCollection<ProductCategory>();
-            categoriesList = db.getAllCategories();
+            try
+            {
+                categoriesList = db.getAllCategories();
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Unbale to fetch data from the database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw (ex);
+            }
+
 
             foreach (var item in categoriesList)
             {
@@ -90,6 +157,8 @@ namespace POS_ManagersApp.ViewModels
             }
             return chart;
         }
+        // Method to  populate the source of  the Pie chart
+
         private ObservableCollection<SalesChartData> getSalesChartData()
         {
             ObservableCollection<SalesChartData> chart = new ObservableCollection<SalesChartData>();
@@ -109,7 +178,6 @@ namespace POS_ManagersApp.ViewModels
             }
             set
             {
-                // selected item has changed
                 selectedItem = value;
             }
         }
@@ -118,22 +186,24 @@ namespace POS_ManagersApp.ViewModels
         public string SelectedMonth
         {
             get { return selectedMonth; }
-            set { selectedMonth = value;
-            RaisePropertyChanged("SelectedMonth");
-            RaisePropertyChanged("SalesChartPerSeller");
-            RaisePropertyChanged("TotalSalesPerMonth");
-            RaisePropertyChanged("ColumnChartSales");
-            RaisePropertyChanged("AllSales");
-            RaisePropertyChanged("TopItems");
-            RaisePropertyChanged("salesChartData");
+            set
+            {
+                selectedMonth = value;
+                RaisePropertyChanged("SelectedMonth");
+                RaisePropertyChanged("SalesChartPerSeller");
+                RaisePropertyChanged("TotalSalesPerMonth");
+                RaisePropertyChanged("ColumnChartSales");
+                RaisePropertyChanged("AllSales");
+                RaisePropertyChanged("TopItems");
+                RaisePropertyChanged("salesChartData");
 
             }
         }
         public decimal TotalSalesPerMonth
         {
-           get
+            get
             {
-                return  ColumnChartSales.Sum(od => od.TotalSales);
+                return ColumnChartSales.Sum(od => od.TotalSales);
             }
         }
 
@@ -218,11 +288,11 @@ namespace POS_ManagersApp.ViewModels
                 mainTable.AddCell(clSpace);
 
                 // Sets the gridview column names as table headers.
-                        
-                        mainTable.AddCell( new Phrase("Seller", FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD)));
-                        mainTable.AddCell(new Phrase("Product", FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD)));
-                        mainTable.AddCell(new Phrase("Qty", FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD)));
-                        mainTable.AddCell(new Phrase("Total", FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD)));
+
+                mainTable.AddCell(new Phrase("Seller", FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD)));
+                mainTable.AddCell(new Phrase("Product", FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD)));
+                mainTable.AddCell(new Phrase("Qty", FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD)));
+                mainTable.AddCell(new Phrase("Total", FontFactory.GetFont("Arial", HeaderTextSize, iTextSharp.text.Font.BOLD)));
 
                 // Reads the gridview rows and adds them to the mainTable
                 foreach (var item in AllSales)
@@ -233,7 +303,7 @@ namespace POS_ManagersApp.ViewModels
                         mainTable.AddCell(new Phrase(item.OrderItems.Name, FontFactory.GetFont("Arial", ReportTextSize, iTextSharp.text.Font.NORMAL)));
                         mainTable.AddCell(new Phrase(item.OrderItems.Quantity.ToString(), FontFactory.GetFont("Arial", ReportTextSize, iTextSharp.text.Font.NORMAL)));
                         mainTable.AddCell(new Phrase(item.ItemTotal.ToString(), FontFactory.GetFont("Arial", ReportTextSize, iTextSharp.text.Font.NORMAL)));
-                       
+
                     }
                     // Tells the mainTable to complete the row even if any cell is left incomplete.
                     mainTable.CompleteRow();
@@ -254,10 +324,9 @@ namespace POS_ManagersApp.ViewModels
                 //Ope the pdf file just created
                 System.Diagnostics.Process.Start(@"SalesReport.pdf");
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("The Pdf could not be created or it could not be opened", "Error PDF", MessageBoxButton.OK, MessageBoxImage.Error);
-                throw (ex);
             }
         }
         private void OnSendEmail()
@@ -268,13 +337,12 @@ namespace POS_ManagersApp.ViewModels
                 proc.StartInfo.FileName = "mailto:tinursu@gmail.com?subject=SalesReport&body=Sales";
                 proc.Start();
             }
-            catch (Exception ex)
+            catch
             {
                 MessageBox.Show("The Mail Client could not be opened. Check your computer settings", "Error Send Email", MessageBoxButton.OK, MessageBoxImage.Error);
-                throw (ex);
             }
         }
-        
+
     }
     public class SalesChartData
     {

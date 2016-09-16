@@ -10,26 +10,25 @@ using System.Windows;
 
 namespace POS_SellersApp.ViewModels
 {
-  public  class ProductsCatalogViewModel:ViewModel
+    public class ProductsCatalogViewModel : ViewModel
     {
         private Database db;
-
-
         private ObservableCollection<Product> catalogCollection;
 
         public ObservableCollection<Product> CatalogCollection
         {
             get { return catalogCollection; }
-            set { catalogCollection = value;
-            RaisePropertyChanged("CatalogCollection");
+            set
+            {
+                catalogCollection = value;
+                RaisePropertyChanged("CatalogCollection");
             }
         }
-
 
         public ActionCommand SwitchViews { get; private set; }
         public ActionCommand AddToOrder { get; private set; }
 
-       
+
 
         public ProductsCatalogViewModel()
         {
@@ -115,7 +114,7 @@ namespace POS_SellersApp.ViewModels
         {
             get { return enabledMeals; }
             set
-            {                
+            {
                 enabledMeals = value;
                 RaisePropertyChanged("EnabledMeals");
             }
@@ -127,7 +126,7 @@ namespace POS_SellersApp.ViewModels
         {
             get { return enabledDrinks; }
             set
-            {             
+            {
                 enabledDrinks = value;
                 RaisePropertyChanged("EnabledDrinks");
             }
@@ -140,7 +139,7 @@ namespace POS_SellersApp.ViewModels
         {
             get { return enabledDeserts; }
             set
-            {                                   
+            {
                 enabledDeserts = value;
                 RaisePropertyChanged("EnabledDeserts");
             }
@@ -148,7 +147,7 @@ namespace POS_SellersApp.ViewModels
 
         private void OnAddToOrder(Product product)
         {
-            if(product != null)
+            if (product != null)
             {
                 MessengerPoduct.Default.Send(product);
 

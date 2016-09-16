@@ -12,10 +12,10 @@ namespace POS_SellersApp.ViewModels
     public class PaimentViewModel : ViewModel
     {
         public bool IsCash;
-       
-       private string balance;
-       private bool IsDotClicked;
-       public string Balance
+
+        private string balance;
+        private bool IsDotClicked;
+        public string Balance
         {
             get
             {
@@ -33,10 +33,12 @@ namespace POS_SellersApp.ViewModels
             Done = new ActionCommand(p => OnDoneCommand(p.ToString()));
 
             //Handle command on buttons
-            AddAmount = new ActionCommand(p => OnAddAmount(p.ToString()), p=> IsCash);
+            AddAmount = new ActionCommand(p => OnAddAmount(p.ToString()), p => IsCash);
             PayCash = new ActionCommand(p => OnPayCash());
             PayCredit = new ActionCommand(p => OnPayCredit());
             PayGift = new ActionCommand(p => OnPayGift());
+
+            //Initialize 
             Amount = "0";
             Balance = "0";
             CashEnabled = true;
@@ -48,8 +50,10 @@ namespace POS_SellersApp.ViewModels
         public bool CashEnabled
         {
             get { return cashEnabled; }
-            set { cashEnabled = value;
-            RaisePropertyChanged("CashEnabled");
+            set
+            {
+                cashEnabled = value;
+                RaisePropertyChanged("CashEnabled");
             }
         }
 
@@ -57,8 +61,10 @@ namespace POS_SellersApp.ViewModels
         public bool CardEnabled
         {
             get { return cardEnabled; }
-            set { cardEnabled = value;
-            RaisePropertyChanged("CardEnabled");
+            set
+            {
+                cardEnabled = value;
+                RaisePropertyChanged("CardEnabled");
             }
         }
 
@@ -66,8 +72,10 @@ namespace POS_SellersApp.ViewModels
         public bool GiftEnabled
         {
             get { return giftEnabled; }
-            set { giftEnabled = value;
-            RaisePropertyChanged("GiftEnabled");
+            set
+            {
+                giftEnabled = value;
+                RaisePropertyChanged("GiftEnabled");
             }
         }
 
@@ -82,7 +90,7 @@ namespace POS_SellersApp.ViewModels
 
         private void OnPayCredit()
         {
-           MessageBoxResult result =  MessageBox.Show("Wait for the payment and press OK", "Card Paiement", MessageBoxButton.OKCancel, MessageBoxImage.Information);
+            MessageBoxResult result = MessageBox.Show("Wait for the payment and press OK", "Card Paiement", MessageBoxButton.OKCancel, MessageBoxImage.Information);
             if (result == MessageBoxResult.OK)
             {
                 Amount = Balance;
@@ -113,19 +121,26 @@ namespace POS_SellersApp.ViewModels
         public ActionCommand PayCredit { get; private set; }
 
         public ActionCommand PayGift { get; private set; }
-
+        
+        //Method to execute on Done Command
         private void OnDoneCommand(string message)
         {
-            
-                
             switch (message)
             {
                 case "Register":
-                    if (decimal.Parse(Change) < 0 || Amount == "0")
+                    try
                     {
-                        MessageBox.Show("you cannot commit transaction. Client paiement cannot be less than the Balance Due");
+                        if (decimal.Parse(Change) < 0 || Amount == "0")
+                        {
+                            MessageBox.Show("you cannot commit transaction. Client paiement cannot be less than the Balance Due");
+                        }
+                        else MessengerDone.Default.Send(message);
                     }
-                    else MessengerDone.Default.Send(message);
+                    catch
+                    {
+                        MessageBox.Show("Could not parse the change field", "Parsing error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    
                     break;
                 case "Back":
                 default:
@@ -140,8 +155,9 @@ namespace POS_SellersApp.ViewModels
 
         private void OnAddAmount(string number)
         {
-            
-            switch(number){
+
+            switch (number)
+            {
                 case "c":
                     Amount = "0";
                     break;
@@ -164,7 +180,7 @@ namespace POS_SellersApp.ViewModels
                     }
                     break;
                 default:
-                    
+
                     if (Amount == "0")
                     {
                         Amount = number;
@@ -182,7 +198,7 @@ namespace POS_SellersApp.ViewModels
         {
             get
             {
-               return amount;
+                return amount;
             }
             set
             {
@@ -191,7 +207,6 @@ namespace POS_SellersApp.ViewModels
                 RaisePropertyChanged("Change");
             }
         }
-      
         public string Change
         {
             get
@@ -201,12 +216,12 @@ namespace POS_SellersApp.ViewModels
                 {
                     if (parsedAmount == 0)
                     {
-                        return "-"+Balance;
+                        return "-" + Balance;
                     }
                     else return (decimal.Parse(Amount)) - decimal.Parse(Balance) + "";
                 }
                 else return "0";
             }
         }
-     }
+    }
 }

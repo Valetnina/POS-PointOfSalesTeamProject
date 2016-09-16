@@ -16,42 +16,24 @@ using System.Data.SqlClient;
 
 namespace POS_PointOfSales.ViewModels
 {
-   public class LoginViewModel:ViewModel
+    public class LoginViewModel : ViewModel
     {
-     
+        //Declare  fields
         private Database db;
-
-        
         private User user;
 
+        //Properties
         public User User
         {
             get { return user; }
-            set { user = value;
-            RaisePropertyChanged("User");
+            set
+            {
+                user = value;
+                RaisePropertyChanged("User");
             }
         }
 
         private DateTime CurrentTime { get; set; }
-        public ActionCommand Login { get; set; }
-        public LoginViewModel()
-        {
-            User = new User();
-            //TODO handle Exceptions
-
-            try
-            {
-                db = new Database();
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("fatal Error: Unable to connect to database", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
-                throw e;
-            }
-            Login = new ActionCommand(p=>OnLogin(UserName, Password),
-                p=>CanLogin);
-        }
-
         private string userName;
         [Required]
         [StringLength(50, MinimumLength = 4)]
@@ -71,11 +53,40 @@ namespace POS_PointOfSales.ViewModels
         public string Password
         {
             get { return password; }
-            set { password = value;
-            RaisePropertyChanged("Password");
+            set
+            {
+                password = value;
+                RaisePropertyChanged("Password");
             }
         }
+        public string DisplayedImagePath
+        {
+            get { return "/POS-PointOfSales;component/Logo_Big.png"; }
+        }
 
+        public LoginViewModel()
+        {
+            User = new User();
+            //TODO handle Exceptions
+
+            try
+            {
+                db = new Database();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("fatal Error: Unable to connect to database", "Fatal Error", MessageBoxButton.OK, MessageBoxImage.Stop);
+                throw e;
+            }
+            Login = new ActionCommand(p => OnLogin(UserName, Password),
+                p => CanLogin);
+        }
+        //Declare Commands
+        public ActionCommand Login { get; set; }
+        
+
+        
+        //Method to validate when the login command can execute
         public bool CanLogin
         {
             get
@@ -104,22 +115,20 @@ namespace POS_PointOfSales.ViewModels
                         MessageBox.Show("Could not authenticate user " + UserName);
                     }
                 }
-                catch(SqlException ex)
+                catch (SqlException ex)
                 {
                     MessageBox.Show("Unable to fetch records from database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     throw ex;
                 }
-            } else
+            }
+            else
             {
                 MessageBox.Show("You didn't provide an username");
 
             }
         }
 
-        public string DisplayedImagePath 
-{
-    get { return "/POS-PointOfSales;component/Logo_Big.png"; }
-}
         
+
     }
 }

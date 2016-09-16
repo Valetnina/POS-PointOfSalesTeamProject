@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 
 namespace POS_DataLibrary
 {
-   public class Product: INotifyPropertyChanged
+    public class Product : INotifyPropertyChanged
     {
         private string uPCCode;
 
         public string UPCCode
         {
             get { return uPCCode; }
-            set { uPCCode = value;
-            RaisePropertyChanged("UPCCode");
+            set
+            {
+                uPCCode = value;
+                RaisePropertyChanged("UPCCode");
             }
         }
 
@@ -25,8 +27,10 @@ namespace POS_DataLibrary
         public decimal Price
         {
             get { return price; }
-            set { price = value;
-            RaisePropertyChanged("Price");
+            set
+            {
+                price = value;
+                RaisePropertyChanged("Price");
             }
         }
         private string name;
@@ -34,8 +38,10 @@ namespace POS_DataLibrary
         public string Name
         {
             get { return name; }
-            set { name = value;
-            RaisePropertyChanged("Name");
+            set
+            {
+                name = value;
+                RaisePropertyChanged("Name");
             }
         }
 
@@ -44,8 +50,10 @@ namespace POS_DataLibrary
         public string CategoryName
         {
             get { return categoryName; }
-            set { categoryName = value;
-            RaisePropertyChanged("CategoryName");
+            set
+            {
+                categoryName = value;
+                RaisePropertyChanged("CategoryName");
             }
         }
 
@@ -66,8 +74,10 @@ namespace POS_DataLibrary
         public Image Picture
         {
             get { return picture; }
-            set { picture = value;
-            RaisePropertyChanged("Picture");
+            set
+            {
+                picture = value;
+                RaisePropertyChanged("Picture");
             }
         }
 

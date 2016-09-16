@@ -106,5 +106,12 @@ Create Model for Products, Products Categories.
 1.Finished the images updates, all the design issues.
 2 TODO: Presentation
 
+--Day10 Tina
+1. Finished Presentation and exception Handling
+2.TODo: Nothing left to do.... :)
+
+--Day09 Olga
+1.Finished the Presentation
+2.TODo: Nothing left to do.... :)
 
 

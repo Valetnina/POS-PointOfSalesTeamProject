@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace POS_DataLibrary
 {
-    public class User:INotifyPropertyChanged
+    public class User
     {
         private string userName;
         public string UserName
@@ -19,9 +19,8 @@ namespace POS_DataLibrary
             set
             {
                 userName = value;
-                //RaisePropertyChanged("UserName");
             }
-        
+
         }
         public string Password { get; set; }
         public string FirstName { get; set; }
@@ -38,6 +37,6 @@ namespace POS_DataLibrary
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(property));
             }
-        } 
+        }
     }
 }

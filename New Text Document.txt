@@ -1,5 +1,0 @@
-http://social.technet.microsoft.com/wiki/contents/articles/13536.easy-mvvm-examples-in-extreme-detail.aspx#Closing_Windows_from_the_ViewModel
- 
-
-jac-pos
-posadmin(Pictor12)

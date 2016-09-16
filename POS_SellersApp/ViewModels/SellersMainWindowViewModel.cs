@@ -21,8 +21,7 @@ namespace POS_SellersApp.ViewModels
     {
         private const double TAX = 0.15;
         private Database db;
-      
-        //   public User UserLoggedIn = new User();
+
         public SellersMainWindowViewModel()
         {
             try
@@ -35,7 +34,7 @@ namespace POS_SellersApp.ViewModels
                 throw e;
             }
 
-            //Register for messages from differnet viewModels
+            //Register for messages from different viewModels
 
             MessengerPoduct.Default.Register<Product>(this, (product) =>
             {
@@ -56,31 +55,39 @@ namespace POS_SellersApp.ViewModels
             RemoveItem = new ActionCommand(p => OnRemoveItem());
             CancelOrder = new ActionCommand(p => OnCancelOrder());
             SwitchViews = new ActionCommand((p) => OnSwitchViews(p.ToString()));
-            PrintReceipt = new ActionCommand(p => OnPrintReceipt()); 
+            PrintReceipt = new ActionCommand(p => OnPrintReceipt());
             SendOrder = new ActionCommand(p => OnSendOrder());
             DecreaseQuantity = new ActionCommand(p => OnDecreaseQuantity());
             currentView = ProductsCatalogViewModel;
-            OrderNo = string.Format("Order# {0}", (db.getLastOrderNo() + 1).ToString());
+            try
+            {
+                OrderNo = string.Format("Order# {0}", (db.getLastOrderNo() + 1).ToString());
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Couldn't fetch the dat afrom the database", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
             AmountTendered = "0";
 
-            //Set the totals to zero
-            //  OrderSubTotal = 0;
         }
 
         private void OnSendOrder()
         {
-            if (CurrentView != pvm && OrderItems.Count >0)
+            if (CurrentView != pvm && OrderItems.Count > 0)
             {
-               MessageBoxResult result =  MessageBox.Show("You cannot send an order that has not been paied. Do you want to go to paiement page?", "Send Order", MessageBoxButton.OKCancel, MessageBoxImage.Hand);
-               if (result == MessageBoxResult.OK)
-               {
-                   CurrentView = pvm;
-               }
+                MessageBoxResult result = MessageBox.Show("You cannot send an order that has not been paied. Do you want to go to paiement page?", "Send Order", MessageBoxButton.OKCancel, MessageBoxImage.Hand);
+                if (result == MessageBoxResult.OK)
+                {
+                    CurrentView = pvm;
+                }
             }
-            else if (OrderItems.Count ==  0)
+            else if (OrderItems.Count == 0)
             {
                 MessageBox.Show("You cannot send an empty order");
-            } else {
+            }
+            else
+            {
                 MessageBox.Show("Register paiement and click Done. The order will be registered and sent to the kitchen");
             }
         }
@@ -113,21 +120,21 @@ namespace POS_SellersApp.ViewModels
                     RaisePropertyChanged("OrderTax");
                     RaisePropertyChanged("BalanceDue");
                 }
-                
+
             }
         }
 
 
-        public string AmountTendered { get; set; } 
+        public string AmountTendered { get; set; }
         private void RecivedDoneMessage(string message)
         {
             switch (message)
             {
                 case "Register":
 
-                    Order order = new Order { Date = DateTime.Now,  StoreNo = "OV001", UserId = UserLoggedIn.Id, OrderAmount = OrderSubTotal, Tax = OrderTax };
+                    Order order = new Order { Date = DateTime.Now, StoreNo = "OV001", UserId = UserLoggedIn.Id, OrderAmount = OrderSubTotal, Tax = OrderTax };
                     AmountTendered = pvm.Amount;
-                    
+
                     try
                     {
                         MessageBoxResult result = MessageBox.Show("Order has been sent to processing. Do you want to print the receipt?", "Order Processed", MessageBoxButton.YesNo);
@@ -142,7 +149,7 @@ namespace POS_SellersApp.ViewModels
                             CurrentView = ProductsCatalogViewModel;
                             OrderItems.Clear();
                         }
-                        
+
                     }
                     catch (Exception ex)
                     {
@@ -176,30 +183,8 @@ namespace POS_SellersApp.ViewModels
             }
         }
 
-        private void ReceiveMessage(Product product)
-        {
-            //Check if the product was already selected
-            if (OrderItems.Any(p => p.UPCCode == product.UPCCode))
-            {
-                OrderItems.First(p => p.UPCCode == product.UPCCode).Quantity += 1;
-                RaisePropertyChanged("OrderSubTotal");
-                RaisePropertyChanged("OrderTax");
-                RaisePropertyChanged("BalanceDue");
-            }
-            else
-            {
-                OrderItems.Add(new POS_DataLibrary.OrderItems
-                {
-                    UPCCode = product.UPCCode,
-                    CategoryName = product.CategoryName.ToString(),
-                    CategoryId = product.CategoryId,
-                    Quantity = 1,
-                    Price = product.Price,
-                    Name = product.Name
-                });
-            }
-        }
-       
+
+
         private OrderItems selectedOrderItem;
         public OrderItems SelectedOrderItem
         {
@@ -278,9 +263,7 @@ namespace POS_SellersApp.ViewModels
             }
         }
 
-      readonly static  private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();
-
-        //    private PaimentViewModel payiementViewModel = new PaimentViewModel();
+        readonly static private ProductsCatalogViewModel ProductsCatalogViewModel = new ProductsCatalogViewModel();
 
 
         private ViewModel currentView;
@@ -303,21 +286,46 @@ namespace POS_SellersApp.ViewModels
         public string Payed
         {
             get { return payed; }
-            set { payed = value;
-            RaisePropertyChanged("Paied");
+            set
+            {
+                payed = value;
+                RaisePropertyChanged("Paied");
             }
         }
 
         #region Commands
-        private void OnSendLogoutMessage(string v)
-        {
-            MessengerLogout.Default.Send(v);
-        }
 
+        //Declaring the Commands
         public ActionCommand SendLogoutMessage { get; private set; }
         public ActionCommand RemoveItem { get; private set; }
         public ActionCommand CancelOrder { get; private set; }
-
+        public ActionCommand PrintReceipt { get; private set; }
+        public ActionCommand SendOrder { get; set; }
+        public ActionCommand SwitchViews { get; private set; }
+        public ActionCommand DecreaseQuantity { get; set; }
+        private void ReceiveMessage(Product product)
+        {
+            //Check if the product was already selected
+            if (OrderItems.Any(p => p.UPCCode == product.UPCCode))
+            {
+                OrderItems.First(p => p.UPCCode == product.UPCCode).Quantity += 1;
+                RaisePropertyChanged("OrderSubTotal");
+                RaisePropertyChanged("OrderTax");
+                RaisePropertyChanged("BalanceDue");
+            }
+            else
+            {
+                OrderItems.Add(new POS_DataLibrary.OrderItems
+                {
+                    UPCCode = product.UPCCode,
+                    CategoryName = product.CategoryName.ToString(),
+                    CategoryId = product.CategoryId,
+                    Quantity = 1,
+                    Price = product.Price,
+                    Name = product.Name
+                });
+            }
+        }
         private void OnRemoveItem()
         {
             if (SelectedOrderItem != null)
@@ -340,9 +348,12 @@ namespace POS_SellersApp.ViewModels
                 };
             }
         }
-        public ActionCommand SwitchViews { get; private set; }
-        public ActionCommand DecreaseQuantity { get; set; }
+        private void OnSendLogoutMessage(string v)
+        {
+            MessengerLogout.Default.Send(v);
+        }
         readonly static PaimentViewModel pvm = new PaimentViewModel();
+
         private void OnSwitchViews(string destination)
         {
             switch (destination)
@@ -367,20 +378,8 @@ namespace POS_SellersApp.ViewModels
 
         }
         #endregion
-        //public void OpenChildDailog()
-        //{
-        //    DialogService service = new DialogService();
-        //    paiementVM.Balance = BalanceDue.ToString(); // Assign whatever you want
-        //    service.Show(new PaymentView(), paiementVM);
-
-        //    // Now get the values when the child dailog get closed
-
-        //    var retVal = paiementVM.Change;
-
-        //}
 
         #region PrintReceipt
-        public ActionCommand PrintReceipt { get; private set; }
 
 
         private void OnPrintReceipt()
@@ -463,7 +462,7 @@ namespace POS_SellersApp.ViewModels
         #endregion
 
 
-        public ActionCommand SendOrder { get; set; }
+
     }
 
 }

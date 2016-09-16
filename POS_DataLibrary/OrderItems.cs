@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace POS_DataLibrary
 {
-   public class OrderItems : INotifyPropertyChanged
+    public class OrderItems : INotifyPropertyChanged
     {
-        private int  orderId;
+        private int orderId;
         public int OrderId
         {
             get
@@ -58,7 +58,7 @@ namespace POS_DataLibrary
             {
                 return Quantity * Price;
             }
-               }
+        }
         private double tax;
 
         private string uPCCode;
