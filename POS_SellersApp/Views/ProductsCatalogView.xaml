@@ -21,93 +21,93 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
 
-        <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">
-            <!--<Setter Property="IsEnabled" Value="False" />-->
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Foreground" Value="#316379"/>
-            <Setter Property="FontFamily" Value="Constantia"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="Effect">
-                <Setter.Value>
-                    <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid>
-                            <Rectangle Name="GrayEllipse" Opacity="1" RadiusX="20" RadiusY="20">
-                                <Rectangle.Fill>
-                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                        <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                        <GradientStop Color="#dadada" Offset="0.6"/>
-                                    </LinearGradientBrush>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <!--<Setter Property="IsEnabled" Value="False"/>-->
-                                <Setter Property="Fill" TargetName="GrayEllipse">
-                                    <Setter.Value>
-                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
-                                                         GradientOrigin="0.6, 0.3">
+        <Style x:Key="RectGrayButton" TargetType="{x:Type Button}">            
+                <!--<Setter Property="IsEnabled" Value="False" />-->
+                <Setter Property="Width" Value="120"/>
+                <Setter Property="Height" Value="30"/>
+                <Setter Property="Foreground" Value="#316379"/>
+                <Setter Property="FontFamily" Value="Constantia"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="10"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid>
+                                <Rectangle Name="GrayEllipse" Opacity="1" RadiusX="20" RadiusY="20">
+                                    <Rectangle.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                             <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                            <GradientStop Color="#d2d0d0" Offset="0.8"/>
-                                        </RadialGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-
-                            <Trigger Property="IsPressed" Value="true">
-                                <!--<Setter Property="IsEnabled" Value="false"/>-->
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="Fill" TargetName="GrayEllipse">
-                                    <Setter.Value>
-                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                            <GradientStop Color="#dadada" Offset="0.6"/>
+                                        </LinearGradientBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <!--<Setter Property="IsEnabled" Value="False"/>-->
+                                    <Setter Property="Fill" TargetName="GrayEllipse">
+                                        <Setter.Value>
+                                            <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
                                                          GradientOrigin="0.6, 0.3">
-                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                            <GradientStop Color="#0371a0" Offset="0.8"/>
-                                        </RadialGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
+                                                <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                                <GradientStop Color="#d2d0d0" Offset="0.8"/>
+                                            </RadialGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Color="#aca9a9" ShadowDepth="0" BlurRadius="20"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
 
-
-                            <Trigger Property="IsEnabled"  Value="false">
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="Fill" TargetName="GrayEllipse">
-                                    <Setter.Value>
-                                        <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                <Trigger Property="IsPressed" Value="true">
+                                    <!--<Setter Property="IsEnabled" Value="false"/>-->
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Fill" TargetName="GrayEllipse">
+                                        <Setter.Value>
+                                            <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
                                                          GradientOrigin="0.6, 0.3">
-                                            <GradientStop Color="WhiteSmoke" Offset="0.0"/>
-                                            <GradientStop Color="#0371a0" Offset="0.8"/>
-                                        </RadialGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
+                                                <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                                <GradientStop Color="#0371a0" Offset="0.8"/>
+                                            </RadialGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
 
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
+
+                                <Trigger Property="IsEnabled"  Value="false">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Fill" TargetName="GrayEllipse">
+                                        <Setter.Value>
+                                            <RadialGradientBrush Center="0.5, 0.5" RadiusX="0.5" RadiusY="0.5" 
+                                                         GradientOrigin="0.6, 0.3">
+                                                <GradientStop Color="WhiteSmoke" Offset="0.0"/>
+                                                <GradientStop Color="#0371a0" Offset="0.8"/>
+                                            </RadialGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Effect">
+                                        <Setter.Value>
+                                            <DropShadowEffect Color="#c0bebe" ShadowDepth="0" BlurRadius="20"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
         </Style>
     </UserControl.Resources>
     <DockPanel Margin="1,10,1,1">
